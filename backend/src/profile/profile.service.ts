@@ -15,4 +15,12 @@ export class ProfileService {
     const p = this.profileRepository.create(profile);
     return this.profileRepository.save(p);
   }
+
+  getProfileByFirebaseUid(uid: string): Promise<Profile | null> {
+    return this.profileRepository.findOneBy({ uid });
+  }
+
+  getProfileById(id: number): Promise<Profile | null> {
+    return this.profileRepository.findOneBy({ id });
+  }
 }
