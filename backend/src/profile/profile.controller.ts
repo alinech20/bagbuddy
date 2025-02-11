@@ -21,6 +21,7 @@ export class ProfileController {
   @Get()
   @UseGuards(FirebaseAuthGuard)
   public async getOwnProfile(@Req() req: Request): Promise<Profile> {
+    // @ts-expect-error ts not knowing about custom added property
     const uid = (req.user as admin.auth.DecodedIdToken).uid;
     if (!uid) throw new NotFoundException();
 

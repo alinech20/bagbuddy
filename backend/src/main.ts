@@ -14,6 +14,9 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
+  app.enableCors({
+    origin: 'http://localhost:8080',
+  });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
 
