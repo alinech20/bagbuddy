@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:lts-alpine AS base
+FROM node:18-buster AS base
 
 WORKDIR /bagbuddy/frontend
 COPY package.json ./
@@ -13,7 +13,7 @@ COPY . .
 FROM base AS dev
 CMD ["pnpm", "run", "dev"]
 
-FROM base as build
+FROM base AS build
 RUN pnpm run build
 
 # Stage 2: Serve the application

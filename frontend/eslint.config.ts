@@ -22,11 +22,17 @@ export default defineConfigWithVueTs(
 
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
-  
+
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
   },
   oxlint.configs['flat/recommended'],
   skipFormatting,
+
+  {
+    rules: {
+      'max-len': ['error', { code: 80, ignoreUrls: true }],
+    },
+  },
 )

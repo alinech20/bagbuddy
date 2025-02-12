@@ -1,16 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AuthHeader from '@/layouts/auth/AuthHeader.vue'
+import AuthFooter from '@/layouts/auth/AuthFooter.vue'
+</script>
 
 <template>
-  <div class="auth-layout">
-    <header>
-      <!-- Optional: Add a logo or branding here -->
-      <h1>BagBuddy</h1>
-    </header>
-    <main>
-      <router-view />
-    </main>
-    <AuthFooter />
-  </div>
+  <v-layout class="h-100 d-flex flex-column align-center justify-space-between">
+    <article class="h-75 d-flex flex-column align-center justify-space-evenly">
+      <AuthHeader class="auth-header" />
+      <main>
+        <router-view />
+      </main>
+    </article>
+    <AuthFooter clas="auth-layout__footer" />
+  </v-layout>
 </template>
-
-<style scoped></style>
