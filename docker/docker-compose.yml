@@ -1,0 +1,76 @@
+name: bagbuddy
+
+services:
+  frontend:
+    build:
+      context: ../frontend
+      target: dev
+    volumes:
+      - ../frontend:/bagbuddy/frontend
+      - /bagbuddy/frontend/node_modules
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - bagbuddy
+
+  backend:
+    build: ../backend
+    volumes:
+      - ../backend:/bagbuddy/backend
+      - /bagbuddy/backend/node_modules
+    restart: unless-stopped
+    env_file:
+      - ../backend/.env.docker
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - bagbuddy
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB_FILE: /run/secrets/db_name
+      POSTGRES_USER_FILE: /run/secrets/db_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_pass
+    secrets:
+      - db_name
+      - db_user
+      - db_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -d $$(cat $${POSTGRES_DB_FILE}) -U $$(cat $${POSTGRES_USER_FILE})"
+        ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    networks:
+      - bagbuddy
+
+networks:
+  bagbuddy:
+    driver: bridge
+
+
+volumes:
+  db_data:
+
+secrets:
+  db_name:
+    file: ./secrets/db_name
+  db_user:
+    file: ./secrets/db_user
+  db_pass:
+    file: ./secrets/db_pass
