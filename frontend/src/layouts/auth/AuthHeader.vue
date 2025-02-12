@@ -2,7 +2,7 @@
 
 <template>
   <header>
-    <article class="mx-auto w-100 text-center">
+    <article class="auth-header-wrapper mx-auto w-100 text-center">
       <section>
         <img
           src="@/assets/logos/bagbuddy-logo-circle.png"

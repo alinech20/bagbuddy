@@ -2,15 +2,15 @@
 import { Icon } from '@iconify/vue'
 import router from '@/router'
 
-const goToRegister = () => {
-  router.push({ name: 'Register' })
+const goToLogin = () => {
+  router.push({ name: 'Login' })
 }
 </script>
 
 <template>
-  <v-form class="login-form">
+  <v-form class="register-form">
     <v-card width="360" variant="flat" border>
-      <template #title>Login</template>
+      <template #title>Register</template>
 
       <v-card-text class="bg-background pt-4">
         <v-text-field
@@ -40,25 +40,37 @@ const goToRegister = () => {
             <Icon class="input-icon" icon="mdi:lock" />
           </template>
         </v-text-field>
+        <v-text-field
+          class="mt-4"
+          color="primary"
+          label="Confirm password"
+          type="password"
+          variant="outlined"
+          density="compact"
+          hide-details="auto"
+          required
+        >
+          <template #prepend-inner>
+            <Icon class="input-icon" icon="mdi:lock" />
+          </template>
+        </v-text-field>
       </v-card-text>
-      <v-card-actions class="bg-background">
-        <v-btn>Forgot password?</v-btn>
-        <v-spacer />
-        <v-btn class="bg-secondary">Login</v-btn>
+      <v-card-actions class="bg-background d-flex flex-row-reverse">
+        <v-btn class="bg-secondary">Register</v-btn>
       </v-card-actions>
     </v-card>
   </v-form>
-  <section class="login-form__secondary-actions d-flex mt-6">
-    <v-btn size="xsmall" variant="flat" @click="goToRegister"
-      >No account? Sign up!
+  <section class="register-form__secondary-actions d-flex mt-6">
+    <v-btn size="xsmall" variant="flat" @click="goToLogin"
+      >Already have an account? Login
     </v-btn>
     <v-spacer />
     <v-btn size="xsmall" variant="flat">Continue as guest</v-btn>
   </section>
 </template>
 
-<style lang="sass">
-.login-form__secondary-actions
+<style scoped lang="sass">
+.register-form__secondary-actions
   button
     color: var(--v-primary-base)
     font-size: 0.75rem
