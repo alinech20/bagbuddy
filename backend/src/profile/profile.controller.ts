@@ -18,7 +18,7 @@ import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Get()
+  @Get('self/')
   @UseGuards(FirebaseAuthGuard)
   public async getOwnProfile(@Req() req: Request): Promise<Profile> {
     // @ts-expect-error ts not knowing about custom added property

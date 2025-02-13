@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Post, UsePipes } from '@nestjs/common';
 import { CreateUserEmailPasswordDto } from './dto/createUser.dto';
 import { ProfileService } from '../profile/profile.service';
 import { FirebaseAuthService } from '../firebase/firebase-auth.service';
@@ -30,10 +30,5 @@ export class AuthController {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  @Get()
-  get() {
-    return 'auth';
   }
 }

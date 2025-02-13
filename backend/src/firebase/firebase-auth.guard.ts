@@ -5,18 +5,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { FirebaseAuthService } from './firebase-auth.service';
-import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class FirebaseAuthGuard implements CanActivate {
-  constructor(
-    private readonly firebaseAuthService: FirebaseAuthService,
-    private readonly reflector: Reflector,
-  ) {}
+  constructor(private readonly firebaseAuthService: FirebaseAuthService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const authorization: string = request.headers['authorization'];
+    const authorization: string = request.headers.authorization;
 
     if (!authorization) {
       throw new UnauthorizedException('Authorization header is missing');

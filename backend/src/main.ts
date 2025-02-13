@@ -15,7 +15,8 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: 'http://localhost:8080',
+    origin: ['http://localhost:8080'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());

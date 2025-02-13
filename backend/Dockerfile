@@ -8,7 +8,7 @@ RUN npm i -g pnpm
 RUN pnpm i
 
 COPY . .
-COPY ./src/config/firebase-service-account-key.json ./dist/config/
+COPY src/config/firebase-service-account-key.json ./dist/config/
 
 EXPOSE 3000
 
