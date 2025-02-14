@@ -5,10 +5,10 @@ import { ref } from 'vue'
 import { useValidationRules } from '@/composables/useValidationRules.ts'
 import { useAuthStore } from '@/stores/auth.ts'
 
+const loginForm = ref()
 const { login } = useAuthStore()
 const rules = useValidationRules()
 
-const valid = ref(false)
 const email = ref('')
 const emailRules = [rules.emailRules()[0]]
 
@@ -20,16 +20,17 @@ const goToRegister = () => {
 }
 
 const loginUser = () => {
-  if (!valid.value) return
-
-  login(email.value, password.value)
+  loginForm.value.validate().then((res: any) => {
+    if (!res.valid) return
+    login(email.value, password.value)
+  })
 }
 </script>
 
 <template>
   <v-form
+    ref="loginForm"
     class="login-form"
-    v-model="valid"
     validate-on="submit lazy"
     @submit.prevent="loginUser"
   >

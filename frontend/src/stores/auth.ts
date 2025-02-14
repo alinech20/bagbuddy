@@ -31,6 +31,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
         password,
       )
 
+      // add this for custom login behavior on the backend
       // const data = await loginService(email, password)
       // if (!data) return
 
