@@ -32,7 +32,7 @@ export default defineConfigWithVueTs(
 
   {
     rules: {
-      'max-len': ['error', { code: 80, ignoreUrls: true }],
+      'max-len': ['error', { code: 80, comments: 100, ignoreUrls: true }],
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },

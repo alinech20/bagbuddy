@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useLogger } from '@/composables/useLogger.ts'
 import { useAuthService } from '@/services/auth.ts'
 import { auth } from '@/config/firebase.ts'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useProfileService } from '@/services/profile.ts'
 import type { IUser } from '@/types/user.ts'
 import { useUserStore } from '@/stores/user.ts'
+import router from '@/router'
 
 export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const { setUser } = useUserStore()
@@ -19,8 +20,8 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const { getOwn } = useProfileService()
 
   const { info, debug, error: logError } = useLogger()
-  const isAuthenticated = ref(false)
   const token = ref('')
+  const isAuthenticated = computed(() => !!token.value)
 
   const login = async (email: string, password: string) => {
     info('Logging in...')
@@ -35,7 +36,6 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       // const data = await loginService(email, password)
       // if (!data) return
 
-      isAuthenticated.value = true
       token.value = await userCredentials.user.getIdToken()
 
       const data = JSON.parse(await getOwn())
@@ -46,6 +46,8 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
         },
       }
       setUser(user)
+
+      await router.push({ name: 'My Profile' })
     } catch (error: any) {
       logError(error.message)
     }
@@ -54,11 +56,14 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const logout = async () => {
     info('Logging out...')
     try {
-      const data = await logoutService()
-      if (!data) return
+      await signOut(auth)
 
-      isAuthenticated.value = false
+      // add this for custom logout behavior on the backend
+      // const data = await logoutService()
+      // if (!data) return
+
       token.value = ''
+      await router.push({ name: 'Login' })
     } catch (error: any) {
       logError(error.message)
     }
