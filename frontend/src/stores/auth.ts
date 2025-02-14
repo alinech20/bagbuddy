@@ -2,12 +2,14 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useLogger } from '@/composables/useLogger.ts'
 import { useAuthService } from '@/services/auth.ts'
-import { auth } from '@/config/firebase.ts'
 import {
+  onAuthStateChanged,
   sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
+  type User,
 } from 'firebase/auth'
+import { auth } from '@/config/firebase.ts'
 import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useProfileService } from '@/services/profile.ts'
 import type { IUser } from '@/types/user.ts'
@@ -15,7 +17,7 @@ import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
 
 export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
-  const { setUser } = useUserStore()
+  const { setUser, clearUser } = useUserStore()
   const {
     login: loginService,
     logout: logoutService,
@@ -26,6 +28,24 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const { info, debug, error: logError } = useLogger()
   const token = ref('')
   const isAuthenticated = computed(() => !!token.value)
+
+  onAuthStateChanged(auth, async (user: User | null) => {
+    info('User state changed')
+    clearUser()
+
+    if (user) {
+      debug(`Logged in as ${user.email}`)
+      token.value = await user.getIdToken()
+      const data = JSON.parse(await getOwn())
+      setUser({
+        ...data,
+        firebase_data: user,
+      })
+    } else {
+      debug('Logged out')
+      token.value = ''
+    }
+  })
 
   const login = async (email: string, password: string, verify = false) => {
     info('Logging in...')
@@ -56,6 +76,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       }
       setUser(user)
 
+      if (!user.onboarded) return await router.push({ name: 'Onboarding' })
       await router.push({ name: 'My Profile' })
     } catch (error: any) {
       logError(error.message)
