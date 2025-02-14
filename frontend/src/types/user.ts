@@ -1,13 +1,13 @@
 import type { TNullable } from '@/types/helpers'
 import type { User } from 'firebase/auth'
 
-enum TRAVEL_FREQUENCY {
+export enum TRAVEL_FREQUENCY {
   FREQUENTLY = 'Frequently',
   OCCASIONALLY = 'Occasionally',
   RARELY = 'Rarely',
 }
 
-enum TRAVEL_TYPES {
+export enum TRAVEL_TYPES {
   BUSINESS = 'Business',
   LEISURE = 'Leisure',
   ADVENTURE = 'Adventure',
@@ -15,20 +15,20 @@ enum TRAVEL_TYPES {
   SOLO = 'Solo',
 }
 
-enum TRAVEL_DESTINATIONS {
+export enum TRAVEL_DESTINATIONS {
   URBAN = 'Urban',
   RURAL = 'Rural',
   COASTAL = 'Coastal',
   MOUNTAINOUS = 'Mountainous',
 }
 
-interface ITravelPreferences {
-  travel_frequency: TRAVEL_FREQUENCY
-  travel_types: TRAVEL_TYPES
-  travel_destinations: TRAVEL_DESTINATIONS
+export interface ITravelPreferences {
+  travel_frequency?: TRAVEL_FREQUENCY
+  travel_types?: TRAVEL_TYPES[]
+  travel_destinations?: TRAVEL_DESTINATIONS[]
 }
 
-enum TRANSPORT_TYPES {
+export enum TRANSPORT_TYPES {
   PLANE = 'Plane',
   BOAT = 'Boat',
   TRAIN = 'Train',
@@ -37,18 +37,18 @@ enum TRANSPORT_TYPES {
   WALK = 'Walk',
 }
 
-interface IHealthAndSafety {
-  allergies: boolean
-  preferred_transport: TRANSPORT_TYPES
+export interface IHealthAndSafety {
+  allergies?: boolean
+  preferred_transport?: TRANSPORT_TYPES
 }
 
-enum PREFERRED_ACTIVITIES {
+export enum PREFERRED_ACTIVITIES {
   HIKING = 'Hiking',
   SWIMMING = 'Swimming',
   SIGHTSEEING = 'Sightseeing',
 }
 
-enum WEATHER_PREFERENCES {
+export enum WEATHER_PREFERENCES {
   FREEZING = 'Freezing',
   COLD = 'Cold',
   MILD = 'Mild',
@@ -56,9 +56,9 @@ enum WEATHER_PREFERENCES {
   HOT = 'Hot',
 }
 
-interface ITravelPersonalization {
-  favorite_activities: PREFERRED_ACTIVITIES
-  weather_preferences: WEATHER_PREFERENCES
+export interface ITravelPersonalization {
+  favorite_activities?: PREFERRED_ACTIVITIES[]
+  weather_preference?: WEATHER_PREFERENCES
 }
 
 enum TRAVEL_COMPANIONS {
@@ -69,10 +69,10 @@ enum TRAVEL_COMPANIONS {
 }
 
 interface IUserPreferences {
-  travel_preferences: ITravelPreferences
-  health_safety: IHealthAndSafety
-  personalization: ITravelPersonalization
-  travel_companions: TRAVEL_COMPANIONS
+  travel_preferences?: ITravelPreferences
+  health_safety?: IHealthAndSafety
+  personalization?: ITravelPersonalization
+  travel_companions?: TRAVEL_COMPANIONS[]
   // language_preferences: string
   // notification_preferences: string
 }
@@ -92,12 +92,12 @@ export interface IUser {
   firebase_data: User
   email: string
   status_id: number
-  country_id: number
-  gender_id: number
-  first_name: TNullable<string>
-  last_name: TNullable<string>
-  birth_date: TNullable<string>
-  preferences: IUserPreferences
+  country_id?: TNullable<number>
+  gender_id?: TNullable<number>
+  first_name?: TNullable<string>
+  last_name?: TNullable<string>
+  birth_date?: TNullable<string>
+  preferences?: TNullable<IUserPreferences>
   id: number
   onboarded: boolean
   created_at: string

@@ -1,3 +1,4 @@
+import { VDateInput } from 'vuetify/labs/VDateInput'
 import 'vuetify/styles'
 import type { ThemeDefinition } from 'vuetify'
 import { createVuetify } from 'vuetify'
@@ -19,10 +20,40 @@ const customDefaultTheme: ThemeDefinition = {
 }
 
 export default createVuetify({
+  components: {
+    VDateInput,
+  },
   theme: {
     defaultTheme: 'customDefaultTheme',
     themes: {
       customDefaultTheme,
+    },
+  },
+  defaults: {
+    VTextField: {
+      bgColor: 'white',
+      color: 'primary',
+      variant: 'outlined',
+      density: 'compact',
+      hideDetails: 'auto',
+    },
+    VSelect: {
+      color: 'primary',
+      variant: 'outlined',
+      density: 'compact',
+      hideDetails: 'auto',
+    },
+    VDateInput: {
+      variant: 'outlined',
+      density: 'compact',
+      hideDetails: 'auto',
+    },
+    VDatePicker: {
+      bgColor: 'white',
+      color: 'primary',
+      variant: 'outlined',
+      density: 'compact',
+      hideDetails: 'auto',
     },
   },
 })

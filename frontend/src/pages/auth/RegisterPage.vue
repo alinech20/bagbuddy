@@ -47,12 +47,8 @@ const registerUser = () => {
         <v-text-field
           v-model="email"
           :rules="emailRules"
-          color="primary"
           label="Email"
           type="text"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
         >
           <template #prepend-inner>
             <Icon class="input-icon" icon="mdi:alternate-email" />
@@ -62,12 +58,8 @@ const registerUser = () => {
           v-model="password"
           :rules="passwordRules"
           class="mt-4"
-          color="primary"
           label="Password"
           type="password"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
         >
           <template #prepend-inner>
             <Icon class="input-icon" icon="mdi:lock" />
@@ -77,12 +69,8 @@ const registerUser = () => {
           v-model="confirmPassword"
           :rules="confirmPasswordRules"
           class="mt-4"
-          color="primary"
           label="Confirm password"
           type="password"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
         >
           <template #prepend-inner>
             <Icon class="input-icon" icon="mdi:lock" />
