@@ -10,10 +10,10 @@ const { login } = useAuthStore()
 const rules = useValidationRules()
 
 const email = ref('')
-const emailRules = [rules.emailRules()[0]]
+const emailRules = [rules.emailRules()[0]] // use only "required" rule
 
 const password = ref('')
-const passwordRules = [rules.passwordRules()[0]]
+const passwordRules = [rules.passwordRules()[0]] // use only "required" rule
 
 const goToRegister = () => {
   router.push({ name: 'Register' })
