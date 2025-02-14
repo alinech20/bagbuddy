@@ -3,7 +3,11 @@ import { computed, ref } from 'vue'
 import { useLogger } from '@/composables/useLogger.ts'
 import { useAuthService } from '@/services/auth.ts'
 import { auth } from '@/config/firebase.ts'
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import {
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth'
 import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useProfileService } from '@/services/profile.ts'
 import type { IUser } from '@/types/user.ts'
@@ -23,7 +27,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const token = ref('')
   const isAuthenticated = computed(() => !!token.value)
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, verify = false) => {
     info('Logging in...')
     try {
       const userCredentials = await signInWithEmailAndPassword(
@@ -31,6 +35,11 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
         email,
         password,
       )
+
+      if (verify || !userCredentials.user.emailVerified) {
+        info('Sending verification email...')
+        await sendEmailVerification(userCredentials.user)
+      }
 
       // add this for custom login behavior on the backend
       // const data = await loginService(email, password)
@@ -65,7 +74,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       token.value = ''
       await router.push({ name: 'Login' })
     } catch (error: any) {
-      logError(error.message)
+      logError(JSON.stringify(error))
     }
   }
 
@@ -75,9 +84,9 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       const data = await registerService(email, password)
       if (!data) return
 
-      await login(email, password)
+      await login(email, password, true)
     } catch (error: any) {
-      logError(error.message)
+      logError(JSON.stringify(error))
     }
   }
 

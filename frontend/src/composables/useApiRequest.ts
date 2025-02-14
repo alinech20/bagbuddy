@@ -6,7 +6,12 @@ import { useLogger } from './useLogger'
 import { useAuthStore } from '@/stores/auth.ts'
 import { storeToRefs } from 'pinia'
 
-export const useApiRequest = (path: IApiPath | string) => {
+export const useApiRequest = (
+  path: IApiPath | string,
+  options = {},
+  noHeaders = false,
+) => {
+  // TODO: format error messages to a standardized structure
   const { token } = storeToRefs(useAuthStore())
   const { debug, info, error } = useLogger()
   const { replaceEndpointPlaceholders, addQueryParams } = useApiRequestUtils()
@@ -47,14 +52,22 @@ export const useApiRequest = (path: IApiPath | string) => {
         ctx.error = {
           code: ctx.response?.status,
           title: ctx.response?.statusText,
-          message: ctx.data.detail,
+          message: ctx.data?.detail,
           url: ctx.response?.url,
         }
 
         return ctx
       },
+      timeout: API.TIMEOUT,
+    },
+    fetchOptions: {
+      headers: noHeaders
+        ? {}
+        : {
+            'Content-Type': 'application/json',
+          },
     },
   })
 
-  return apiCall(endpoint)
+  return apiCall(endpoint, options)
 }

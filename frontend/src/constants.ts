@@ -1,4 +1,5 @@
 export const API = {
+  TIMEOUT: 10000,
   BASE_URL: '/api/',
   AUTH: {
     LOGIN: 'auth/login',

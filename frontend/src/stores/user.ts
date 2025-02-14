@@ -8,7 +8,6 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
 
   const setUser = (u: IUser) => {
     user.value = u
-    console.log(user.value)
   }
 
   const clearUser = () => {
