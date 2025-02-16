@@ -14,6 +14,7 @@ export const API = {
 export const PINIA_STORE_KEYS = {
   AUTH: 'auth',
   USER: 'user',
+  ONBOARDING: 'onboarding',
 }
 
 export const SNACKBAR_DURATION = 5000

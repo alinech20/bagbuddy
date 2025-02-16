@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
 import { ref } from 'vue'
-import { type IHealthAndSafety, TRANSPORT_TYPES } from '@/types/user.ts'
-import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/stores/user.ts'
-
-const emits = defineEmits(['nextStep'])
-const { user } = storeToRefs(useUserStore())
+import { TRANSPORT_TYPES } from '@/types/user.ts'
+import { useOnboardingStore } from '@/stores/onboarding.ts'
 
 const allergies = ref<boolean>()
 const allergiesItems = [
@@ -23,21 +19,18 @@ const allergiesItems = [
 const transport = ref<TRANSPORT_TYPES>()
 const transportItems = [...Object.keys(TRANSPORT_TYPES)]
 
+const { continueOnboarding, goBack } = useOnboardingStore()
+
 const nextStep = () => {
-  const health: IHealthAndSafety = {
+  continueOnboarding({
     allergies: allergies.value,
-    preferred_transport: transport.value,
-  }
-
-  if (!user.value.preferences) user.value.preferences = {}
-  user.value.preferences.health_safety = health
-
-  emits('nextStep')
+    transport: transport.value,
+  })
 }
 </script>
 
 <template>
-  <OnboardingStep>
+  <OnboardingStep @next="nextStep" @prev="goBack">
     <template #title>Health & Safety</template>
     <template #description>
       Let's make sure we cover your health and safety needs:
@@ -64,13 +57,5 @@ const nextStep = () => {
         />
       </v-form>
     </template>
-    <template #actions>
-      <v-btn color="background" variant="flat">Skip</v-btn>
-      <v-btn color="secondary">Back</v-btn>
-      <v-spacer />
-      <v-btn @click="nextStep" color="primary">Next</v-btn>
-    </template>
   </OnboardingStep>
 </template>
-
-<style scoped lang="sass"></style>

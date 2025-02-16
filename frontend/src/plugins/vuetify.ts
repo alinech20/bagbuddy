@@ -2,6 +2,8 @@ import { VDateInput } from 'vuetify/labs/VDateInput'
 import 'vuetify/styles'
 import type { ThemeDefinition } from 'vuetify'
 import { createVuetify } from 'vuetify'
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import '@mdi/font/css/materialdesignicons.css'
 
 const customDefaultTheme: ThemeDefinition = {
   dark: false,
@@ -27,6 +29,13 @@ export default createVuetify({
     defaultTheme: 'customDefaultTheme',
     themes: {
       customDefaultTheme,
+    },
+  },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: {
+      mdi,
     },
   },
   defaults: {

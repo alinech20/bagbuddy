@@ -1,32 +1,29 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import { ONBOARDING_STEPS } from '@/types/user.ts'
 import WelcomeStep from '@/components/onboarding/WelcomeStep.vue'
 import TravelPreferencesStep from '@/components/onboarding/TravelPreferencesStep.vue'
-import router from '@/router'
-import { computed } from 'vue'
 import HealthSafetyStep from '@/components/onboarding/HealthSafetyStep.vue'
+import { useOnboardingStore } from '@/stores/onboarding.ts'
+import { storeToRefs } from 'pinia'
 
-const route = useRoute()
-const step = computed(
-  () => Number.parseInt(route.params.step as string, 10) || 1,
-)
-
-const setStep = (s: ONBOARDING_STEPS) =>
-  router.push({ path: `/onboarding/${s}` })
+const onboardingStore = useOnboardingStore()
+const { goBack, continueOnboarding } = onboardingStore
+const { step } = storeToRefs(onboardingStore)
 </script>
 
 <template>
   <WelcomeStep
-    @next-step="setStep(ONBOARDING_STEPS.TRAVEL_PREFERENCES)"
+    @next-step="continueOnboarding"
     v-if="step === ONBOARDING_STEPS.WELCOME"
   />
   <TravelPreferencesStep
-    @next-step="setStep(ONBOARDING_STEPS.HEALTH_SAFETY)"
+    @prev-step="goBack"
+    @next-step="continueOnboarding"
     v-if="step === ONBOARDING_STEPS.TRAVEL_PREFERENCES"
   />
   <HealthSafetyStep
-    @next-step="setStep(ONBOARDING_STEPS.PERSONALIZATION)"
+    @prev-step="goBack"
+    @next-step="continueOnboarding"
     v-if="step === ONBOARDING_STEPS.HEALTH_SAFETY"
   />
 </template>

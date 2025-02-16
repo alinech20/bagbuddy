@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useOnboardingStore } from '@/stores/onboarding.ts'
+import { ONBOARDING_STEPS } from '@/types/user.ts'
+
+const { step } = storeToRefs(useOnboardingStore())
+</script>
 
 <template>
   <v-container>
@@ -19,10 +25,19 @@
         </v-card>
       </v-row>
       <v-row class="mt-8">
-        <slot name="actions"></slot>
+        <slot name="actions">
+          <v-btn color="background" variant="flat">Skip</v-btn>
+          <v-btn
+            v-if="step !== ONBOARDING_STEPS.WELCOME"
+            @click="$emit('prev')"
+            color="secondary"
+          >
+            Back
+          </v-btn>
+          <v-spacer />
+          <v-btn @click="$emit('next')" color="primary">Next</v-btn>
+        </slot>
       </v-row>
     </v-col>
   </v-container>
 </template>
-
-<style scoped lang="sass"></style>

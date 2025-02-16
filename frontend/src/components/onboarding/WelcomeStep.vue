@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
-import { useUserStore } from '@/stores/user.ts'
-import { storeToRefs } from 'pinia'
-
-const emits = defineEmits(['nextStep'])
-const { user } = storeToRefs(useUserStore())
+import { useOnboardingStore } from '@/stores/onboarding.ts'
 
 const firstName = ref<string>()
 const lastName = ref<string>()
@@ -23,14 +19,16 @@ const genderList = [
   },
 ]
 
-const nextStep = () => {
-  user.value.first_name = firstName.value
-  user.value.last_name = lastName.value
-  user.value.birth_date = birthDate.value
-  // user.value.country_id = country.value
-  user.value.gender_id = gender.value
+const { continueOnboarding } = useOnboardingStore()
 
-  emits('nextStep')
+const nextStep = () => {
+  continueOnboarding({
+    firstName: firstName.value,
+    lastName: lastName.value,
+    birthDate: birthDate.value,
+    // country: country.value,
+    gender: gender.value,
+  })
 }
 </script>
 
@@ -69,5 +67,3 @@ const nextStep = () => {
     </template>
   </OnboardingStep>
 </template>
-
-<style scoped lang="sass"></style>
