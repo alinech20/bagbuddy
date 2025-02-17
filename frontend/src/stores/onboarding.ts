@@ -3,7 +3,9 @@ import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import {
+  type IAdditionalDetails,
   type IHealthAndSafety,
+  type ITravelPersonalization,
   type ITravelPreferences,
   ONBOARDING_STEPS,
 } from '@/types/user.ts'
@@ -25,7 +27,8 @@ export const useOnboardingStore = defineStore(
       setStep(step.value - 1)
     }
 
-    const { user } = storeToRefs(useUserStore())
+    const userStore = useUserStore()
+    const { user } = storeToRefs(userStore)
     const saveBasicDetails = (details: {
       firstName?: TNullable<string>
       lastName?: TNullable<string>
@@ -48,6 +51,17 @@ export const useOnboardingStore = defineStore(
       user.value.preferences.health_safety = hs
     }
 
+    const savePersonalization = (p: ITravelPersonalization) => {
+      if (!user.value.preferences) user.value.preferences = {}
+      user.value.preferences.personalization = p
+    }
+
+    const saveAdditionalDetails = (ad: IAdditionalDetails) => {
+      if (!user.value.preferences) user.value.preferences = {}
+      user.value.preferences.additional_details = ad
+    }
+
+    const { updateUserProfile } = userStore
     const continueOnboarding = (args: object) => {
       switch (step.value) {
         case ONBOARDING_STEPS.WELCOME:
@@ -62,6 +76,17 @@ export const useOnboardingStore = defineStore(
           saveHealthSafety(args as IHealthAndSafety)
           setStep(ONBOARDING_STEPS.PERSONALIZATION)
           break
+        case ONBOARDING_STEPS.PERSONALIZATION:
+          savePersonalization(args as ITravelPersonalization)
+          setStep(ONBOARDING_STEPS.ADDITIONAL_DETAILS)
+          break
+        case ONBOARDING_STEPS.ADDITIONAL_DETAILS:
+          saveAdditionalDetails(args as IAdditionalDetails)
+          break
+      }
+
+      if (step.value === Object.keys(ONBOARDING_STEPS).length) {
+        updateUserProfile().then(() => router.push({ name: 'My Profile' }))
       }
     }
 

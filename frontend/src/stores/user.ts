@@ -14,5 +14,7 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
     user.value = {} as IUser
   }
 
-  return { user, setUser, clearUser }
+  const updateUserProfile = async () => {}
+
+  return { user, setUser, clearUser, updateUserProfile }
 })

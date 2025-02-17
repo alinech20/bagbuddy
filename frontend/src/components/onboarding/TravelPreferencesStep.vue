@@ -38,7 +38,7 @@ const nextStep = () => {
         <v-select
           v-model="frequency"
           :items="frequencyItems"
-          label="Travel frequency"
+          label="How often do you travel?"
           :list-props="{
             bgColor: 'white',
             density: 'compact',
@@ -51,7 +51,7 @@ const nextStep = () => {
             bgColor: 'white',
             density: 'compact',
           }"
-          label="Travel type"
+          label="Preferred travel types"
           multiple
         />
         <v-select
@@ -61,7 +61,7 @@ const nextStep = () => {
             bgColor: 'white',
             density: 'compact',
           }"
-          label="Destinations"
+          label="Favorite travel destinations"
           multiple
         />
       </v-form>

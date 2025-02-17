@@ -7,7 +7,7 @@ export const API = {
     SIGNUP_EMAIL_PASSWORD: 'auth/signup_email_password',
   },
   PROFILE: {
-    GET_OWN: 'profile/self',
+    OWN: 'profile/self',
   },
 }
 

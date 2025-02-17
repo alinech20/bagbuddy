@@ -4,13 +4,17 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Status } from './Status';
-import { Gender } from './Gender';
 import { Country } from './Country';
+import { TravelPreferences } from './TravelPreferences';
+import { HealthSafety } from './HealthSafety';
+import { TravelPersonalization } from './TravelPersonalization';
+import { AdditionalDetails } from './AdditionalDetails';
 
 @Entity({ schema: 'users', name: 'profiles' })
 @Unique(['email'])
@@ -31,9 +35,8 @@ export class Profile {
   @Column({ nullable: true })
   last_name: string;
 
-  @ManyToOne(() => Gender, { nullable: true })
-  @JoinColumn({ name: 'gender_id' })
-  gender: Gender;
+  @Column({ nullable: true })
+  gender: string;
 
   @Column({ type: 'date', nullable: true })
   birth_date: Date;
@@ -57,4 +60,16 @@ export class Profile {
 
   @UpdateDateColumn({ type: 'timestamp', nullable: false })
   updated_at: string;
+
+  @OneToOne(() => TravelPreferences, (prefs) => prefs.profile)
+  travel_preferences: TravelPreferences;
+
+  @OneToOne(() => HealthSafety, (healthSafety) => healthSafety.profile)
+  health_safety: HealthSafety;
+
+  @OneToOne(() => TravelPersonalization, (pers) => pers.profile)
+  travel_personalization: TravelPersonalization;
+
+  @OneToOne(() => AdditionalDetails, (details) => details.profile)
+  additional_details: AdditionalDetails;
 }

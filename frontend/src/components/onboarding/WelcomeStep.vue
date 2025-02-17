@@ -43,11 +43,7 @@ const nextStep = () => {
       <v-form>
         <v-text-field v-model="firstName" label="First Name" required />
         <v-text-field v-model="lastName" label="Last Name" required />
-        <v-date-input
-          persistent-placeholder
-          v-model="birthDate"
-          label="Birth Date"
-        />
+        <v-date-input v-model="birthDate" label="Birth Date" />
         <!--            <v-select v-model="country" :items="[]" label="Country" />-->
         <v-select
           v-model="gender"

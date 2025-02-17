@@ -7,7 +7,7 @@ const { step } = storeToRefs(useOnboardingStore())
 </script>
 
 <template>
-  <article class="pa-4 pt-16">
+  <article class="pa-4 pt-8">
     <section class="mt-8 text-center">
       <h1 class="text-h3 font-weight-medium">
         <slot name="title"></slot>

@@ -61,20 +61,24 @@ export interface ITravelPersonalization {
   weather_preference?: WEATHER_PREFERENCES
 }
 
-enum TRAVEL_COMPANIONS {
+export enum TRAVEL_COMPANIONS {
   FAMILY = 'Family',
   FRIENDS = 'Friends',
   PETS = 'Pets',
   NO_ONE = 'No one',
 }
 
+export interface IAdditionalDetails {
+  travel_companions?: TRAVEL_COMPANIONS[]
+  // language_preferences: string
+  // notification_preferences: string
+}
+
 interface IUserPreferences {
   travel_preferences?: ITravelPreferences
   health_safety?: IHealthAndSafety
   personalization?: ITravelPersonalization
-  travel_companions?: TRAVEL_COMPANIONS[]
-  // language_preferences: string
-  // notification_preferences: string
+  additional_details?: IAdditionalDetails
 }
 
 export enum ONBOARDING_STEPS {
@@ -82,9 +86,7 @@ export enum ONBOARDING_STEPS {
   TRAVEL_PREFERENCES = 2,
   HEALTH_SAFETY = 3,
   PERSONALIZATION = 4,
-  TRAVEL_COMPANIONS = 5,
-  // LANGUAGE_PREFERENCES = 6,
-  // NOTIFICATION_PREFERENCES = 7,
+  ADDITIONAL_DETAILS = 5,
 }
 
 export interface IUser {
