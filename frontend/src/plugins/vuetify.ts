@@ -12,7 +12,7 @@ const customDefaultTheme: ThemeDefinition = {
     'on-background': '#0e2a37',
     surface: '#c19d85',
     primary: '#0e2a37',
-    secondary: '#92b4cf',
+    secondary: '#5e9fd3',
     'on-secondary': '#f8eee5',
     error: '#b00020',
     info: '#2196f3',
