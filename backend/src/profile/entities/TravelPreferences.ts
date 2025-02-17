@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -16,17 +15,19 @@ export class TravelPreferences {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  profile_id: number;
+
   @OneToOne(() => Profile, (profile) => profile.travel_preferences)
-  @JoinColumn({ name: 'profile_id' })
   profile: Profile;
 
   @Column({ nullable: true })
   frequency: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'simple-array', nullable: true })
   purpose: string[];
 
-  @Column({ nullable: true })
+  @Column({ type: 'simple-array', nullable: true })
   destinations: string[];
 
   @CreateDateColumn({ type: 'timestamp', nullable: false })

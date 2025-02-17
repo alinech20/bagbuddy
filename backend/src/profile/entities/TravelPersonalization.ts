@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -16,11 +15,13 @@ export class TravelPersonalization {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  profile_id: number;
+
   @OneToOne(() => Profile, (profile) => profile.travel_personalization)
-  @JoinColumn({ name: 'profile_id' })
   profile: Profile;
 
-  @Column({ nullable: true })
+  @Column({ type: 'simple-array', nullable: true })
   favorite_activities: string[];
 
   @Column({ nullable: true })
