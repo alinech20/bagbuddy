@@ -2,8 +2,16 @@
 import { storeToRefs } from 'pinia'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { ONBOARDING_STEPS } from '@/types/user.ts'
+import { useUserStore } from '@/stores/user.ts'
+import router from '@/router'
 
 const { step } = storeToRefs(useOnboardingStore())
+const { updateUserProfile } = useUserStore()
+
+const saveAndSkip = async () => {
+  await updateUserProfile()
+  router.push({ name: 'My Profile' })
+}
 </script>
 
 <template>
@@ -25,7 +33,9 @@ const { step } = storeToRefs(useOnboardingStore())
     </section>
     <section class="d-flex mt-8">
       <slot name="actions">
-        <v-btn color="background" variant="flat">Skip</v-btn>
+        <v-btn @click="saveAndSkip" color="background" variant="flat">
+          Skip
+        </v-btn>
         <v-btn
           class="ml-2"
           v-if="step !== ONBOARDING_STEPS.WELCOME"
@@ -35,7 +45,13 @@ const { step } = storeToRefs(useOnboardingStore())
           Back
         </v-btn>
         <v-spacer />
-        <v-btn @click="$emit('next')" color="primary">Next</v-btn>
+        <v-btn
+          v-if="step !== Object.keys(ONBOARDING_STEPS).length"
+          @click="$emit('next')"
+          color="primary"
+          >Next
+        </v-btn>
+        <v-btn v-else @click="$emit('next')" color="primary">Finish</v-btn>
       </slot>
     </section>
   </article>

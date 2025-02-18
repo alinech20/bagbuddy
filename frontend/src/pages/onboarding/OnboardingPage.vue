@@ -7,11 +7,8 @@ import PersonalizationStep from '@/components/onboarding/PersonalizationStep.vue
 import AdditionalDetailsStep from '@/components/onboarding/AdditionalDetailsStep.vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { storeToRefs } from 'pinia'
-import type { ComputedRef } from 'vue'
 
-const step = storeToRefs(
-  useOnboardingStore(),
-) as unknown as ComputedRef<ONBOARDING_STEPS>
+const { step } = storeToRefs(useOnboardingStore())
 </script>
 
 <template>
