@@ -14,16 +14,29 @@ const router = createRouter({
 const { debug } = useLogger()
 
 router.beforeEach(async (to, _from, next) => {
+  debug('Before navigation')
   let isAuthenticated = false
 
+  if (!auth) {
+    debug('Auth object not initialized')
+    return next({ name: 'Login' })
+  }
+
   await new Promise((resolve) => {
-    onAuthStateChanged(auth, async (user) => {
+    debug('Setting up auth state listener in router guard')
+    const unsub = onAuthStateChanged(auth, (user) => {
+      debug('Auth state changed callback triggered')
       isAuthenticated = !!user
       resolve(true)
+      unsub()
     })
+
+    setTimeout(() => {
+      debug('Timeout triggered')
+      resolve(false)
+    }, 5000)
   })
 
-  debug('Before navigation')
   if (!to.name) next({ name: 'Login' })
 
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)

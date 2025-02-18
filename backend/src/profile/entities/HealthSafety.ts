@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -19,6 +20,7 @@ export class HealthSafety {
   profile_id: number;
 
   @OneToOne(() => Profile, (profile) => profile.health_safety)
+  @JoinColumn({ name: 'profile_id' })
   profile: Profile;
 
   @Column({ nullable: true })

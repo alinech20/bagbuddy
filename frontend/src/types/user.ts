@@ -95,7 +95,7 @@ export interface IUser {
   email: string
   status_id: number
   country_id?: TNullable<number>
-  gender_id?: TNullable<number>
+  gender?: TNullable<string>
   first_name?: TNullable<string>
   last_name?: TNullable<string>
   birth_date?: TNullable<string>

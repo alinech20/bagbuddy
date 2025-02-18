@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
 
 const companions = ref<TRAVEL_COMPANIONS[]>([])
-const companionsItems = [...Object.keys(TRAVEL_COMPANIONS)]
+const companionsItems = [...Object.values(TRAVEL_COMPANIONS)]
 
 const { continueOnboarding, goBack } = useOnboardingStore()
 

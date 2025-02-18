@@ -39,6 +39,7 @@ export const useApiRequest = (
     options: {
       async beforeFetch({ options }: BeforeFetchContext) {
         info('Before fetch hook')
+
         if (token.value && options.headers) {
           options.headers = {
             ...options.headers,

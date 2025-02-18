@@ -4,13 +4,16 @@ import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { ONBOARDING_STEPS } from '@/types/user.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
+import { useAuthStore } from '@/stores/auth.ts'
 
 const { step } = storeToRefs(useOnboardingStore())
 const { updateUserProfile } = useUserStore()
+const { token } = storeToRefs(useAuthStore())
 
-const saveAndSkip = async () => {
-  await updateUserProfile()
-  router.push({ name: 'My Profile' })
+const saveAndSkip = () => {
+  updateUserProfile().then(() => {
+    router.push({ name: 'My Profile' })
+  })
 }
 </script>
 
@@ -46,10 +49,11 @@ const saveAndSkip = async () => {
         </v-btn>
         <v-spacer />
         <v-btn
-          v-if="step !== Object.keys(ONBOARDING_STEPS).length"
+          v-if="step !== Object.keys(ONBOARDING_STEPS).length / 2"
           @click="$emit('next')"
           color="primary"
-          >Next
+        >
+          Next
         </v-btn>
         <v-btn v-else @click="$emit('next')" color="primary">Finish</v-btn>
       </slot>

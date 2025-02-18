@@ -1,7 +1,6 @@
 import {
   IsArray,
   IsBoolean,
-  IsDate,
   IsObject,
   IsOptional,
   IsString,
@@ -15,13 +14,13 @@ export class TravelPreferencesDto {
   frequency?: string;
 
   @IsOptional()
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   purpose?: string[];
 
   @IsOptional()
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => String)
+  @IsString({ each: true })
   destinations?: string[];
 }
 
@@ -38,8 +37,7 @@ export class HealthSafetyDto {
 export class TravelPersonalizationDto {
   @IsOptional()
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => String)
+  @IsString({ each: true })
   favorite_activities?: string[];
 
   @IsOptional()
@@ -50,8 +48,7 @@ export class TravelPersonalizationDto {
 export class AdditionalDetailsDto {
   @IsOptional()
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => String)
+  @IsString({ each: true })
   travel_companions?: string[];
 }
 
@@ -67,8 +64,12 @@ export class UpdateProfileDto {
   gender?: string;
 
   @IsOptional()
-  @IsDate()
+  @IsString()
   birth_date?: Date;
+
+  @IsOptional()
+  @IsBoolean()
+  onboarded?: boolean;
 
   @IsOptional()
   @IsObject()

@@ -70,8 +70,15 @@ export class ProfileController {
     if (profile.uid !== uid) throw new UnauthorizedException('Invalid uid');
 
     // Update only the fields that are part of the Profile entity
-    const { first_name, last_name, gender, birth_date } = updateProfileDto;
-    Object.assign(profile, { first_name, last_name, gender, birth_date });
+    const { first_name, last_name, gender, birth_date, onboarded } =
+      updateProfileDto;
+    Object.assign(profile, {
+      first_name,
+      last_name,
+      gender,
+      birth_date,
+      onboarded,
+    });
 
     // Update related entities
     await this.profileService.updateRelatedEntities(

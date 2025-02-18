@@ -17,7 +17,7 @@ const allergiesItems = [
 ]
 
 const transport = ref<TRANSPORT_TYPES>()
-const transportItems = [...Object.keys(TRANSPORT_TYPES)]
+const transportItems = [...Object.values(TRANSPORT_TYPES)]
 
 const { continueOnboarding, goBack } = useOnboardingStore()
 

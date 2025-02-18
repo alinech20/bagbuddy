@@ -33,12 +33,12 @@ export const useOnboardingStore = defineStore(
       firstName?: TNullable<string>
       lastName?: TNullable<string>
       birthDate?: TNullable<string>
-      gender?: TNullable<number>
+      gender?: TNullable<string>
     }) => {
       user.value.first_name = details.firstName
       user.value.last_name = details.lastName
       user.value.birth_date = details.birthDate
-      user.value.gender_id = details.gender
+      user.value.gender = details.gender
     }
 
     const saveTravelPreferences = (prefs: ITravelPreferences) => {
@@ -85,7 +85,7 @@ export const useOnboardingStore = defineStore(
           break
       }
 
-      if (step.value === Object.keys(ONBOARDING_STEPS).length) {
+      if (step.value === Object.keys(ONBOARDING_STEPS).length / 2) {
         updateUserProfile().then(() => router.push({ name: 'My Profile' }))
       }
     }

@@ -36,7 +36,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     if (user) {
       debug(`Logged in as ${user.email}`)
       token.value = await user.getIdToken()
-      const data = JSON.parse(await getOwn())
+      const data = await getOwn()
       setUser({
         ...data,
         firebase_data: user,
@@ -67,7 +67,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
 
       token.value = await userCredentials.user.getIdToken()
 
-      const data = JSON.parse(await getOwn())
+      const data = await getOwn()
       const user: IUser = {
         ...data,
         firebase_data: {

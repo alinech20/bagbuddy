@@ -5,10 +5,10 @@ import { ref } from 'vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
 
 const activities = ref<PREFERRED_ACTIVITIES[]>([])
-const activitiesItems = [...Object.keys(PREFERRED_ACTIVITIES)]
+const activitiesItems = [...Object.values(PREFERRED_ACTIVITIES)]
 
 const weather = ref<WEATHER_PREFERENCES>()
-const weatherItems = [...Object.keys(WEATHER_PREFERENCES)]
+const weatherItems = [...Object.values(WEATHER_PREFERENCES)]
 
 const { continueOnboarding, goBack } = useOnboardingStore()
 
@@ -47,7 +47,6 @@ const nextStep = () => {
             bgColor: 'white',
             density: 'compact',
           }"
-        />
         />
       </v-form>
     </template>

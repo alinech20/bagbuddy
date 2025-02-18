@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -19,6 +20,7 @@ export class AdditionalDetails {
   profile_id: number;
 
   @OneToOne(() => Profile, (profile) => profile.additional_details)
+  @JoinColumn({ name: 'profile_id' })
   profile: Profile;
 
   @Column({ type: 'simple-array', nullable: true })

@@ -2,22 +2,14 @@
 import { ref } from 'vue'
 import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
+import { useDateFormat } from '@vueuse/core'
 
 const firstName = ref<string>()
 const lastName = ref<string>()
-const birthDate = ref<string>()
+const birthDate = ref<Date>()
 // const country = ref<number>()
-const gender = ref<number>()
-const genderList = [
-  {
-    title: 'Male',
-    value: 1,
-  },
-  {
-    title: 'Female',
-    value: 2,
-  },
-]
+const gender = ref<string>()
+const genderList = ['Male', 'Female']
 
 const { continueOnboarding } = useOnboardingStore()
 
@@ -25,7 +17,9 @@ const nextStep = () => {
   continueOnboarding({
     firstName: firstName.value,
     lastName: lastName.value,
-    birthDate: birthDate.value,
+    birthDate: birthDate.value
+      ? useDateFormat(birthDate.value, 'YYYY-MM-DD').value
+      : undefined,
     // country: country.value,
     gender: gender.value,
   })
