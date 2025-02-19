@@ -1,54 +1,76 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import router from '@/router'
+import { ref } from 'vue'
+import { useValidationRules } from '@/composables/useValidationRules.ts'
+import { useAuthStore } from '@/stores/auth.ts'
+
+const registerForm = ref()
+const { register } = useAuthStore()
+const rules = useValidationRules()
+
+const email = ref('')
+const emailRules = rules.emailRules()
+
+const password = ref('')
+const passwordRules = rules.passwordRules()
+
+const confirmPassword = ref('')
+const confirmPasswordRules = [
+  (v: string) => !!v || 'Confirm password is required',
+  (v: string) => v === password.value || 'Passwords do not match',
+]
 
 const goToLogin = () => {
   router.push({ name: 'Login' })
 }
+
+const registerUser = () => {
+  registerForm.value.validate().then((res: any) => {
+    if (!res.valid) return
+    register(email.value, password.value)
+  })
+}
 </script>
 
 <template>
-  <v-form class="register-form">
+  <v-form
+    ref="registerForm"
+    class="register-form"
+    validate-on="submit lazy"
+    @submit.prevent="registerUser"
+  >
     <v-card width="360" variant="flat" border>
       <template #title>Register</template>
 
       <v-card-text class="bg-background pt-4">
         <v-text-field
-          color="primary"
+          v-model="email"
+          :rules="emailRules"
           label="Email"
-          type="email"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          required
+          type="text"
         >
           <template #prepend-inner>
             <Icon class="input-icon" icon="mdi:alternate-email" />
           </template>
         </v-text-field>
         <v-text-field
+          v-model="password"
+          :rules="passwordRules"
           class="mt-4"
-          color="primary"
           label="Password"
           type="password"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          required
         >
           <template #prepend-inner>
             <Icon class="input-icon" icon="mdi:lock" />
           </template>
         </v-text-field>
         <v-text-field
+          v-model="confirmPassword"
+          :rules="confirmPasswordRules"
           class="mt-4"
-          color="primary"
           label="Confirm password"
           type="password"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          required
         >
           <template #prepend-inner>
             <Icon class="input-icon" icon="mdi:lock" />
@@ -56,7 +78,7 @@ const goToLogin = () => {
         </v-text-field>
       </v-card-text>
       <v-card-actions class="bg-background d-flex flex-row-reverse">
-        <v-btn class="bg-secondary">Register</v-btn>
+        <v-btn type="submit" class="bg-secondary">Register</v-btn>
       </v-card-actions>
     </v-card>
   </v-form>

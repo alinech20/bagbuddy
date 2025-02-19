@@ -60,7 +60,7 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # various "secrets"
-backend/src/config
+config
 docker/secrets
 
 *.tsbuildinfo

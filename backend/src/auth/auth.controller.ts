@@ -1,8 +1,12 @@
-import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Post, UsePipes } from '@nestjs/common';
 import { CreateUserEmailPasswordDto } from './dto/createUser.dto';
 import { ProfileService } from '../profile/profile.service';
 import { FirebaseAuthService } from '../firebase/firebase-auth.service';
 
+/**
+ * AuthController handles authentication-related endpoints.
+ * It includes methods for user signup using email and password.
+ */
 @Controller({
   path: 'auth',
   version: '1',
@@ -13,6 +17,12 @@ export class AuthController {
     private readonly profileService: ProfileService,
   ) {}
 
+  /**
+   * Signs up a new user using email and password.
+   * @param userDto - The DTO containing the user's email and password.
+   * @returns The created profile of the new user.
+   * @throws Error if there is an issue during user creation or profile creation.
+   */
   @UsePipes()
   @Post('/signup_email_password')
   async signupEmailPassword(@Body() userDto: CreateUserEmailPasswordDto) {
@@ -30,10 +40,5 @@ export class AuthController {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  @Get()
-  get() {
-    return 'auth';
   }
 }

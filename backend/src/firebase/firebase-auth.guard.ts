@@ -5,18 +5,24 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { FirebaseAuthService } from './firebase-auth.service';
-import { Reflector } from '@nestjs/core';
 
+/**
+ * Guard that checks the Firebase authentication token.
+ * It implements the CanActivate interface to determine if a request is authorized.
+ */
 @Injectable()
 export class FirebaseAuthGuard implements CanActivate {
-  constructor(
-    private readonly firebaseAuthService: FirebaseAuthService,
-    private readonly reflector: Reflector,
-  ) {}
+  constructor(private readonly firebaseAuthService: FirebaseAuthService) {}
 
+  /**
+   * Determines if the request is authorized by verifying the Firebase ID token.
+   * @param context - The execution context that contains the request.
+   * @returns A boolean indicating if the request is authorized.
+   * @throws UnauthorizedException if the authorization header is missing or the token is invalid.
+   */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const authorization: string = request.headers['authorization'];
+    const authorization: string = request.headers.authorization;
 
     if (!authorization) {
       throw new UnauthorizedException('Authorization header is missing');
