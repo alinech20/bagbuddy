@@ -23,6 +23,7 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
 
   const updateUserProfile = async () => {
     info('Updating user profile')
+    if (!Object.keys(user.value).length) return
 
     const payload = {
       first_name: user.value.first_name,

@@ -19,7 +19,8 @@ export const useApiRequestUtils = () => {
       const placeholder = `{${key}}`
       debug(`Placeholder: ${placeholder}`)
 
-      if (url.includes(placeholder)) url = url.replace(placeholder, params[key])
+      if (url.includes(placeholder))
+        url = url.replace(placeholder, params[key as keyof typeof params])
       else throw 'Invalid param at replaceEndpointPlaceholders'
     }
 
