@@ -24,7 +24,7 @@ const { continueOnboarding, goBack } = useOnboardingStore()
 const nextStep = () => {
   continueOnboarding({
     allergies: allergies.value,
-    transport: transport.value,
+    preferred_transport: transport.value,
   })
 }
 </script>

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { IProfileCreate } from './interfaces/profile';
 import { Profile } from './entities/Profile';
 import { TravelPreferences } from './entities/TravelPreferences';
@@ -23,14 +23,7 @@ export class ProfileService {
   constructor(
     @InjectRepository(Profile)
     private readonly profileRepository: Repository<Profile>,
-    @InjectRepository(TravelPreferences)
-    private readonly travelPreferencesRepository: Repository<TravelPreferences>,
-    @InjectRepository(HealthSafety)
-    private readonly healthSafetyRepository: Repository<HealthSafety>,
-    @InjectRepository(TravelPersonalization)
-    private readonly travelPersonalizationRepository: Repository<TravelPersonalization>,
-    @InjectRepository(AdditionalDetails)
-    private readonly additionalDetailsRepository: Repository<AdditionalDetails>,
+    private readonly dataSource: DataSource,
   ) {}
 
   /**
@@ -65,18 +58,20 @@ export class ProfileService {
    * Updates the travel preferences for a profile.
    * @param profileId - The ID of the profile.
    * @param travelPreferencesDto - The travel preferences data to update.
+   * @param manager
    * @returns The updated travel preferences.
    */
   private async updateTravelPreferences(
     profileId: number,
     travelPreferencesDto: TravelPreferencesDto,
+    manager: EntityManager,
   ): Promise<TravelPreferences> {
-    let travelPreferences = await this.travelPreferencesRepository.findOneBy({
+    let travelPreferences = await manager.findOneBy(TravelPreferences, {
       profile: { id: profileId },
     });
 
     if (!travelPreferences) {
-      travelPreferences = this.travelPreferencesRepository.create({
+      travelPreferences = manager.create(TravelPreferences, {
         profile: { id: profileId },
         ...travelPreferencesDto,
       });
@@ -84,25 +79,27 @@ export class ProfileService {
       Object.assign(travelPreferences, travelPreferencesDto);
     }
 
-    return this.travelPreferencesRepository.save(travelPreferences);
+    return manager.save(travelPreferences);
   }
 
   /**
    * Updates the health and safety information for a profile.
    * @param profileId - The ID of the profile.
    * @param healthSafetyDto - The health and safety data to update.
+   * @param manager
    * @returns The updated health and safety information.
    */
   private async updateHealthSafety(
     profileId: number,
     healthSafetyDto: HealthSafetyDto,
+    manager: EntityManager,
   ): Promise<HealthSafety> {
-    let healthSafety = await this.healthSafetyRepository.findOneBy({
+    let healthSafety = await manager.findOneBy(HealthSafety, {
       profile: { id: profileId },
     });
 
     if (!healthSafety) {
-      healthSafety = this.healthSafetyRepository.create({
+      healthSafety = manager.create(HealthSafety, {
         profile: { id: profileId },
         ...healthSafetyDto,
       });
@@ -110,25 +107,27 @@ export class ProfileService {
       Object.assign(healthSafety, healthSafetyDto);
     }
 
-    return this.healthSafetyRepository.save(healthSafety);
+    return manager.save(healthSafety);
   }
 
   /**
    * Updates the travel personalization information for a profile.
    * @param profileId - The ID of the profile.
    * @param personalizationDto - The travel personalization data to update.
+   * @param manager
    * @returns The updated travel personalization information.
    */
   private async updatePersonalization(
     profileId: number,
     personalizationDto: TravelPersonalizationDto,
+    manager: EntityManager,
   ): Promise<TravelPersonalization> {
-    let personalization = await this.travelPersonalizationRepository.findOneBy({
+    let personalization = await manager.findOneBy(TravelPersonalization, {
       profile: { id: profileId },
     });
 
     if (!personalization) {
-      personalization = this.travelPersonalizationRepository.create({
+      personalization = manager.create(TravelPersonalization, {
         profile: { id: profileId },
         ...personalizationDto,
       });
@@ -136,25 +135,27 @@ export class ProfileService {
       Object.assign(personalization, personalizationDto);
     }
 
-    return this.travelPersonalizationRepository.save(personalization);
+    return manager.save(personalization);
   }
 
   /**
    * Updates the additional details for a profile.
    * @param profileId - The ID of the profile.
    * @param additionalDetails - The additional details data to update.
+   * @param manager
    * @returns The updated additional details.
    */
   private async updateAdditionalDetails(
     profileId: number,
     additionalDetails: AdditionalDetailsDto,
+    manager: EntityManager,
   ): Promise<AdditionalDetails> {
-    let details = await this.additionalDetailsRepository.findOneBy({
+    let details = await manager.findOneBy(AdditionalDetails, {
       profile: { id: profileId },
     });
 
     if (!details) {
-      details = this.additionalDetailsRepository.create({
+      details = manager.create(AdditionalDetails, {
         profile: { id: profileId },
         ...additionalDetails,
       });
@@ -162,50 +163,67 @@ export class ProfileService {
       Object.assign(details, additionalDetails);
     }
 
-    return this.additionalDetailsRepository.save(details);
+    return manager.save(details);
   }
 
   /**
-   * Updates related entities for a profile.
-   * @param profileId - The ID of the profile.
-   * @param updateProfileDto - The profile update data.
+   * Updates the profile with the provided data.
+   *
+   * @param profile - The existing profile to update.
+   * @param updateProfileDto - The data to update the profile with.
+   * @returns The updated profile.
    */
-  async updateRelatedEntities(
-    profileId: number,
+  async updateProfile(
+    profile: Profile,
     updateProfileDto: UpdateProfileDto,
-  ): Promise<void> {
-    if (updateProfileDto.travel_preferences) {
-      await this.updateTravelPreferences(
-        profileId,
-        updateProfileDto.travel_preferences,
-      );
-    }
+  ): Promise<Profile> {
+    return this.dataSource.transaction(async (manager: EntityManager) => {
+      // Update related entities
+      if (updateProfileDto.travel_preferences) {
+        await this.updateTravelPreferences(
+          profile.id,
+          updateProfileDto.travel_preferences,
+          manager,
+        );
+      }
 
-    if (updateProfileDto.health_safety) {
-      await this.updateHealthSafety(profileId, updateProfileDto.health_safety);
-    }
+      if (updateProfileDto.health_safety) {
+        await this.updateHealthSafety(
+          profile.id,
+          updateProfileDto.health_safety,
+          manager,
+        );
+      }
 
-    if (updateProfileDto.personalization) {
-      await this.updatePersonalization(
-        profileId,
-        updateProfileDto.personalization,
-      );
-    }
+      if (updateProfileDto.personalization) {
+        await this.updatePersonalization(
+          profile.id,
+          updateProfileDto.personalization,
+          manager,
+        );
+      }
 
-    if (updateProfileDto.additional_details) {
-      await this.updateAdditionalDetails(
-        profileId,
-        updateProfileDto.additional_details,
-      );
-    }
-  }
+      if (updateProfileDto.additional_details) {
+        await this.updateAdditionalDetails(
+          profile.id,
+          updateProfileDto.additional_details,
+          manager,
+        );
+      }
 
-  /**
-   * Saves the profile to the repository.
-   * @param profile - The profile to save.
-   * @returns The saved profile.
-   */
-  save(profile: Profile): Promise<Profile> {
-    return this.profileRepository.save(profile);
+      // Update only the fields that are part of the Profile entity
+      const { first_name, last_name, gender, birth_date, onboarded } =
+        updateProfileDto;
+
+      Object.assign(profile, {
+        first_name,
+        last_name,
+        gender,
+        birth_date,
+        onboarded,
+      });
+
+      return await manager.save(profile);
+    });
   }
 }

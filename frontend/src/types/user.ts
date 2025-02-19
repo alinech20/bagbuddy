@@ -7,7 +7,7 @@ export enum TRAVEL_FREQUENCY {
   RARELY = 'Rarely',
 }
 
-export enum TRAVEL_TYPES {
+export enum TRAVEL_PURPOSES {
   BUSINESS = 'Business',
   LEISURE = 'Leisure',
   ADVENTURE = 'Adventure',
@@ -23,9 +23,9 @@ export enum TRAVEL_DESTINATIONS {
 }
 
 export interface ITravelPreferences {
-  travel_frequency?: TRAVEL_FREQUENCY
-  travel_types?: TRAVEL_TYPES[]
-  travel_destinations?: TRAVEL_DESTINATIONS[]
+  frequency?: TRAVEL_FREQUENCY
+  purpose?: TRAVEL_PURPOSES[]
+  destinations?: TRAVEL_DESTINATIONS[]
 }
 
 export enum TRANSPORT_TYPES {

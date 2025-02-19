@@ -67,26 +67,8 @@ export class ProfileController {
     const profile = await this.profileService.getProfileByFirebaseUid(uid);
     if (!profile) throw new NotFoundException('Profile not found');
 
-    if (profile.uid !== uid) throw new UnauthorizedException('Invalid uid');
-
-    // Update only the fields that are part of the Profile entity
-    const { first_name, last_name, gender, birth_date, onboarded } =
-      updateProfileDto;
-    Object.assign(profile, {
-      first_name,
-      last_name,
-      gender,
-      birth_date,
-      onboarded,
-    });
-
-    // Update related entities
-    await this.profileService.updateRelatedEntities(
-      profile.id,
-      updateProfileDto,
-    );
-
-    return this.profileService.save(profile);
+    // Update profile fields
+    return await this.profileService.updateProfile(profile, updateProfileDto);
   }
 
   /**

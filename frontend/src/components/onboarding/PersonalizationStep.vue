@@ -15,7 +15,7 @@ const { continueOnboarding, goBack } = useOnboardingStore()
 const nextStep = () => {
   continueOnboarding({
     favorite_activities: activities.value,
-    weather_preferences: weather.value,
+    weather_preference: weather.value,
   })
 }
 </script>

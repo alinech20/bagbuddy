@@ -35,6 +35,8 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
     debug(JSON.stringify(payload, null, 2))
 
     await updateOwn(payload)
+
+    user.value.onboarded = true
   }
 
   return { user, setUser, clearUser, updateUserProfile }
