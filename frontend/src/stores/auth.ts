@@ -15,6 +15,7 @@ import { useProfileService } from '@/services/profile.ts'
 import type { IUser } from '@/types/user.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
+import { useProfileMapper } from '@/utils/useProfileMapper.ts'
 
 export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const { setUser, clearUser } = useUserStore()
@@ -24,6 +25,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     register: registerService,
   } = useAuthService()
   const { getOwn } = useProfileService()
+  const { mapFetchResponseToUserInterface } = useProfileMapper()
 
   const { info, debug, error: logError } = useLogger()
   const token = ref('')
@@ -37,8 +39,10 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       debug(`Logged in as ${user.email}`)
       token.value = await user.getIdToken()
       const data = await getOwn()
+      const mappedResponse = mapFetchResponseToUserInterface(data)
+
       setUser({
-        ...data,
+        ...mappedResponse,
         firebase_data: user,
       })
     } else {
@@ -68,8 +72,10 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       token.value = await userCredentials.user.getIdToken()
 
       const data = await getOwn()
+      const mappedResponse = mapFetchResponseToUserInterface(data)
+
       const user: IUser = {
-        ...data,
+        ...mappedResponse,
         firebase_data: {
           ...userCredentials.user,
         },

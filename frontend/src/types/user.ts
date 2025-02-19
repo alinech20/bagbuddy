@@ -91,7 +91,7 @@ export enum ONBOARDING_STEPS {
 
 export interface IUser {
   uid: string
-  firebase_data: User
+  firebase_data?: User
   email: string
   status_id: number
   country_id?: TNullable<number>

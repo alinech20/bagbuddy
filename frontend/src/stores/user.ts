@@ -13,6 +13,7 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
   const setUser = (u: IUser) => {
     info('Setting user data')
     user.value = u
+    delete user.value.firebase_data // Keep this removed for now
   }
 
   const clearUser = () => {

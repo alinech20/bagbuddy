@@ -39,10 +39,26 @@ export class ProfileService {
   /**
    * Retrieves a profile by Firebase UID.
    * @param uid - The Firebase UID of the profile.
+   * @param fetchRelated - Whether to fetch related entities.
    * @returns The profile if found, otherwise null.
    */
-  getProfileByFirebaseUid(uid: string): Promise<Profile | null> {
-    return this.profileRepository.findOneBy({ uid });
+  getProfileByFirebaseUid(
+    uid: string,
+    fetchRelated: boolean = false,
+  ): Promise<Profile | null> {
+    const relations = fetchRelated
+      ? [
+          'travel_preferences',
+          'health_safety',
+          'travel_personalization',
+          'additional_details',
+        ]
+      : undefined;
+
+    return this.profileRepository.findOne({
+      where: { uid },
+      relations,
+    });
   }
 
   /**

@@ -40,7 +40,10 @@ export class ProfileController {
     const uid = (req.user as admin.auth.DecodedIdToken).uid;
     if (!uid) throw new UnauthorizedException('No uid found in request');
 
-    const profile = await this.profileService.getProfileByFirebaseUid(uid);
+    const profile = await this.profileService.getProfileByFirebaseUid(
+      uid,
+      true,
+    );
     if (!profile) throw new NotFoundException('Profile not found');
 
     return profile;
