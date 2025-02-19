@@ -47,9 +47,9 @@ router.beforeEach(async (to, _from, next) => {
   }
 
   // if authenticated and trying to access login or register, redirect to profile
-  const authPaths = ['Login', 'Register']
+  const authPages = ['Login', 'Register']
   debug(`Route name: ${to.name!.toString()}`)
-  if (authPaths.includes(to.name!.toString()) && isAuthenticated) {
+  if (authPages.includes(to.name!.toString()) && isAuthenticated) {
     return next({ name: 'My Profile' })
   }
 
