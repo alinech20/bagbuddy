@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
-import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { useDateFormat } from '@vueuse/core'
+import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
 
 const firstName = ref<string>()
 const lastName = ref<string>()
@@ -11,7 +11,7 @@ const birthDate = ref<Date>()
 const gender = ref<string>()
 const genderList = ['Male', 'Female']
 
-const { continueOnboarding } = useOnboardingStore()
+const { continueOnboarding } = useOnboardingLogic()
 
 const nextStep = () => {
   continueOnboarding({

@@ -15,6 +15,8 @@ export const PINIA_STORE_KEYS = {
   AUTH: 'auth',
   USER: 'user',
   ONBOARDING: 'onboarding',
+  LOADER: 'loader',
+  HTTP_REQUESTS: 'http-requests',
 }
 
 export const SNACKBAR_DURATION = 5000

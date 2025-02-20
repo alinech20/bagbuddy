@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useHttpRequestsStore } from '@/stores/http-requests.ts'
+import { computed } from 'vue'
 
-// TODO: move this to a store and implement logic to show/hide the loader
-const loading = ref(false)
-
-// Simulate a request
-// setTimeout(() => {
-//   loading.value = false
-// }, 3000)
+const { ongoingRequestsNumber } = storeToRefs(useHttpRequestsStore())
+const loading = computed(() => ongoingRequestsNumber.value !== 0)
 </script>
 
 <template>

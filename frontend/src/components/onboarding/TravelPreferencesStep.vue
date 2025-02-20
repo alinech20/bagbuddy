@@ -7,6 +7,7 @@ import {
 } from '@/types/user.ts'
 import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
+import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
 
 const frequency = ref<TRAVEL_FREQUENCY>()
 const frequencyItems = [...Object.values(TRAVEL_FREQUENCY)]
@@ -15,7 +16,8 @@ const typeItems = [...Object.values(TRAVEL_PURPOSES)]
 const destinations = ref<TRAVEL_DESTINATIONS[]>([])
 const destinationItems = [...Object.values(TRAVEL_DESTINATIONS)]
 
-const { continueOnboarding, goBack } = useOnboardingStore()
+const { goBack } = useOnboardingStore()
+const { continueOnboarding } = useOnboardingLogic()
 
 const nextStep = () => {
   continueOnboarding({
