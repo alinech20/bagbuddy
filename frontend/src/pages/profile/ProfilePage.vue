@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth.ts'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/stores/user.ts'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import BasicInfo from '@/components/profile/BasicInfo.vue'
+import UserPreferences from '@/components/profile/UserPreferences.vue'
 
-const { logout } = useAuthStore()
+const { user } = storeToRefs(useUserStore())
+const isOwn = computed(() => !useRoute().params.id)
 </script>
 
 <template>
-  <div @click="logout">logout</div>
+  <BasicInfo :user="user" />
+  <UserPreferences class="mt-4" :user="user" />
 </template>
-
-<style scoped lang="sass"></style>

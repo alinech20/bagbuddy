@@ -68,7 +68,7 @@ export class Profile {
   health_safety: HealthSafety;
 
   @OneToOne(() => TravelPersonalization, (pers) => pers.profile)
-  personalization: TravelPersonalization;
+  travel_personalization: TravelPersonalization;
 
   @OneToOne(() => AdditionalDetails, (details) => details.profile)
   additional_details: AdditionalDetails;

@@ -3,11 +3,13 @@ import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
 import { TRAVEL_COMPANIONS } from '@/types/user.ts'
 import { ref } from 'vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
+import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
 
 const companions = ref<TRAVEL_COMPANIONS[]>([])
 const companionsItems = [...Object.values(TRAVEL_COMPANIONS)]
 
-const { continueOnboarding, goBack } = useOnboardingStore()
+const { goBack } = useOnboardingStore()
+const { continueOnboarding } = useOnboardingLogic()
 
 const nextStep = () => {
   continueOnboarding({

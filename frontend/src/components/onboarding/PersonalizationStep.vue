@@ -3,6 +3,7 @@ import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
 import { PREFERRED_ACTIVITIES, WEATHER_PREFERENCES } from '@/types/user.ts'
 import { ref } from 'vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
+import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
 
 const activities = ref<PREFERRED_ACTIVITIES[]>([])
 const activitiesItems = [...Object.values(PREFERRED_ACTIVITIES)]
@@ -10,7 +11,8 @@ const activitiesItems = [...Object.values(PREFERRED_ACTIVITIES)]
 const weather = ref<WEATHER_PREFERENCES>()
 const weatherItems = [...Object.values(WEATHER_PREFERENCES)]
 
-const { continueOnboarding, goBack } = useOnboardingStore()
+const { goBack } = useOnboardingStore()
+const { continueOnboarding } = useOnboardingLogic()
 
 const nextStep = () => {
   continueOnboarding({

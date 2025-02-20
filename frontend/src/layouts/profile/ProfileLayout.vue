@@ -1,9 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ProfileHeader from '@/layouts/profile/ProfileHeader.vue'
+</script>
 
 <template>
-  <v-layout>
-    <main class="profile-layout__content">
-      <router-view />
-    </main>
-  </v-layout>
+  <ProfileHeader />
+  <v-main class="px-4 pb-8 mt-8">
+    <router-view />
+  </v-main>
 </template>

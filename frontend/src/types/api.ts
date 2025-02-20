@@ -4,8 +4,8 @@ interface IApiAuthParams {
   password: string
 }
 
-type TApiParams = IApiAuthParams
-type TApiQueryParams = any
+export type TApiParams = IApiAuthParams
+export type TApiQueryParams = any
 
 export interface IApiPath {
   url: string

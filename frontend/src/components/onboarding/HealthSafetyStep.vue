@@ -3,6 +3,7 @@ import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
 import { ref } from 'vue'
 import { TRANSPORT_TYPES } from '@/types/user.ts'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
+import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
 
 const allergies = ref<boolean>()
 const allergiesItems = [
@@ -19,7 +20,8 @@ const allergiesItems = [
 const transport = ref<TRANSPORT_TYPES>()
 const transportItems = [...Object.values(TRANSPORT_TYPES)]
 
-const { continueOnboarding, goBack } = useOnboardingStore()
+const { goBack } = useOnboardingStore()
+const { continueOnboarding } = useOnboardingLogic()
 
 const nextStep = () => {
   continueOnboarding({

@@ -44,6 +44,7 @@ export class ProfileController {
       uid,
       true,
     );
+
     if (!profile) throw new NotFoundException('Profile not found');
 
     return profile;

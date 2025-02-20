@@ -3,7 +3,7 @@ export const useProfileMapper = () => {
     const {
       travel_preferences,
       health_safety,
-      personalization,
+      travel_personalization,
       additional_details,
       ...rest
     } = data
@@ -13,7 +13,7 @@ export const useProfileMapper = () => {
       preferences: {
         travel_preferences,
         health_safety,
-        personalization,
+        travel_personalization,
         additional_details,
       },
     }

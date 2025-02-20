@@ -5,6 +5,7 @@ import { type BeforeFetchContext, createFetch } from '@vueuse/core'
 import { useLogger } from './useLogger'
 import { useAuthStore } from '@/stores/auth.ts'
 import { storeToRefs } from 'pinia'
+import { useHttpRequestsStore } from '@/stores/http-requests.ts'
 
 export const useApiRequest = (
   path: IApiPath | string,
@@ -13,6 +14,8 @@ export const useApiRequest = (
 ) => {
   // TODO: format error messages to a standardized structure
   const { token } = storeToRefs(useAuthStore())
+  const httpRequestsStore = useHttpRequestsStore()
+  const { addRequest, removeRequest } = httpRequestsStore
   const { debug, info, error } = useLogger()
   const { replaceEndpointPlaceholders, addQueryParams } = useApiRequestUtils()
 
@@ -40,6 +43,8 @@ export const useApiRequest = (
       async beforeFetch({ options }: BeforeFetchContext) {
         info('Before fetch hook')
 
+        addRequest()
+
         if (token.value && options.headers) {
           options.headers = {
             ...options.headers,
@@ -57,6 +62,12 @@ export const useApiRequest = (
           url: ctx.response?.url,
         }
 
+        removeRequest()
+
+        return ctx
+      },
+      async afterFetch(ctx) {
+        removeRequest()
         return ctx
       },
       timeout: API.TIMEOUT,

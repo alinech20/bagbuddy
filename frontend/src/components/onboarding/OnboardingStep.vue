@@ -4,11 +4,9 @@ import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { ONBOARDING_STEPS } from '@/types/user.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
-import { useAuthStore } from '@/stores/auth.ts'
 
 const { step } = storeToRefs(useOnboardingStore())
 const { updateUserProfile } = useUserStore()
-const { token } = storeToRefs(useAuthStore())
 
 const saveAndSkip = () => {
   updateUserProfile().then(() => {

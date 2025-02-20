@@ -77,7 +77,7 @@ export interface IAdditionalDetails {
 interface IUserPreferences {
   travel_preferences?: ITravelPreferences
   health_safety?: IHealthAndSafety
-  personalization?: ITravelPersonalization
+  travel_personalization?: ITravelPersonalization
   additional_details?: IAdditionalDetails
 }
 
@@ -96,8 +96,8 @@ export interface IUser {
   status_id: number
   country_id?: TNullable<number>
   gender?: TNullable<string>
-  first_name?: TNullable<string>
-  last_name?: TNullable<string>
+  first_name: string
+  last_name: string
   birth_date?: TNullable<string>
   preferences?: TNullable<IUserPreferences>
   id: number
