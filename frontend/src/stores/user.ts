@@ -49,8 +49,8 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
   }
 
   const saveBasicDetails = (details: {
-    firstName?: TNullable<string>
-    lastName?: TNullable<string>
+    firstName: string
+    lastName: string
     birthDate?: TNullable<string>
     gender?: TNullable<string>
   }) => {
@@ -72,7 +72,7 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
 
   const savePersonalization = (p: ITravelPersonalization) => {
     if (!user.value.preferences) user.value.preferences = {}
-    user.value.preferences.personalization = p
+    user.value.preferences.travel_personalization = p
   }
 
   const saveAdditionalDetails = (ad: IAdditionalDetails) => {

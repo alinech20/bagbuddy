@@ -5,9 +5,9 @@ import OnboardingHeader from '@/layouts/onboarding/OnboardingHeader.vue'
 <template>
   <v-layout>
     <OnboardingHeader />
-    <main class="onboarding-layout__content">
+    <v-main class="onboarding-layout__content">
       <router-view />
-    </main>
+    </v-main>
   </v-layout>
 </template>
 

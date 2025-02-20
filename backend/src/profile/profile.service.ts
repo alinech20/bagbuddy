@@ -211,10 +211,10 @@ export class ProfileService {
         );
       }
 
-      if (updateProfileDto.personalization) {
+      if (updateProfileDto.travel_personalization) {
         await this.updatePersonalization(
           profile.id,
-          updateProfileDto.personalization,
+          updateProfileDto.travel_personalization,
           manager,
         );
       }

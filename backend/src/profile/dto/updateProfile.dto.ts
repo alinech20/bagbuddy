@@ -87,7 +87,7 @@ export class UpdateProfileDto {
   @IsObject()
   @ValidateNested()
   @Type(() => TravelPersonalizationDto)
-  personalization?: TravelPersonalizationDto;
+  travel_personalization?: TravelPersonalizationDto;
 
   @IsOptional()
   @IsObject()
