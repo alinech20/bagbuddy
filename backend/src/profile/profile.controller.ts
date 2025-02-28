@@ -15,6 +15,8 @@ import * as admin from 'firebase-admin';
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 import { UpdateProfileDto } from './dto/updateProfile.dto';
 
+// TODO: replace the return type with dtos
+
 /**
  * ProfileController handles profile-related endpoints.
  * It includes methods to get and update the user's own profile.

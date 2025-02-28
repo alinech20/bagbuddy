@@ -17,3 +17,5 @@ export interface IProfile extends IProfileCreate {
   created_at: string;
   updated_at: string;
 }
+
+// TODO: use dtos instead of these interfaces
