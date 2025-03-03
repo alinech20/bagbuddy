@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class ReadCategoryDto {
+export class CategoryDto {
   @IsNumber()
   id: number;
 
@@ -37,6 +37,6 @@ export class ReadCategoryDto {
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => ReadCategoryDto)
-  subcategories?: ReadCategoryDto[];
+  @Type(() => CategoryDto)
+  subcategories?: CategoryDto[];
 }

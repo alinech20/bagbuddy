@@ -32,6 +32,9 @@ export class Category {
   @UpdateDateColumn({ type: 'timestamp', nullable: false })
   updated_at: string;
 
+  @Column()
+  parent_id: number;
+
   @ManyToOne(() => Category, (category) => category.subcategories, {
     nullable: true,
   })

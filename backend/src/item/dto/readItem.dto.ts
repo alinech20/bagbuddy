@@ -1,8 +1,8 @@
 import { IsDate, IsNumber, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ReadCategoryDto } from '../../category/dto/readCategory.dto';
+import { CategoryDto } from '../../category/dto/readCategory.dto';
 
-export class ReadItemDto {
+export class ItemDto {
   @IsNumber()
   id: number;
 
@@ -10,8 +10,8 @@ export class ReadItemDto {
   name: string;
 
   @ValidateNested()
-  @Type(() => ReadCategoryDto)
-  category: ReadCategoryDto;
+  @Type(() => CategoryDto)
+  category: CategoryDto;
 
   @IsDate()
   @Type(() => Date)

@@ -9,4 +9,11 @@ export class CategoryService {
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
   ) {}
+
+  async getCategoryById(id: number): Promise<Category | null> {
+    return this.categoryRepository.findOne({
+      where: { id },
+      relations: ['parent', 'subcategories'],
+    });
+  }
 }
