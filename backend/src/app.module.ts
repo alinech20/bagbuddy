@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProfileModule } from './profile/profile.module';
 import { CategoryModule } from './category/category.module';
 import { ItemModule } from './item/item.module';
+import { ListModule } from './list/list.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ItemModule } from './item/item.module';
     ProfileModule,
     CategoryModule,
     ItemModule,
+    ListModule,
   ],
   controllers: [AppController],
   providers: [AppService],
