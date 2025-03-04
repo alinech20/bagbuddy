@@ -20,8 +20,8 @@ export class AuthController {
   /**
    * Signs up a new user using email and password.
    * @param userDto - The DTO containing the user's email and password.
-   * @returns The created profile of the new user.
-   * @throws Error if there is an issue during user creation or profile creation.
+   * @returns The created default of the new user.
+   * @throws Error if there is an issue during user creation or default creation.
    */
   @UsePipes()
   @Post('/signup_email_password')

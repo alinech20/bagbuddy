@@ -18,7 +18,7 @@ const fullName = computed(() => {
 </script>
 
 <template>
-  <v-card width="360" variant="flat" class="mx-auto" color="secondary" border>
+  <v-card width="360" variant="flat" class="mx-auto" border>
     <template #title>{{ fullName }}</template>
     <!--    <v-card-title>-->
     <!--      <v-avatar-->

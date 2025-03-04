@@ -16,7 +16,7 @@ import { UpdateProfileDto } from './dto/updateProfile.dto';
 import { RegisterProfileDto } from './dto/createProfile.dto';
 
 /**
- * Service to manage profile-related operations.
+ * Service to manage default-related operations.
  */
 @Injectable()
 export class ProfileService {
@@ -27,9 +27,9 @@ export class ProfileService {
   ) {}
 
   /**
-   * Creates a new profile with the given UID and email.
-   * @param profile - The profile data to create.
-   * @returns The created profile.
+   * Creates a new default with the given UID and email.
+   * @param profile - The default data to create.
+   * @returns The created default.
    */
   async createProfileWithUidAndEmail(
     profile: RegisterProfileDto,
@@ -39,10 +39,10 @@ export class ProfileService {
   }
 
   /**
-   * Retrieves a profile by Firebase UID.
-   * @param uid - The Firebase UID of the profile.
+   * Retrieves a default by Firebase UID.
+   * @param uid - The Firebase UID of the default.
    * @param fetchRelated - Whether to fetch related entities.
-   * @returns The profile if found, otherwise null.
+   * @returns The default if found, otherwise null.
    */
   async getProfileByFirebaseUid(
     uid: string,
@@ -64,17 +64,17 @@ export class ProfileService {
   }
 
   /**
-   * Retrieves a profile by its ID.
-   * @param id - The ID of the profile.
-   * @returns The profile if found, otherwise null.
+   * Retrieves a default by its ID.
+   * @param id - The ID of the default.
+   * @returns The default if found, otherwise null.
    */
   async getProfileById(id: number): Promise<Profile | null> {
     return await this.profileRepository.findOneBy({ id });
   }
 
   /**
-   * Updates the travel preferences for a profile.
-   * @param profileId - The ID of the profile.
+   * Updates the travel preferences for a default.
+   * @param profileId - The ID of the default.
    * @param travelPreferencesDto - The travel preferences data to update.
    * @param manager
    * @returns The updated travel preferences.
@@ -101,8 +101,8 @@ export class ProfileService {
   }
 
   /**
-   * Updates the health and safety information for a profile.
-   * @param profileId - The ID of the profile.
+   * Updates the health and safety information for a default.
+   * @param profileId - The ID of the default.
    * @param healthSafetyDto - The health and safety data to update.
    * @param manager
    * @returns The updated health and safety information.
@@ -129,8 +129,8 @@ export class ProfileService {
   }
 
   /**
-   * Updates the travel personalization information for a profile.
-   * @param profileId - The ID of the profile.
+   * Updates the travel personalization information for a default.
+   * @param profileId - The ID of the default.
    * @param personalizationDto - The travel personalization data to update.
    * @param manager
    * @returns The updated travel personalization information.
@@ -157,8 +157,8 @@ export class ProfileService {
   }
 
   /**
-   * Updates the additional details for a profile.
-   * @param profileId - The ID of the profile.
+   * Updates the additional details for a default.
+   * @param profileId - The ID of the default.
    * @param additionalDetails - The additional details data to update.
    * @param manager
    * @returns The updated additional details.
@@ -185,11 +185,11 @@ export class ProfileService {
   }
 
   /**
-   * Updates the profile with the provided data.
+   * Updates the default with the provided data.
    *
-   * @param profile - The existing profile to update.
-   * @param updateProfileDto - The data to update the profile with.
-   * @returns The updated profile.
+   * @param profile - The existing default to update.
+   * @param updateProfileDto - The data to update the default with.
+   * @returns The updated default.
    */
   async updateProfile(
     profile: Profile,

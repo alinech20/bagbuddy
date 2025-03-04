@@ -37,7 +37,7 @@ const formatValue = (value: any) => {
 </script>
 
 <template>
-  <v-card width="360" variant="flat" class="mx-auto" color="secondary" border>
+  <v-card width="360" variant="flat" class="mx-auto" border>
     <template #title>Preferences</template>
     <v-card-text class="bg-background">
       <v-list class="bg-background">
@@ -55,7 +55,7 @@ const formatValue = (value: any) => {
               {{ formatValue(value) }}
             </v-list-item-subtitle>
           </v-list-item>
-          <v-divider class="my-4" />
+          <v-divider class="my-4" color="primary" />
         </section>
       </v-list>
     </v-card-text>
