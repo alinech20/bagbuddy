@@ -4,14 +4,16 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+import { ProfileDto } from '../../profile/dto/readProfile.dto';
 
 export class ListDto {
   @IsInt()
   id: number;
 
-  @IsInt()
-  profile_id: number;
+  @ValidateNested()
+  owner: ProfileDto;
 
   @IsString()
   @MaxLength(255)
