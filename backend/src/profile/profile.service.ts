@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, EntityManager, Repository } from 'typeorm';
-import { IProfileCreate } from './interfaces/profile';
 import { Profile } from './entities/Profile';
 import { TravelPreferences } from './entities/TravelPreferences';
 import { HealthSafety } from './entities/HealthSafety';
@@ -12,8 +11,9 @@ import {
   HealthSafetyDto,
   TravelPersonalizationDto,
   TravelPreferencesDto,
-  UpdateProfileDto,
-} from './dto/updateProfile.dto';
+} from './dto/other.dto';
+import { UpdateProfileDto } from './dto/updateProfile.dto';
+import { RegisterProfileDto } from './dto/createProfile.dto';
 
 /**
  * Service to manage profile-related operations.
@@ -31,9 +31,11 @@ export class ProfileService {
    * @param profile - The profile data to create.
    * @returns The created profile.
    */
-  createProfileWithUidAndEmail(profile: IProfileCreate): Promise<Profile> {
+  async createProfileWithUidAndEmail(
+    profile: RegisterProfileDto,
+  ): Promise<Profile> {
     const p = this.profileRepository.create(profile);
-    return this.profileRepository.save(p);
+    return await this.profileRepository.save(p);
   }
 
   /**
@@ -42,7 +44,7 @@ export class ProfileService {
    * @param fetchRelated - Whether to fetch related entities.
    * @returns The profile if found, otherwise null.
    */
-  getProfileByFirebaseUid(
+  async getProfileByFirebaseUid(
     uid: string,
     fetchRelated: boolean = false,
   ): Promise<Profile | null> {
@@ -55,7 +57,7 @@ export class ProfileService {
         ]
       : undefined;
 
-    return this.profileRepository.findOne({
+    return await this.profileRepository.findOne({
       where: { uid },
       relations,
     });
@@ -66,8 +68,8 @@ export class ProfileService {
    * @param id - The ID of the profile.
    * @returns The profile if found, otherwise null.
    */
-  getProfileById(id: number): Promise<Profile | null> {
-    return this.profileRepository.findOneBy({ id });
+  async getProfileById(id: number): Promise<Profile | null> {
+    return await this.profileRepository.findOneBy({ id });
   }
 
   /**
@@ -193,7 +195,7 @@ export class ProfileService {
     profile: Profile,
     updateProfileDto: UpdateProfileDto,
   ): Promise<Profile> {
-    return this.dataSource.transaction(async (manager: EntityManager) => {
+    return await this.dataSource.transaction(async (manager: EntityManager) => {
       // Update related entities
       if (updateProfileDto.travel_preferences) {
         await this.updateTravelPreferences(

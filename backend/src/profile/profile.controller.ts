@@ -8,12 +8,14 @@ import {
   Req,
   UnauthorizedException,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { Profile } from './entities/Profile';
 import * as admin from 'firebase-admin';
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 import { UpdateProfileDto } from './dto/updateProfile.dto';
+import { TransformInterceptor } from '../interceptors/transform.interceptor';
+import { ProfileDto } from './dto/readProfile.dto';
 
 /**
  * ProfileController handles profile-related endpoints.
@@ -23,6 +25,7 @@ import { UpdateProfileDto } from './dto/updateProfile.dto';
   path: 'profile',
   version: '1',
 })
+@UseInterceptors(new TransformInterceptor(ProfileDto))
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
@@ -35,7 +38,7 @@ export class ProfileController {
    */
   @Get('self/')
   @UseGuards(FirebaseAuthGuard)
-  public async getOwnProfile(@Req() req: Request): Promise<Profile> {
+  public async getOwnProfile(@Req() req: Request): Promise<ProfileDto> {
     // @ts-expect-error ts not knowing about custom added property
     const uid = (req.user as admin.auth.DecodedIdToken).uid;
     if (!uid) throw new UnauthorizedException('No uid found in request');
@@ -47,7 +50,11 @@ export class ProfileController {
 
     if (!profile) throw new NotFoundException('Profile not found');
 
-    return profile;
+    return {
+      ...profile,
+      created_at: new Date(profile.created_at),
+      updated_at: new Date(profile.updated_at),
+    };
   }
 
   /**
@@ -63,7 +70,7 @@ export class ProfileController {
   public async updateOwnProfile(
     @Req() req: Request,
     @Body() updateProfileDto: UpdateProfileDto,
-  ): Promise<Profile> {
+  ): Promise<ProfileDto> {
     // @ts-expect-error ts not knowing about custom added property
     const uid = (req.user as admin.auth.DecodedIdToken).uid;
     if (!uid) throw new UnauthorizedException('No uid found in request');
@@ -72,7 +79,16 @@ export class ProfileController {
     if (!profile) throw new NotFoundException('Profile not found');
 
     // Update profile fields
-    return await this.profileService.updateProfile(profile, updateProfileDto);
+    const res = await this.profileService.updateProfile(
+      profile,
+      updateProfileDto,
+    );
+
+    return {
+      ...res,
+      created_at: new Date(res.created_at),
+      updated_at: new Date(res.updated_at),
+    };
   }
 
   /**
@@ -85,13 +101,17 @@ export class ProfileController {
   @UseGuards(FirebaseAuthGuard)
   public async getProfile(
     @Param('profileId') profileId: string,
-  ): Promise<Profile> {
+  ): Promise<ProfileDto> {
     const id = Number.parseInt(profileId, 10);
     if (isNaN(id)) throw new NotFoundException('Invalid profile id');
 
     const profile = await this.profileService.getProfileById(id);
     if (!profile) throw new NotFoundException('Profile not found');
 
-    return profile;
+    return {
+      ...profile,
+      created_at: new Date(profile.created_at),
+      updated_at: new Date(profile.updated_at),
+    };
   }
 }

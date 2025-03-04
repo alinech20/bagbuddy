@@ -1,11 +1,15 @@
 import {
   IsBoolean,
-  IsObject,
+  IsDate,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { Country } from '../entities/Country';
 import {
   AdditionalDetailsDto,
   HealthSafetyDto,
@@ -13,45 +17,82 @@ import {
   TravelPreferencesDto,
 } from './other.dto';
 
-export class UpdateProfileDto {
-  @IsString()
-  first_name: string;
+class ProfileStatusDto {
+  @IsNotEmpty()
+  @IsNumber()
+  id: number;
 
+  @IsNotEmpty()
   @IsString()
-  last_name: string;
+  name: string;
+}
+
+export class ProfileDto {
+  @IsNotEmpty()
+  @IsNumber()
+  id: number;
+
+  @IsNotEmpty()
+  @IsString()
+  uid: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsOptional()
+  @IsString()
+  first_name?: string;
+
+  @IsOptional()
+  @IsString()
+  last_name?: string;
 
   @IsOptional()
   @IsString()
   gender?: string;
 
   @IsOptional()
-  @IsString()
+  @IsDate()
+  @Type(() => Date)
   birth_date?: Date;
 
   @IsOptional()
+  @ValidateNested()
+  @Type(() => Country)
+  country?: Country;
+
   @IsBoolean()
-  onboarded?: boolean;
+  onboarded: boolean;
+
+  @ValidateNested()
+  @Type(() => ProfileStatusDto)
+  status: ProfileStatusDto;
+
+  @IsDate()
+  @Type(() => Date)
+  created_at: Date;
+
+  @IsDate()
+  @Type(() => Date)
+  updated_at: Date;
 
   @IsOptional()
-  @IsObject()
   @ValidateNested()
   @Type(() => TravelPreferencesDto)
   travel_preferences?: TravelPreferencesDto;
 
   @IsOptional()
-  @IsObject()
   @ValidateNested()
   @Type(() => HealthSafetyDto)
   health_safety?: HealthSafetyDto;
 
   @IsOptional()
-  @IsObject()
   @ValidateNested()
   @Type(() => TravelPersonalizationDto)
   travel_personalization?: TravelPersonalizationDto;
 
   @IsOptional()
-  @IsObject()
   @ValidateNested()
   @Type(() => AdditionalDetailsDto)
   additional_details?: AdditionalDetailsDto;
