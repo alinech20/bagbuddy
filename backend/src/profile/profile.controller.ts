@@ -17,8 +17,6 @@ import { UpdateProfileDto } from './dto/updateProfile.dto';
 import { TransformInterceptor } from '../interceptors/transform.interceptor';
 import { ProfileDto } from './dto/readProfile.dto';
 
-// TODO: replace the return type with dtos
-
 /**
  * ProfileController handles profile-related endpoints.
  * It includes methods to get and update the user's own profile.

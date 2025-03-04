@@ -4,16 +4,19 @@ import {
   NotFoundException,
   Param,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
 import { Category } from './entities/Category';
+import { TransformInterceptor } from '../interceptors/transform.interceptor';
+import { CategoryDto } from './dto/readCategory.dto';
 
 @Controller({
-  path: 'category',
+  path: 'categories',
   version: '1',
 })
-// @UseInterceptors(new TransformInterceptor(CategoryDto))
+@UseInterceptors(new TransformInterceptor(CategoryDto))
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 

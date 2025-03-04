@@ -11,7 +11,7 @@ export class CategoryService {
   ) {}
 
   async getCategoryById(id: number): Promise<Category | null> {
-    return this.categoryRepository.findOne({
+    return await this.categoryRepository.findOne({
       where: { id },
       relations: ['parent', 'subcategories'],
     });

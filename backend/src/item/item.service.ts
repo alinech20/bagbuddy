@@ -9,4 +9,10 @@ export class ItemService {
     @InjectRepository(Item)
     private readonly itemRepository: Repository<Item>,
   ) {}
+
+  async getItemsByCategoryId(id: number): Promise<Item[] | null> {
+    return await this.itemRepository.find({
+      where: { category: { id } },
+    });
+  }
 }
