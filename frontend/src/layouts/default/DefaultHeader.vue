@@ -7,7 +7,7 @@ const toggleMenu = () => (showMenu.value = !showMenu.value)
 </script>
 
 <template>
-  <v-app-bar scroll-behavior="hide" elevation="2" color="secondary">
+  <v-app-bar scroll-behavior="hide" elevation="2" color="primary">
     <v-app-bar-nav-icon @click.stop="toggleMenu" />
     <v-toolbar-title>My Profile</v-toolbar-title>
     <v-spacer />

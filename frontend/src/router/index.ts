@@ -6,6 +6,7 @@ import { useLogger } from '@/composables/useLogger.ts'
 import { auth } from '@/config/firebase.ts'
 import { onAuthStateChanged } from 'firebase/auth'
 import { listsRoutes } from '@/router/lists.ts'
+import { useAuthStore } from '@/stores/auth.ts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,9 +31,12 @@ router.beforeEach(async (to, _from, next) => {
 
   await new Promise((resolve) => {
     debug('Setting up auth state listener in router guard')
-    const unsub = onAuthStateChanged(auth, (user) => {
+    const unsub = onAuthStateChanged(auth, async (user) => {
       debug('Auth state changed callback triggered')
       isAuthenticated = !!user
+
+      if (user) await useAuthStore().handleLogin(user)
+
       resolve(true)
       unsub()
     })
