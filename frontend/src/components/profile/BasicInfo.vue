@@ -18,40 +18,15 @@ const fullName = computed(() => {
 </script>
 
 <template>
-  <v-card width="360" variant="flat" class="mx-auto" border>
-    <template #title>{{ fullName }}</template>
-    <!--    <v-card-title>-->
-    <!--      <v-avatar-->
-    <!--        class="profile__photo"-->
-    <!--        color="primary"-->
-    <!--        size="100"-->
-    <!--        variant="elevated"-->
-    <!--      >-->
-    <!--        <span class="text-h4">{{ initials }}</span>-->
-    <!--      </v-avatar>-->
-    <!--      <section class="text-center">-->
-    <!--        {{ fullName }}-->
-    <!--      </section>-->
-    <!--    </v-card-title>-->
-    <v-card-text class="bg-background">
-      <v-list class="bg-background">
-        <v-list-item>
-          <v-list-item-title>Email</v-list-item-title>
-          <v-list-item-subtitle>{{ props.user.email }}</v-list-item-subtitle>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title>Birthdate</v-list-item-title>
-          <v-list-item-subtitle>
-            {{ props.user.birth_date }}
-          </v-list-item-subtitle>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title>Gender</v-list-item-title>
-          <v-list-item-subtitle>{{ props.user.gender }}</v-list-item-subtitle>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
-  </v-card>
+  <v-sheet color="background" class="text-center">
+    <v-avatar size="150" variant="tonal">
+      <v-icon size="100">mdi-account</v-icon>
+    </v-avatar>
+    <h2 class="text-h4 mt-4 font-weight-medium">{{ fullName }}</h2>
+    <v-chip prepend-icon="mdi-email" class="mt-2 px-6">
+      {{ props.user.email }}
+    </v-chip>
+  </v-sheet>
 </template>
 
 <style lang="sass" scoped>
