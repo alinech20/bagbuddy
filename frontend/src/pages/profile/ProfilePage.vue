@@ -12,5 +12,5 @@ const isOwn = computed(() => !useRoute().params.id)
 
 <template>
   <BasicInfo class="mt-8" :user="user" />
-  <UserPreferences class="mt-4" :user="user" />
+  <UserPreferences :user="user" />
 </template>
