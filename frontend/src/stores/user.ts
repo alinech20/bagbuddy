@@ -11,6 +11,8 @@ import type {
 import { useProfileService } from '@/services/profile.ts'
 import { useLogger } from '@/composables/useLogger.ts'
 import type { TNullable } from '@/types/helpers.ts'
+import { useProfileMapper } from '@/utils/useProfileMapper.ts'
+import type { User } from 'firebase/auth'
 
 export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
   const { info, debug } = useLogger()
@@ -29,7 +31,7 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
   }
 
   const updateUserProfile = async () => {
-    info('Updating user profile')
+    info('Updating user default')
     if (!Object.keys(user.value).length) return
 
     const payload = {
@@ -80,6 +82,19 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
     user.value.preferences.additional_details = ad
   }
 
+  const getAndSetUser = async (u: User) => {
+    const data = await useProfileService().getOwn()
+    const mappedResponse =
+      useProfileMapper().mapFetchResponseToUserInterface(data)
+
+    setUser({
+      ...mappedResponse,
+      firebase_data: u,
+    })
+
+    return user.value
+  }
+
   return {
     user,
     setUser,
@@ -90,5 +105,6 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
     saveHealthSafety,
     savePersonalization,
     saveAdditionalDetails,
+    getAndSetUser,
   }
 })

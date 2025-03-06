@@ -12,7 +12,6 @@ import {
 import { auth } from '@/config/firebase.ts'
 import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useProfileService } from '@/services/profile.ts'
-import type { IUser } from '@/types/user.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
 import { useProfileMapper } from '@/utils/useProfileMapper.ts'
@@ -37,19 +36,17 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
 
     if (user) {
       debug(`Logged in as ${user.email}`)
-      token.value = await user.getIdToken()
-      const data = await getOwn()
-      const mappedResponse = mapFetchResponseToUserInterface(data)
-
-      setUser({
-        ...mappedResponse,
-        firebase_data: user,
-      })
+      await handleLogin(user)
     } else {
       debug('Logged out')
       token.value = ''
     }
   })
+
+  const handleLogin = async (user: User) => {
+    token.value = await user.getIdToken()
+    return await useUserStore().getAndSetUser(user)
+  }
 
   const login = async (email: string, password: string, verify = false) => {
     info('Logging in...')
@@ -69,18 +66,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       // const data = await loginService(email, password)
       // if (!data) return
 
-      token.value = await userCredentials.user.getIdToken()
-
-      const data = await getOwn()
-      const mappedResponse = mapFetchResponseToUserInterface(data)
-
-      const user: IUser = {
-        ...mappedResponse,
-        firebase_data: {
-          ...userCredentials.user,
-        },
-      }
-      setUser(user)
+      const user = await handleLogin(userCredentials.user)
 
       if (!user.onboarded) return await router.push({ name: 'Onboarding' })
       await router.push({ name: 'My Profile' })
@@ -117,5 +103,5 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     }
   }
 
-  return { isAuthenticated, token, login, logout, register }
+  return { isAuthenticated, token, handleLogin, login, logout, register }
 })

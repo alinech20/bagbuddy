@@ -28,7 +28,14 @@ export class ListController {
     const id = Number.parseInt(profile_id, 10);
     if (isNaN(id)) throw new NotFoundException('Invalid profile ID');
 
-    return await this.listService.getUserLists(id);
+    return (await this.listService.getUserLists(id)).map((list) => ({
+      ...list,
+      owner: {
+        ...list.owner,
+        created_at: new Date(list.owner.created_at),
+        updated_at: new Date(list.owner.updated_at),
+      },
+    }));
   }
 
   @Get(':id')
@@ -40,6 +47,13 @@ export class ListController {
     const list = await this.listService.getListById(listId);
     if (!list) throw new NotFoundException('List not found');
 
-    return list;
+    return {
+      ...list,
+      owner: {
+        ...list.owner,
+        created_at: new Date(list.owner.created_at),
+        updated_at: new Date(list.owner.updated_at),
+      },
+    };
   }
 }

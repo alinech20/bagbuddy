@@ -1,31 +1,27 @@
 <script setup lang="ts">
 import type { IUser } from '@/types/user.ts'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useTextFormatter } from '@/utils/useTextFormatter.ts'
 
 const props = defineProps<{
   user: IUser
 }>()
-const { snakeToWords } = useTextFormatter()
 
 const preferences = computed(() => {
-  return {
-    ...props.user.preferences,
-  }
+  return props.user.preferences || []
 })
 
 const fieldsToSkip = ['id', 'profile_id', 'created_at', 'updated_at']
-const filterItems = (pref: Record<string, any>) => {
-  const objToReturn = { ...pref }
-  Object.keys(objToReturn).forEach((key) => {
-    if (fieldsToSkip.includes(key)) {
-      delete objToReturn[key]
-    }
+const filterItems = (pref: any) => {
+  const filtered = { ...pref }
+  fieldsToSkip.forEach((field) => {
+    if (filtered[field]) delete filtered[field]
   })
-  return objToReturn
+
+  return filtered
 }
 
-const formatValue = (value: any) => {
+const formatValue = (value: any): string => {
   if (typeof value === 'boolean') {
     return value ? 'Yes' : 'No'
   }
@@ -34,36 +30,31 @@ const formatValue = (value: any) => {
   }
   return value
 }
+
+const { snakeToWords } = useTextFormatter()
+const panel = ref<string>('')
 </script>
 
 <template>
-  <v-card width="360" variant="flat" class="mx-auto" color="secondary" border>
-    <template #title>Preferences</template>
-    <v-card-text class="bg-background">
-      <v-list class="bg-background">
-        <section
-          class="pref-wrapper"
-          v-for="(data, pref) in preferences"
-          :key="pref"
-        >
-          <span class="text-body-1 font-weight-medium">{{
-            snakeToWords(pref)
-          }}</span>
-          <v-list-item v-for="(value, key) in filterItems(data!)" :key="key">
-            <v-list-item-title>{{ snakeToWords(key) }}</v-list-item-title>
-            <v-list-item-subtitle>
-              {{ formatValue(value) }}
-            </v-list-item-subtitle>
-          </v-list-item>
-          <v-divider class="my-4" />
-        </section>
-      </v-list>
-    </v-card-text>
-  </v-card>
-</template>
+  <article>
+    <h3 class="text-h6 font-weight-medium mt-4 mb-2 ml-6">Preferences</h3>
 
-<style lang="sass">
-.pref-wrapper:last-of-type
-  .v-divider
-    display: none
-</style>
+    <v-expansion-panels v-model="panel" elevation="2">
+      <v-expansion-panel
+        v-for="(value, key) in preferences"
+        :key="key"
+        :title="snakeToWords(key)"
+        color="surface"
+      >
+        <v-expansion-panel-text class="bg-background">
+          <v-list bg-color="background">
+            <v-list-item v-for="(v, k) in filterItems(value)" :key="k">
+              <v-list-item-title>{{ snakeToWords(k) }}</v-list-item-title>
+              <v-list-item-subtitle>{{ formatValue(v) }}</v-list-item-subtitle>
+            </v-list-item>
+          </v-list>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </article>
+</template>

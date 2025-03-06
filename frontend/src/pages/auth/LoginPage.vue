@@ -34,7 +34,7 @@ const loginUser = () => {
     validate-on="submit lazy"
     @submit.prevent="loginUser"
   >
-    <v-card width="360" variant="flat" border>
+    <v-card max-width="600" width="100%" variant="flat" border>
       <template #title>Login</template>
 
       <v-card-text class="bg-background pt-4">
