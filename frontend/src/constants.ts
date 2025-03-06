@@ -9,6 +9,9 @@ export const API = {
   PROFILE: {
     OWN: 'profile/self',
   },
+  CATEGORIES: {
+    ALL: 'categories',
+  },
 }
 
 export const PINIA_STORE_KEYS = {
@@ -18,6 +21,7 @@ export const PINIA_STORE_KEYS = {
   LOADER: 'loader',
   HTTP_REQUESTS: 'http-requests',
   LIST: 'list',
+  CATEGORY: 'category',
 }
 
 export const SNACKBAR_DURATION = 5000

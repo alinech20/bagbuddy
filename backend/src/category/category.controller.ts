@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { FirebaseAuthGuard } from '../firebase/firebase-auth.guard';
-import { Category } from './entities/Category';
 import { TransformInterceptor } from '../interceptors/transform.interceptor';
 import { CategoryDto } from './dto/readCategory.dto';
 
@@ -20,11 +19,17 @@ import { CategoryDto } from './dto/readCategory.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Get()
+  @UseGuards(FirebaseAuthGuard)
+  public async getAllCategories(): Promise<CategoryDto[]> {
+    return this.categoryService.getAllCategories();
+  }
+
   @Get(':catId')
   @UseGuards(FirebaseAuthGuard)
   public async getCategoryById(
     @Param('catId') catId: string,
-  ): Promise<Category> {
+  ): Promise<CategoryDto> {
     const id = Number.parseInt(catId, 10);
     if (isNaN(id)) throw new NotFoundException('Invalid category ID');
 
