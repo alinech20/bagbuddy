@@ -11,10 +11,8 @@ import {
 } from 'firebase/auth'
 import { auth } from '@/config/firebase.ts'
 import { PINIA_STORE_KEYS } from '@/constants.ts'
-import { useProfileService } from '@/services/profile.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
-import { useProfileMapper } from '@/utils/useProfileMapper.ts'
 
 export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const { setUser, clearUser } = useUserStore()
@@ -23,9 +21,6 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     logout: logoutService,
     register: registerService,
   } = useAuthService()
-  const { getOwn } = useProfileService()
-  const { mapFetchResponseToUserInterface } = useProfileMapper()
-
   const { info, debug, error: logError } = useLogger()
   const token = ref('')
   const isAuthenticated = computed(() => !!token.value)
@@ -43,9 +38,16 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     }
   })
 
+  const handleLoginProcessing = ref(false)
+
   const handleLogin = async (user: User) => {
+    if (handleLoginProcessing.value) return
+
+    handleLoginProcessing.value = true
     token.value = await user.getIdToken()
-    return await useUserStore().getAndSetUser(user)
+    const loggedUser = await useUserStore().getAndSetUser(user)
+    handleLoginProcessing.value = false
+    return loggedUser
   }
 
   const login = async (email: string, password: string, verify = false) => {

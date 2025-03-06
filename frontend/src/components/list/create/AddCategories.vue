@@ -4,12 +4,13 @@ import { storeToRefs } from 'pinia'
 import { useCategoryService } from '@/services/category.ts'
 import { onMounted, ref } from 'vue'
 import CreateListStep from '@/components/list/create/CreateListStep.vue'
+import type { ICategory } from '@/types/categories.ts'
 
 const categoryStore = useCategoryStore()
 const { categories } = storeToRefs(categoryStore)
 const { setCategories } = categoryStore
 
-const selectedCategories = ref<number[]>([])
+const selectedCategories = ref<ICategory[]>([])
 
 onMounted(async () => {
   if (!categories.value.length)
@@ -22,8 +23,14 @@ onMounted(async () => {
     title="Organize!"
     subtitle="Which types of items will you pack?"
   >
+    {{ selectedCategories }}
     <v-chip-group v-model="selectedCategories" multiple column>
-      <v-chip color="secondary" v-for="cat in categories" :key="cat.id">
+      <v-chip
+        color="secondary"
+        v-for="cat in categories"
+        :key="cat.id"
+        :value="cat"
+      >
         <span>{{ cat.icon }}</span>
         <span class="ml-2">{{ cat.name }}</span>
       </v-chip>
