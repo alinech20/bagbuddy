@@ -15,7 +15,7 @@ const steps = [
     component: ListDetails,
   },
   {
-    title: 'Categorize',
+    title: 'Organize',
     component: AddCategories,
   },
   {
