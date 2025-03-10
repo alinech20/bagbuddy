@@ -69,6 +69,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       // if (!data) return
 
       const user = await handleLogin(userCredentials.user)
+      if (!user) return
 
       if (!user.onboarded) return await router.push({ name: 'Onboarding' })
       await router.push({ name: 'My Profile' })

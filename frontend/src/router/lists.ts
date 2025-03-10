@@ -6,7 +6,7 @@ export const listsRoutes = [
     component: () => import('@/layouts/default/DefaultLayout.vue'),
     children: [
       {
-        path: '/create',
+        path: 'create',
         name: 'Create Packing List',
         component: () => import('@/pages/lists/CreateListPage.vue'),
         meta: { requiresAuth: true },

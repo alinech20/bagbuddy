@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useListStore } from '@/stores/list.ts'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import ListDetails from '@/components/list/create/ListDetails.vue'
 import AddCategories from '@/components/list/create/AddCategories.vue'
-
-const listStore = useListStore()
-const { resetCurrentList } = listStore
-const { currentList } = storeToRefs(listStore)
 
 const steps = [
   {
@@ -41,16 +35,13 @@ const prev = () => {
     currentStepNo.value--
   }
 }
-
-onMounted(() => resetCurrentList())
 </script>
 
 <template>
   <v-stepper
-    class="w-100 top-0 left-0"
+    class="w-100"
     elevation="0"
     bg-color="background"
-    position="absolute"
     v-model="currentStepNo"
   >
     <v-stepper-header>

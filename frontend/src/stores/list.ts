@@ -7,11 +7,15 @@ import type { TNullableOptional } from '@/types/helpers.ts'
 export const useListStore = defineStore(PINIA_STORE_KEYS.LIST, () => {
   const currentList = ref<TNullableOptional<IList>>()
   const resetCurrentList = () => {
-    currentList.value = null
+    currentList.value = {} as IList
   }
+
+  const newList = ref<IList>({} as IList)
 
   return {
     currentList,
     resetCurrentList,
+
+    newList,
   }
 })

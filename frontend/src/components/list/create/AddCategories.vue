@@ -23,7 +23,6 @@ onMounted(async () => {
     title="Organize!"
     subtitle="Which types of items will you pack?"
   >
-    {{ selectedCategories }}
     <v-chip-group v-model="selectedCategories" multiple column>
       <v-chip
         color="secondary"
