@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import ListDetails from '@/components/list/create/ListDetails.vue'
 import AddCategories from '@/components/list/create/AddCategories.vue'
+import AddSubcategories from '@/components/list/create/AddSubcategories.vue'
 
 const steps = [
   {
@@ -11,6 +12,10 @@ const steps = [
   {
     title: 'Organize',
     component: AddCategories,
+  },
+  {
+    title: 'Structure',
+    component: AddSubcategories,
   },
   {
     title: 'Populate',

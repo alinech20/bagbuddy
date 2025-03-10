@@ -1,4 +1,5 @@
 import type { IUser } from '@/types/user.ts'
+import type { IListCategory } from '@/types/categories.ts'
 
 export interface IList {
   id: number
@@ -10,4 +11,5 @@ export interface IList {
   template_id?: number
   created_at: string
   updated_at: string
+  categories: IListCategory[]
 }
