@@ -17,6 +17,9 @@ export class Item {
   @Column({ length: 128 })
   name: string;
 
+  @Column()
+  category_id: number;
+
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })
   category: Category;
