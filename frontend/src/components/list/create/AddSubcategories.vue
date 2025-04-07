@@ -59,7 +59,7 @@ const updateList = (val: IListCategory[]) => {
             :key="subcat.id"
             :value="subcat"
           >
-            <span class="ml-2">{{ subcat.name }}</span>
+            <span>{{ subcat.name }}</span>
           </v-chip>
         </v-chip-group>
       </v-card-text>

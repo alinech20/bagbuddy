@@ -3,6 +3,10 @@ import { ref } from 'vue'
 import ListDetails from '@/components/list/create/ListDetails.vue'
 import AddCategories from '@/components/list/create/AddCategories.vue'
 import AddSubcategories from '@/components/list/create/AddSubcategories.vue'
+import AddItems from '@/components/list/create/AddItems.vue'
+import { useListStore } from '@/stores/list.ts'
+
+const { saveNewList } = useListStore()
 
 const steps = [
   {
@@ -19,11 +23,7 @@ const steps = [
   },
   {
     title: 'Populate',
-    component: null,
-  },
-  {
-    title: 'Review',
-    component: null,
+    component: AddItems,
   },
 ]
 
@@ -31,8 +31,10 @@ const currentStepNo = ref(1)
 
 const next = () => {
   if (currentStepNo.value < steps.length) {
-    currentStepNo.value++
+    return currentStepNo.value++
   }
+
+  saveNewList()
 }
 
 const prev = () => {
@@ -48,6 +50,8 @@ const prev = () => {
     elevation="0"
     bg-color="background"
     v-model="currentStepNo"
+    prev-text="back"
+    :next-text="currentStepNo < steps.length ? 'next' : 'save'"
   >
     <v-stepper-header>
       <v-stepper-item
@@ -63,6 +67,10 @@ const prev = () => {
         :is="steps[currentStepNo - 1].component"
       />
     </v-stepper-window>
-    <v-stepper-actions @click:next="next" @click:prev="prev" />
+    <v-stepper-actions
+      :disabled="false"
+      @click:next="next"
+      @click:prev="prev"
+    />
   </v-stepper>
 </template>

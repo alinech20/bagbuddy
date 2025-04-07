@@ -11,11 +11,15 @@ export const useListStore = defineStore(PINIA_STORE_KEYS.LIST, () => {
   }
 
   const newList = ref<IList>({} as IList)
+  const saveNewList = () => {
+    console.log(newList.value)
+  }
 
   return {
     currentList,
     resetCurrentList,
 
     newList,
+    saveNewList,
   }
 })
