@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsBoolean,
   IsInt,
   IsOptional,
@@ -7,6 +8,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ProfileDto } from '../../profile/dto/readProfile.dto';
+import { ListItemDto } from './readListItem.dto';
 
 export class ListDto {
   @IsInt()
@@ -33,6 +35,10 @@ export class ListDto {
   @IsInt()
   @IsOptional()
   template_id?: number;
+
+  @ValidateNested({ each: true })
+  @IsArray()
+  items: ListItemDto[];
 
   @IsString()
   created_at: string;

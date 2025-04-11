@@ -1,13 +1,17 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   NotFoundException,
   Param,
   Post,
+  Req,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import * as admin from 'firebase-admin';
 import { ListDto } from './dto/readList.dto';
 import { TransformInterceptor } from '../interceptors/transform.interceptor';
 import { ListService } from './list.service';
@@ -45,6 +49,46 @@ export class ListController {
 
     return (await this.listService.getUserLists(id)).map((list) => ({
       ...list,
+      items: list.list_items.map((li) => ({
+        ...li,
+        item: {
+          ...li.item,
+          created_at: new Date(li.item.created_at),
+          updated_at: new Date(li.item.updated_at),
+        },
+      })),
+      owner: {
+        ...list.owner,
+        created_at: new Date(list.owner.created_at),
+        updated_at: new Date(list.owner.updated_at),
+      },
+    }));
+  }
+
+  /**
+   * Retrieves the lists of the currently authenticated user.
+   *
+   * @param req - The request object containing the authenticated user's information.
+   * @returns {Promise<ListDto[]>} A promise that resolves to an array of `ListDto`.
+   * @throws UnauthorizedException If the user is not authenticated.
+   */
+  @Get('own/')
+  @UseGuards(FirebaseAuthGuard)
+  public async getOwnLists(@Req() req: Request): Promise<ListDto[]> {
+    // @ts-expect-error ts not knowing about custom added property
+    const uid = (req.user as admin.auth.DecodedIdToken).uid;
+    if (!uid) throw new UnauthorizedException('No uid found in request');
+
+    return (await this.listService.getOwnLists(uid)).map((list) => ({
+      ...list,
+      items: list.list_items.map((li) => ({
+        ...li,
+        item: {
+          ...li.item,
+          created_at: new Date(li.item.created_at),
+          updated_at: new Date(li.item.updated_at),
+        },
+      })),
       owner: {
         ...list.owner,
         created_at: new Date(list.owner.created_at),
@@ -72,6 +116,14 @@ export class ListController {
 
     return {
       ...list,
+      items: list.list_items.map((li) => ({
+        ...li,
+        item: {
+          ...li.item,
+          created_at: new Date(li.item.created_at),
+          updated_at: new Date(li.item.updated_at),
+        },
+      })),
       owner: {
         ...list.owner,
         created_at: new Date(list.owner.created_at),
@@ -85,9 +137,18 @@ export class ListController {
   @UseGuards(FirebaseAuthGuard)
   public async saveList(@Body() createList: CreateListDto): Promise<ListDto> {
     const list = await this.listService.saveList(createList);
+    if (!list) throw new BadRequestException('Error creating list');
 
     return {
       ...list,
+      items: list.list_items.map((li) => ({
+        ...li,
+        item: {
+          ...li.item,
+          created_at: new Date(li.item.created_at),
+          updated_at: new Date(li.item.updated_at),
+        },
+      })),
       owner: {
         ...list.owner,
         created_at: new Date(list.owner.created_at),

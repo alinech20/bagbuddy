@@ -1,4 +1,13 @@
-import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreateListItemDto } from './createListItem.dto';
 
 export class CreateListDto {
   @IsInt()
@@ -17,4 +26,10 @@ export class CreateListDto {
   @IsInt()
   @IsOptional()
   template_id?: number;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateListItemDto)
+  @IsOptional()
+  items?: CreateListItemDto[];
 }

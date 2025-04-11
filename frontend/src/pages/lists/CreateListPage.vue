@@ -23,15 +23,6 @@ onMounted(() => resetCurrentList())
         </div>
         <v-btn class="mt-4 float-right" color="primary">Save</v-btn>
       </section>
-      <section>
-        <!--        Popular categories -->
-        <!--        chips with add option -->
-      </section>
-      <section>
-        <!--        List added categories -->
-        <!--        Button to add items under each category -->
-        <!--        Option to minimize each category to save vertical space -->
-      </section>
     </v-form>
   </v-sheet>
 </template>

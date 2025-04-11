@@ -4,10 +4,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Profile } from '../../profile/entities/Profile';
+import { ListItem } from './ListItem';
 
 @Entity({ schema: 'items', name: 'lists' })
 export class List {
@@ -39,6 +41,9 @@ export class List {
   @ManyToOne(() => List, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'template_id' })
   template: List;
+
+  @OneToMany(() => ListItem, (listItem) => listItem.list)
+  list_items: ListItem[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: string;
