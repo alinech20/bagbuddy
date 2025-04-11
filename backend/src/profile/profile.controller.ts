@@ -80,7 +80,7 @@ export class ProfileController {
     const profile = await this.profileService.getProfileByFirebaseUid(uid);
     if (!profile) throw new NotFoundException('Profile not found');
 
-    // Update default fields
+    // Update profile fields
     const res = await this.profileService.updateProfile(
       profile,
       updateProfileDto,
