@@ -31,6 +31,7 @@ export class ProfileController {
 
   /**
    * Get the profile of the currently authenticated user.
+   *
    * @param req - The request object containing the authenticated user's information.
    * @returns The profile of the authenticated user.
    * @throws UnauthorizedException if the user is not authenticated.
@@ -59,6 +60,7 @@ export class ProfileController {
 
   /**
    * Update the profile of the currently authenticated user.
+   *
    * @param req - The request object containing the authenticated user's information.
    * @param updateProfileDto - The DTO containing the profile update data.
    * @returns The updated profile of the authenticated user.

@@ -43,7 +43,7 @@ describe('useUserStore', () => {
     expect(store.user).toEqual({})
   })
 
-  it('updates user profile correctly', async () => {
+  it('updates user default correctly', async () => {
     const store = useUserStore()
     store.user = {
       first_name: 'John',

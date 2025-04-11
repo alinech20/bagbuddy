@@ -26,10 +26,10 @@ export class Category {
   @Column({ default: true })
   active: boolean;
 
-  @CreateDateColumn({ type: 'timestamp', nullable: false })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: string;
 
-  @UpdateDateColumn({ type: 'timestamp', nullable: false })
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: string;
 
   @Column()
