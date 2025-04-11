@@ -132,7 +132,6 @@ export class ListController {
     };
   }
 
-  // TODO: save list items in lists_items; use transaction
   @Post()
   @UseGuards(FirebaseAuthGuard)
   public async saveList(@Body() createList: CreateListDto): Promise<ListDto> {
