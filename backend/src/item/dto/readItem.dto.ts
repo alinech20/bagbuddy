@@ -1,4 +1,10 @@
-import { IsDate, IsNumber, IsString, ValidateNested } from 'class-validator';
+import {
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { CategoryDto } from '../../category/dto/readCategory.dto';
 
@@ -20,4 +26,8 @@ export class ItemDto {
   @IsDate()
   @Type(() => Date)
   updated_at: Date;
+
+  @IsOptional()
+  @IsNumber()
+  category_id?: number;
 }
