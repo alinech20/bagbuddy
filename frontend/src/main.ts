@@ -20,3 +20,4 @@ app.mount('#app')
 // TODO: Keep list of packing lists for the current user
 // TODO: when creating list, add it to the list of lists
 // TODO: quick overview of the whole project for refactoring/optimization
+// TODO: do something after list has been added

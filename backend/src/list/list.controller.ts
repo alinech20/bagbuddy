@@ -121,7 +121,6 @@ export class ListController {
   @UseGuards(FirebaseAuthGuard)
   public async saveList(@Body() createList: CreateListDto): Promise<ListDto> {
     const list = await this.listService.saveList(createList);
-    console.log(JSON.stringify(list, null, 2));
     if (!list) throw new BadRequestException('Error creating list');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

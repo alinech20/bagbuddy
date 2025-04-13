@@ -23,6 +23,7 @@ const getCategoryItems = (id: number) => {
 }
 
 const updateList = (val: IItem[]) => {
+  if (val.length === 0) return (newList.value.items.length = 0)
   if (!newList.value.items) newList.value.items = []
 
   newList.value.items = newList.value.items.filter((item) => {
