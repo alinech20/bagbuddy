@@ -1,10 +1,10 @@
 // will replace these
-interface IApiAuthParams {
-  email: string
-  password: string
+
+interface IApiItemsParams {
+  cat_id: number
 }
 
-export type TApiParams = IApiAuthParams
+export type TApiParams = IApiItemsParams
 export type TApiQueryParams = any
 
 export interface IApiPath {

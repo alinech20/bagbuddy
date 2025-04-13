@@ -1,4 +1,3 @@
-// backend/src/list/dto/createListItem.dto.ts
 import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class CreateListItemDto {
@@ -6,7 +5,8 @@ export class CreateListItemDto {
   item_id: number;
 
   @IsInt()
-  priority_id: number;
+  @IsOptional()
+  priority_id?: number;
 
   @IsInt()
   @IsOptional()
@@ -23,10 +23,6 @@ export class CreateListItemDto {
   @IsBoolean()
   @IsOptional()
   packed?: boolean;
-
-  @IsBoolean()
-  @IsOptional()
-  prepared?: boolean;
 
   @IsBoolean()
   @IsOptional()
