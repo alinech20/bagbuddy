@@ -37,7 +37,7 @@ const panel = ref<string>('')
 
 <template>
   <article>
-    <h3 class="text-h6 font-weight-medium mt-4 mb-2 ml-6">Preferences</h3>
+    <h3 class="text-h6 mt-4 mb-2 ml-6">Preferences</h3>
 
     <v-expansion-panels v-model="panel" elevation="2">
       <v-expansion-panel

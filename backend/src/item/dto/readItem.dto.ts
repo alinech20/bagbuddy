@@ -1,4 +1,9 @@
-import { IsDate, IsNumber, IsString, ValidateNested } from 'class-validator';
+import {
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { CategoryDto } from '../../category/dto/readCategory.dto';
 
@@ -13,11 +18,13 @@ export class ItemDto {
   @Type(() => CategoryDto)
   category: CategoryDto;
 
-  @IsDate()
-  @Type(() => Date)
-  created_at: Date;
+  @IsString()
+  created_at: string;
 
-  @IsDate()
-  @Type(() => Date)
-  updated_at: Date;
+  @IsString()
+  updated_at: string;
+
+  @IsOptional()
+  @IsNumber()
+  category_id?: number;
 }

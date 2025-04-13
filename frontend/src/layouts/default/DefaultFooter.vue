@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import router from '@/router'
+import { ref } from 'vue'
 
 const navItems = [
   { title: 'List', icon: 'mdi-playlist-plus', to: 'Create Packing List' },
   { title: 'Profile', icon: 'mdi-account', to: 'My Profile' },
 ]
+
+const active = ref(
+  navItems.findIndex((item) => item.to === router.currentRoute.value.name),
+)
 
 const navigateTo = (name: string) => {
   router.push({ name })
@@ -12,7 +17,7 @@ const navigateTo = (name: string) => {
 </script>
 
 <template>
-  <v-bottom-navigation bg-color="primary">
+  <v-bottom-navigation v-model="active" bg-color="primary">
     <v-btn
       v-for="{ title, icon, to } in navItems"
       :key="to"

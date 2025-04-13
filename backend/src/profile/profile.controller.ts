@@ -18,8 +18,8 @@ import { TransformInterceptor } from '../interceptors/transform.interceptor';
 import { ProfileDto } from './dto/readProfile.dto';
 
 /**
- * ProfileController handles default-related endpoints.
- * It includes methods to get and update the user's own default.
+ * ProfileController handles profile-related endpoints.
+ * It includes methods to get and update the user's own profile.
  */
 @Controller({
   path: 'profile',
@@ -30,11 +30,12 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   /**
-   * Get the default of the currently authenticated user.
+   * Get the profile of the currently authenticated user.
+   *
    * @param req - The request object containing the authenticated user's information.
-   * @returns The default of the authenticated user.
+   * @returns The profile of the authenticated user.
    * @throws UnauthorizedException if the user is not authenticated.
-   * @throws NotFoundException if the default is not found.
+   * @throws NotFoundException if the profile is not found.
    */
   @Get('self/')
   @UseGuards(FirebaseAuthGuard)
@@ -58,12 +59,13 @@ export class ProfileController {
   }
 
   /**
-   * Update the default of the currently authenticated user.
+   * Update the profile of the currently authenticated user.
+   *
    * @param req - The request object containing the authenticated user's information.
-   * @param updateProfileDto - The DTO containing the default update data.
-   * @returns The updated default of the authenticated user.
-   * @throws UnauthorizedException if the user is not authenticated or authorized to update the default.
-   * @throws NotFoundException if the default is not found.
+   * @param updateProfileDto - The DTO containing the profile update data.
+   * @returns The updated profile of the authenticated user.
+   * @throws UnauthorizedException if the user is not authenticated or authorized to update the profile.
+   * @throws NotFoundException if the profile is not found.
    */
   @Patch('self/')
   @UseGuards(FirebaseAuthGuard)
@@ -78,7 +80,7 @@ export class ProfileController {
     const profile = await this.profileService.getProfileByFirebaseUid(uid);
     if (!profile) throw new NotFoundException('Profile not found');
 
-    // Update default fields
+    // Update profile fields
     const res = await this.profileService.updateProfile(
       profile,
       updateProfileDto,
@@ -92,10 +94,10 @@ export class ProfileController {
   }
 
   /**
-   * Get the default by default ID.
-   * @param profileId - The ID of the default to retrieve.
-   * @returns The default with the specified ID.
-   * @throws NotFoundException if the default ID is invalid or the default is not found.
+   * Get the profile by profile ID.
+   * @param profileId - The ID of the profile to retrieve.
+   * @returns The profile with the specified ID.
+   * @throws NotFoundException if the profile ID is invalid or the profile is not found.
    */
   @Get(':profileId')
   @UseGuards(FirebaseAuthGuard)
@@ -103,7 +105,7 @@ export class ProfileController {
     @Param('profileId') profileId: string,
   ): Promise<ProfileDto> {
     const id = Number.parseInt(profileId, 10);
-    if (isNaN(id)) throw new NotFoundException('Invalid default id');
+    if (isNaN(id)) throw new NotFoundException('Invalid profile id');
 
     const profile = await this.profileService.getProfileById(id);
     if (!profile) throw new NotFoundException('Profile not found');

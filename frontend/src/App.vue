@@ -3,7 +3,7 @@ import CustomLoader from '@/components/CustomLoader.vue'
 </script>
 
 <template>
-  <v-app class="bagbuddy">
+  <v-app>
     <router-view />
     <CustomLoader />
   </v-app>

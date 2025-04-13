@@ -12,7 +12,7 @@ export const useApiRequest = (
   options = {},
   noHeaders = false,
 ) => {
-  // TODO: format error messages to a standardized structure
+  // TODO: format error messages to a standardized structure (IApiCallError)
   const { token } = storeToRefs(useAuthStore())
   const httpRequestsStore = useHttpRequestsStore()
   const { addRequest, removeRequest } = httpRequestsStore
