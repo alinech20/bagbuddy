@@ -42,17 +42,14 @@ export class ListItem {
   packed: boolean;
 
   @Column({ type: 'boolean', default: false })
-  prepared: boolean;
-
-  @Column({ type: 'boolean', default: false })
   bought: boolean;
 
   @Column({ type: 'text', nullable: true })
   notes: string;
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: string;
 
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updated_at: string;
 }

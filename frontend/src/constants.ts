@@ -16,6 +16,9 @@ export const API = {
     ALL: 'items',
     BY_CATEGORY_ID: 'items/category/{cat_id}',
   },
+  LISTS: {
+    SAVE: 'lists',
+  },
 }
 
 export const PINIA_STORE_KEYS = {

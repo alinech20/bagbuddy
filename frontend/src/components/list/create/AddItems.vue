@@ -5,7 +5,7 @@ import { useItemStore } from '@/stores/item.ts'
 import { useItemService } from '@/services/item.ts'
 import { useListStore } from '@/stores/list.ts'
 import CreateListStep from '@/components/list/create/CreateListStep.vue'
-import type { IListItem } from '@/types/items.ts'
+import type { IItem } from '@/types/items.ts'
 
 const itemStore = useItemStore()
 const { items } = storeToRefs(itemStore)
@@ -22,7 +22,7 @@ const getCategoryItems = (id: number) => {
   return items.value.filter((i) => i.category_id === id)
 }
 
-const updateList = (val: IListItem[]) => {
+const updateList = (val: IItem[]) => {
   if (!newList.value.items) newList.value.items = []
 
   newList.value.items = newList.value.items.filter((item) => {
@@ -62,7 +62,7 @@ onBeforeMount(async () => {
             :key="item.id"
             :value="item"
           >
-            <span class="ml-2">{{ item.name }}</span>
+            <span>{{ item.name }}</span>
           </v-chip>
         </v-chip-group>
       </v-card-text>

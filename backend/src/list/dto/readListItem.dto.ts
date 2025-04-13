@@ -1,5 +1,12 @@
-import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { ItemDto } from '../../item/dto/readItem.dto';
+import { Type } from 'class-transformer';
 
 export class ListItemDto {
   @IsInt()
@@ -21,15 +28,19 @@ export class ListItemDto {
   packed: boolean;
 
   @IsBoolean()
-  prepared: boolean;
-
-  @IsBoolean()
   bought: boolean;
 
   @IsString()
   @IsOptional()
   notes?: string;
 
-  // Include the item data
+  @ValidateNested()
+  @Type(() => ItemDto)
   item: ItemDto;
+
+  @IsString()
+  created_at: string;
+
+  @IsString()
+  updated_at: string;
 }

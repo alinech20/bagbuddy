@@ -85,7 +85,10 @@ export class ListService {
         await manager.save(listItems);
       }
 
-      return this.getListById(newList.id);
+      return await manager.findOne(List, {
+        where: { id: newList.id },
+        relations: ['owner', 'template', 'list_items', 'list_items.item'],
+      });
     });
   }
 }

@@ -49,19 +49,14 @@ export class ListController {
 
     return (await this.listService.getUserLists(id)).map((list) => ({
       ...list,
-      items: list.list_items.map((li) => ({
-        ...li,
-        item: {
-          ...li.item,
-          created_at: new Date(li.item.created_at),
-          updated_at: new Date(li.item.updated_at),
-        },
-      })),
       owner: {
         ...list.owner,
         created_at: new Date(list.owner.created_at),
         updated_at: new Date(list.owner.updated_at),
       },
+      items: list.list_items.map((item) => ({
+        ...item,
+      })),
     }));
   }
 
@@ -81,19 +76,14 @@ export class ListController {
 
     return (await this.listService.getOwnLists(uid)).map((list) => ({
       ...list,
-      items: list.list_items.map((li) => ({
-        ...li,
-        item: {
-          ...li.item,
-          created_at: new Date(li.item.created_at),
-          updated_at: new Date(li.item.updated_at),
-        },
-      })),
       owner: {
         ...list.owner,
         created_at: new Date(list.owner.created_at),
         updated_at: new Date(list.owner.updated_at),
       },
+      items: list.list_items.map((item) => ({
+        ...item,
+      })),
     }));
   }
 
@@ -116,19 +106,14 @@ export class ListController {
 
     return {
       ...list,
-      items: list.list_items.map((li) => ({
-        ...li,
-        item: {
-          ...li.item,
-          created_at: new Date(li.item.created_at),
-          updated_at: new Date(li.item.updated_at),
-        },
-      })),
       owner: {
         ...list.owner,
         created_at: new Date(list.owner.created_at),
         updated_at: new Date(list.owner.updated_at),
       },
+      items: list.list_items.map((item) => ({
+        ...item,
+      })),
     };
   }
 
@@ -136,20 +121,17 @@ export class ListController {
   @UseGuards(FirebaseAuthGuard)
   public async saveList(@Body() createList: CreateListDto): Promise<ListDto> {
     const list = await this.listService.saveList(createList);
+    console.log(JSON.stringify(list, null, 2));
     if (!list) throw new BadRequestException('Error creating list');
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { profile_id, owner, template, list_items: items, ...rest } = list;
+
     return {
-      ...list,
-      items: list.list_items.map((li) => ({
-        ...li,
-        item: {
-          ...li.item,
-          created_at: new Date(li.item.created_at),
-          updated_at: new Date(li.item.updated_at),
-        },
-      })),
+      ...rest,
+      items,
       owner: {
-        ...list.owner,
+        ...owner,
         created_at: new Date(list.owner.created_at),
         updated_at: new Date(list.owner.updated_at),
       },

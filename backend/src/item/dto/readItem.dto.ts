@@ -1,5 +1,4 @@
 import {
-  IsDate,
   IsNumber,
   IsOptional,
   IsString,
@@ -19,13 +18,11 @@ export class ItemDto {
   @Type(() => CategoryDto)
   category: CategoryDto;
 
-  @IsDate()
-  @Type(() => Date)
-  created_at: Date;
+  @IsString()
+  created_at: string;
 
-  @IsDate()
-  @Type(() => Date)
-  updated_at: Date;
+  @IsString()
+  updated_at: string;
 
   @IsOptional()
   @IsNumber()
