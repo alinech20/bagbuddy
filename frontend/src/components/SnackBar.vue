@@ -10,9 +10,11 @@ const errorList = ref<ISnackBarError[]>([])
 
 errorBus.on((error) => {
   errorList.value.push(error)
-  const errorIndex = errorList.value.length - 1
   setTimeout(() => {
-    errorList.value.splice(errorIndex, 1)
+    errorList.value.splice(
+      errorList.value.findIndex((e) => e === error),
+      1,
+    )
   }, error.duration)
 })
 </script>
