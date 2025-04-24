@@ -28,9 +28,11 @@ const steps = [
 ]
 
 const currentStepNo = ref(1)
+const lastAction = ref<'next' | 'prev' | ''>('')
 
 const next = () => {
   if (currentStepNo.value < steps.length) {
+    lastAction.value = 'next'
     return currentStepNo.value++
   }
 
@@ -39,6 +41,7 @@ const next = () => {
 
 const prev = () => {
   if (currentStepNo.value > 1) {
+    lastAction.value = 'prev'
     currentStepNo.value--
   }
 }
@@ -65,6 +68,9 @@ const prev = () => {
       <component
         v-if="steps[currentStepNo - 1].component"
         :is="steps[currentStepNo - 1].component"
+        :from="lastAction"
+        @prev="prev"
+        @next="next"
       />
     </v-stepper-window>
     <v-stepper-actions

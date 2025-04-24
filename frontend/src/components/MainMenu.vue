@@ -49,5 +49,3 @@ const menuItems = [
     </v-list>
   </v-navigation-drawer>
 </template>
-
-<style scoped lang="sass"></style>
