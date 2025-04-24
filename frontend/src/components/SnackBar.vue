@@ -23,8 +23,8 @@ errorBus.on((error) => {
   <article class="snackbar-container" v-if="errorList.length > 0">
     <v-snackbar
       class="ma-2"
-      v-for="(error, index) in errorList"
-      :key="index"
+      v-for="error in errorList"
+      :key="error.msg"
       :color="error.style === ERROR_SEVERITY.CRITICAL ? 'error' : error.style"
       :model-value="!!error"
     >
