@@ -13,7 +13,6 @@ app.use(router)
 
 app.mount('#app')
 
-// TODO: Add loaders for all requests
 // TODO: Display error messages in the UI
 // TODO: Skip list creation step if no data (e.g. no subcategories)
 // TODO: Keep list of packing lists for the current user
