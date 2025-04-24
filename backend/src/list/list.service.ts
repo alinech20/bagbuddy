@@ -25,7 +25,7 @@ export class ListService {
   async getUserLists(profileId: number): Promise<List[]> {
     return await this.listRepository.find({
       where: { profile_id: profileId },
-      relations: ['template'],
+      relations: ['owner', 'template', 'list_items', 'list_items.item'],
     });
   }
 
@@ -38,7 +38,7 @@ export class ListService {
   async getOwnLists(uid: string): Promise<List[]> {
     return await this.listRepository.find({
       where: { owner: { uid } },
-      relations: ['template'],
+      relations: ['owner', 'template', 'list_items', 'list_items.item'],
     });
   }
 

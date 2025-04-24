@@ -56,7 +56,7 @@ export const useApiRequest = (
         return { options }
       },
       async onFetchError(ctx) {
-        ctx.error = handleError(ctx, ctx.data?.detail)
+        ctx.error = handleError(ctx, ctx.data?.message)
         removeRequest()
         return ctx
       },
