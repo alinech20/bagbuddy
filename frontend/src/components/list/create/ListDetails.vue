@@ -12,7 +12,7 @@ const { newList } = storeToRefs(listStore)
     title="Let's get started!"
     subtitle="What is this list about?"
   >
-    <v-text-field v-model="newList.name" label="Name" required />
+    <v-text-field v-model="newList.name" label="Name" />
     <v-textarea
       v-model="newList.description"
       class="mt-4"

@@ -2,9 +2,13 @@
 import CreateListStep from '@/components/list/create/CreateListStep.vue'
 import { storeToRefs } from 'pinia'
 import { useListStore } from '@/stores/list.ts'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { IListCategory } from '@/types/categories.ts'
 
+const props = defineProps<{
+  from: 'next' | 'prev'
+}>()
+const emit = defineEmits(['next', 'prev'])
 const { newList } = storeToRefs(useListStore())
 
 const topLevelCategories = computed(() => {
@@ -32,6 +36,10 @@ const updateList = (val: IListCategory[]) => {
     })
     .concat(subcategories.value)
 }
+
+onMounted(() => {
+  if (!topLevelCategoriesWithSubcategories.value.length) emit(props.from)
+})
 </script>
 
 <template>
@@ -66,5 +74,3 @@ const updateList = (val: IListCategory[]) => {
     </v-card>
   </CreateListStep>
 </template>
-
-<style scoped lang="sass"></style>

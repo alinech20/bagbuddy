@@ -18,3 +18,4 @@ app.mount('#app')
 // TODO: when creating list, add it to the list of lists
 // TODO: quick overview of the whole project for refactoring/optimization
 // TODO: do something after list has been added
+// TODO: make list title required (check on save and go to first step if not filled)
