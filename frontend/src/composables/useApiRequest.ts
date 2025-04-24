@@ -6,17 +6,18 @@ import { useLogger } from './useLogger'
 import { useAuthStore } from '@/stores/auth.ts'
 import { storeToRefs } from 'pinia'
 import { useHttpRequestsStore } from '@/stores/http-requests.ts'
+import { useErrorHandler } from '@/utils/useErrorHandler.ts'
 
 export const useApiRequest = (
   path: IApiPath | string,
   options = {},
   noHeaders = false,
 ) => {
-  // TODO: format error messages to a standardized structure (IApiCallError)
   const { token } = storeToRefs(useAuthStore())
   const httpRequestsStore = useHttpRequestsStore()
   const { addRequest, removeRequest } = httpRequestsStore
-  const { debug, info, error } = useLogger()
+  const { debug, trace } = useLogger()
+  const { handleError } = useErrorHandler()
   const { replaceEndpointPlaceholders, addQueryParams } = useApiRequestUtils()
 
   let endpoint: string
@@ -33,7 +34,7 @@ export const useApiRequest = (
 
     debug(`Final endpoint value: ${endpoint}`)
   } catch (e) {
-    error(e as string)
+    handleError(e, 'Unable to create API request')
     return
   }
 
@@ -41,7 +42,7 @@ export const useApiRequest = (
     baseUrl,
     options: {
       async beforeFetch({ options }: BeforeFetchContext) {
-        info('Before fetch hook')
+        trace('Before fetch hook')
 
         addRequest()
 
@@ -55,18 +56,12 @@ export const useApiRequest = (
         return { options }
       },
       async onFetchError(ctx) {
-        ctx.error = {
-          code: ctx.response?.status,
-          title: ctx.response?.statusText,
-          message: ctx.data?.detail,
-          url: ctx.response?.url,
-        }
-
+        ctx.error = handleError(ctx, ctx.data?.detail)
         removeRequest()
-
         return ctx
       },
       async afterFetch(ctx) {
+        trace('After fetch hook')
         removeRequest()
         return ctx
       },

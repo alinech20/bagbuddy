@@ -1,10 +1,7 @@
 import { useApiRequest } from '@/composables/useApiRequest.ts'
 import { API } from '@/constants.ts'
-import { useLogger } from '@/composables/useLogger.ts'
 
 export const useAuthService = () => {
-  const { error: logError } = useLogger()
-
   const login = async (email: string, password: string) => {
     try {
       const request = useApiRequest({
@@ -15,7 +12,8 @@ export const useAuthService = () => {
       if (!request) return
       const { data, error } = await request.post().json()
 
-      if (error.value) return logError(JSON.stringify(error.value))
+      // error is handled in useApiRequest
+      if (error.value) return
 
       return data.value
     } catch (error: any) {
@@ -29,7 +27,8 @@ export const useAuthService = () => {
       if (!request) return
       const { error } = await request.post().json()
 
-      if (error.value) return logError(JSON.stringify(error.value))
+      // error is handled in useApiRequest
+      if (error.value) return
 
       return true
     } catch (error: any) {
@@ -49,7 +48,8 @@ export const useAuthService = () => {
       if (!request) return
       const { data, error } = await request.post().json()
 
-      if (error.value) return logError(JSON.stringify(error.value))
+      // error is handled in useApiRequest
+      if (error.value) return
 
       return data.value
     } catch (error: any) {

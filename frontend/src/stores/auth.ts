@@ -13,6 +13,7 @@ import { auth } from '@/config/firebase.ts'
 import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
+import { useErrorHandler } from '@/utils/useErrorHandler.ts'
 
 export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const { setUser, clearUser } = useUserStore()
@@ -21,7 +22,8 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     logout: logoutService,
     register: registerService,
   } = useAuthService()
-  const { info, debug, error: logError } = useLogger()
+  const { trace, info, debug } = useLogger()
+  const { handleError } = useErrorHandler()
   const token = ref('')
   const isAuthenticated = computed(() => !!token.value)
 
@@ -33,7 +35,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       debug(`Logged in as ${user.email}`)
       await handleLogin(user)
     } else {
-      debug('Logged out')
+      info('Logged out')
       token.value = ''
     }
   })
@@ -41,6 +43,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const handleLoginProcessing = ref(false)
 
   const handleLogin = async (user: User) => {
+    trace('Handling login...')
     if (handleLoginProcessing.value) return
 
     handleLoginProcessing.value = true
@@ -51,7 +54,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   }
 
   const login = async (email: string, password: string, verify = false) => {
-    info('Logging in...')
+    trace('Logging in...')
     try {
       const userCredentials = await signInWithEmailAndPassword(
         auth,
@@ -60,7 +63,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       )
 
       if (verify || !userCredentials.user.emailVerified) {
-        info('Sending verification email...')
+        trace('Sending verification email...')
         await sendEmailVerification(userCredentials.user)
       }
 
@@ -74,12 +77,12 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       if (!user.onboarded) return await router.push({ name: 'Onboarding' })
       await router.push({ name: 'My Profile' })
     } catch (error: any) {
-      logError(error.message)
+      handleError(error.message)
     }
   }
 
   const logout = async () => {
-    info('Logging out...')
+    trace('Logging out...')
     try {
       await signOut(auth)
 
@@ -90,19 +93,19 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       token.value = ''
       await router.push({ name: 'Login' })
     } catch (error: any) {
-      logError(JSON.stringify(error))
+      handleError(JSON.stringify(error))
     }
   }
 
   const register = async (email: string, password: string) => {
-    info('Registering...')
+    trace('Registering...')
     try {
       const data = await registerService(email, password)
       if (!data) return
 
       await login(email, password, true)
     } catch (error: any) {
-      logError(JSON.stringify(error))
+      handleError(JSON.stringify(error))
     }
   }
 

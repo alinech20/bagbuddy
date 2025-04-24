@@ -1,20 +1,16 @@
-import { BUS_EVENTS } from '@/constants'
-import type { IApiCallError } from '@/types/errors'
+import type { TError } from '@/types/errors'
 import type { TNullable } from '@/types/helpers'
-import type { ISnackBarMessage } from '@/types/snackbar'
 import { useLogFormatter } from '@/utils/useLogFormatter'
-import { useEventBus } from '@vueuse/core'
 import log, { type Logger, type LogLevelNames } from 'loglevel'
 
 export const useLogger = () => {
-  const snackbar = useEventBus<ISnackBarMessage>(BUS_EVENTS.SNACKBAR)
   let instance: TNullable<Logger> = null
 
   if (!instance) {
     instance = log.getLogger('root')
 
     if (import.meta.env.PROD) instance.setLevel('warn')
-    else instance.setLevel('trace')
+    else instance.setLevel('debug')
   }
 
   const setLevel = (level: LogLevelNames) => {
@@ -22,7 +18,6 @@ export const useLogger = () => {
   }
 
   const {
-    formatApiError,
     formatError,
     formatTraceMessage,
     formatDebugMessage,
@@ -45,22 +40,13 @@ export const useLogger = () => {
     instance.warn(msg)
   }
 
-  const error = (error: IApiCallError | string, display = true) => {
-    const formattedError =
-      typeof error === 'string' ? formatError(error) : formatApiError(error)
-    instance.error(formattedError)
+  const error = (error: TError | string) => {
+    const formattedError = formatError(error)
 
-    if (display) {
-      const userError =
-        typeof error === 'string'
-          ? error
-          : `Error ${error.code} ${error.title}: ${error.url}`
+    if (typeof formattedError === 'string')
+      return instance.error(formattedError)
 
-      snackbar.emit({
-        msg: userError,
-        style: 'error',
-      })
-    }
+    instance.error(formattedError.message, formattedError.data)
   }
 
   return {

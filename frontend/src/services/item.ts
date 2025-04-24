@@ -3,34 +3,40 @@ import { API } from '@/constants.ts'
 
 export const useItemService = () => {
   const getItemsByCategory = async (categoryId: number) => {
-    const request = useApiRequest({
-      url: API.ITEMS.BY_CATEGORY_ID,
-      params: {
-        cat_id: categoryId,
-      },
-    })
+    try {
+      const request = useApiRequest({
+        url: API.ITEMS.BY_CATEGORY_ID,
+        params: {
+          cat_id: categoryId,
+        },
+      })
 
-    if (!request) return
-    const { data, error } = await request.get().json()
+      if (!request) return
+      const { data, error } = await request.get().json()
 
-    if (error.value) {
-      throw new Error(error.value)
+      // error is handled in useApiRequest
+      if (error.value) return
+
+      return data.value
+    } catch (error: any) {
+      throw new Error(error)
     }
-
-    return data.value
   }
 
   const getAllItems = async () => {
-    const request = useApiRequest(API.ITEMS.ALL)
+    try {
+      const request = useApiRequest(API.ITEMS.ALL)
 
-    if (!request) return
-    const { data, error } = await request.get().json()
+      if (!request) return
+      const { data, error } = await request.get().json()
 
-    if (error.value) {
-      throw new Error(error.value)
+      // error is handled in useApiRequest
+      if (error.value) return
+
+      return data.value
+    } catch (error: any) {
+      throw new Error(error)
     }
-
-    return data.value
   }
 
   return {

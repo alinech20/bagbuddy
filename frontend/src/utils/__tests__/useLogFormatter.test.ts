@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { useLogFormatter } from '@/utils/useLogFormatter'
-import type { IApiCallError } from '@/types/errors.ts'
+import type { IApiError } from '@/types/errors.ts'
 
 describe('useLogFormatter', () => {
   const {
@@ -17,7 +17,7 @@ describe('useLogFormatter', () => {
       title: 'Not Found',
       url: 'https://api.example.com/resource',
       message: 'Resource not found',
-    } as IApiCallError
+    } as IApiError
 
     const result = formatApiError(error)
 

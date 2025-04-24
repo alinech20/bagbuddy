@@ -15,23 +15,23 @@ import { useProfileMapper } from '@/utils/useProfileMapper.ts'
 import type { User } from 'firebase/auth'
 
 export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
-  const { info, debug } = useLogger()
+  const { trace, debug } = useLogger()
   const user = ref<IUser>({} as IUser)
   const { updateOwn } = useProfileService()
 
   const setUser = (u: IUser) => {
-    info('Setting user data')
+    trace('Setting user data')
     user.value = u
     delete user.value.firebase_data // Keep this removed for now
   }
 
   const clearUser = () => {
-    info('Clearing user data')
+    trace('Clearing user data')
     user.value = {} as IUser
   }
 
   const updateUserProfile = async () => {
-    info('Updating user default')
+    trace('Updating user default')
     if (!Object.keys(user.value).length) return
 
     const payload = {

@@ -4,7 +4,12 @@ interface IApiItemsParams {
   cat_id: number
 }
 
-export type TApiParams = IApiItemsParams
+interface IApiAuthParams {
+  email: string
+  password: string
+}
+
+export type TApiParams = IApiItemsParams | IApiAuthParams
 export type TApiQueryParams = any
 
 export interface IApiPath {
