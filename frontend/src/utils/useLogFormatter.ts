@@ -1,41 +1,65 @@
-import type { IApiCallError } from '@/types/errors'
+import type { IApiError, TError } from '@/types/errors'
 
 export const useLogFormatter = () => {
   const getCurrentTimestamp = () =>
     new Date().toISOString().replace('T', ' ').replace('Z', '')
 
-  const formatApiError = (error: IApiCallError) => {
-    return (
-      `${getCurrentTimestamp()} ${error.code} ${error.title} ` +
-      `Error occured at ${error.url}`
-    )
-  }
+  const formatApiError = (error: IApiError) => ({
+    timestamp: error.timestamp,
+    url: error.url,
+    path: error.path,
+    method: error.method,
+    status: error.status,
+    type: error.type,
+    severity: error.severity,
+    message: error.technical.message,
+    context: error.context,
+  })
 
-  const formatError = (error: string) => {
-    if (!error.length) return 'formatError got empty error'
-    return `${getCurrentTimestamp()} Error occured: ${error}`
+  const formatError = (error: string | TError) => {
+    if (typeof error === 'string') {
+      return `${getCurrentTimestamp()} ❌ ERROR: ${error}`
+    }
+
+    if ('status' in error) {
+      return {
+        // eslint-disable-next-line max-len
+        message: `${getCurrentTimestamp()} ❌ ERROR [${error.type.toUpperCase()}]:`,
+        data: formatApiError(error),
+      }
+    }
+
+    return {
+      // eslint-disable-next-line max-len
+      message: `${getCurrentTimestamp()} ❌ ERROR: [${error.severity.toUpperCase()}]`,
+      data: {
+        title: error.user.title,
+        message: error.user.message,
+      },
+    }
   }
 
   const formatTraceMessage = (msg: string) => {
-    if (!msg.length) return 'formatTraceMessage got empty message'
     return `${getCurrentTimestamp()} TRACE: ${msg}`
   }
 
   const formatDebugMessage = (msg: string) => {
-    if (!msg.length) return 'formatDebugMessage got empty message'
-    return `DEBUG: ${msg}`
+    return `${getCurrentTimestamp()} 🔍 DEBUG: ${msg}`
   }
 
   const formatInfoMessage = (msg: string) => {
-    if (!msg.length) return 'formatInfoMessage got empty message'
-    return `INFO: ${msg}`
+    return `${getCurrentTimestamp()} ℹ️ INFO: ${msg}`
+  }
+
+  const formatWarnMessage = (msg: string) => {
+    return `${getCurrentTimestamp()} ⚠️ WARNING: ${msg}`
   }
 
   return {
-    formatApiError,
     formatError,
     formatTraceMessage,
     formatDebugMessage,
     formatInfoMessage,
+    formatWarnMessage,
   }
 }

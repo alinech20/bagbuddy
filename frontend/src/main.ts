@@ -13,7 +13,6 @@ app.use(router)
 
 app.mount('#app')
 
-// TODO: Add error handling for all requests
 // TODO: Add loaders for all requests
 // TODO: Display error messages in the UI
 // TODO: Skip list creation step if no data (e.g. no subcategories)

@@ -2,10 +2,10 @@ import { useLogger } from '@/composables/useLogger'
 import type { IApiPath } from '@/types/api'
 
 export const useApiRequestUtils = () => {
-  const { info, debug } = useLogger()
+  const { info, debug, trace } = useLogger()
 
   function replaceEndpointPlaceholders({ url, params }: IApiPath) {
-    info('Replacing endpoint placeholders...')
+    trace('Replacing endpoint placeholders...')
     debug(`url: ${url}`)
     debug(`params: ${JSON.stringify(params)}`)
 
@@ -24,11 +24,13 @@ export const useApiRequestUtils = () => {
       else throw 'Invalid param at replaceEndpointPlaceholders'
     }
 
+    info('Replaced endpoint placeholders')
+
     return url.replace(/\{(.*?)\}/gim, '').replace('//', '/')
   }
 
   function addQueryParams({ url, query }: IApiPath) {
-    info('Adding query params...')
+    trace('Adding query params...')
     debug(`url: ${url}`)
     debug(`query: ${JSON.stringify(query)}`)
 
@@ -50,6 +52,7 @@ export const useApiRequestUtils = () => {
       queryString += `${val}`
     }
 
+    info('Added query params')
     debug(`Query string: ${queryString}`)
 
     return (url + queryString).replace(/\{(.*?)\}/gim, '').replace('//', '/')
