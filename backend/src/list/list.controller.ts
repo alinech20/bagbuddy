@@ -67,24 +67,27 @@ export class ListController {
    * @returns {Promise<ListDto[]>} A promise that resolves to an array of `ListDto`.
    * @throws UnauthorizedException If the user is not authenticated.
    */
-  @Get('own/')
+  @Get('self/')
   @UseGuards(FirebaseAuthGuard)
   public async getOwnLists(@Req() req: Request): Promise<ListDto[]> {
     // @ts-expect-error ts not knowing about custom added property
     const uid = (req.user as admin.auth.DecodedIdToken).uid;
     if (!uid) throw new UnauthorizedException('No uid found in request');
 
-    return (await this.listService.getOwnLists(uid)).map((list) => ({
-      ...list,
-      owner: {
-        ...list.owner,
-        created_at: new Date(list.owner.created_at),
-        updated_at: new Date(list.owner.updated_at),
-      },
-      items: list.list_items.map((item) => ({
-        ...item,
-      })),
-    }));
+    return (await this.listService.getOwnLists(uid)).map((list) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { profile_id, owner, template, list_items: items, ...rest } = list;
+
+      return {
+        ...rest,
+        items,
+        owner: {
+          ...owner,
+          created_at: new Date(list.owner.created_at),
+          updated_at: new Date(list.owner.updated_at),
+        },
+      };
+    });
   }
 
   /**
@@ -104,16 +107,17 @@ export class ListController {
     const list = await this.listService.getListById(listId);
     if (!list) throw new NotFoundException('List not found');
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { profile_id, owner, template, list_items: items, ...rest } = list;
+
     return {
-      ...list,
+      ...rest,
+      items,
       owner: {
-        ...list.owner,
+        ...owner,
         created_at: new Date(list.owner.created_at),
         updated_at: new Date(list.owner.updated_at),
       },
-      items: list.list_items.map((item) => ({
-        ...item,
-      })),
     };
   }
 

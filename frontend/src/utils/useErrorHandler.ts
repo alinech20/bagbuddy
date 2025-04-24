@@ -10,16 +10,20 @@ import {
 } from '@/types/errors.ts'
 
 export const useErrorHandler = () => {
-  const { error: logError } = useLogger()
+  const { trace, debug, error: logError } = useLogger()
   const eventBus = useEventBus<ISnackBarError>(BUS_EVENTS.SNACKBAR)
 
   const createApiError = (error: any, userMessage?: string): IApiError => {
+    trace('Creating API error')
     const timestamp = new Date().toISOString()
     const getBaseError = (): IApiError => ({
       timestamp,
       path: window.location.pathname,
       technical: {
-        message: error?.message || 'Unknown error occurred',
+        message:
+          // eslint-disable-next-line max-len
+          `${error.data.statusCode} ${error.data.error}: ${error.data.message}` ||
+          'Unknown error occurred',
         originalError: error.error,
       },
       user: {
@@ -30,11 +34,14 @@ export const useErrorHandler = () => {
     })
     const populateError = (err: IApiError): IApiError => ({
       ...err,
-      status: error.response.status,
-      url: error.response.url || '',
+      status: error.data.statusCode,
+      url: error.context?.url || '',
       method: error.context?.options?.method,
       technical: {
-        message: error.data?.detail || error?.message || 'Request failed',
+        message:
+          // eslint-disable-next-line max-len
+          `${error.data.statusCode} ${error.data.error}: ${error.data.message}` ||
+          'Request failed',
         originalError: error.error,
       },
     })
@@ -49,15 +56,18 @@ export const useErrorHandler = () => {
           break
         case 401:
           err.type = ERROR_TYPE.AUTHENTICATION
+          err.user.title = 'Authentication Error'
           err.user.message = userMessage || 'Authentication required.'
           break
         case 403:
           err.type = ERROR_TYPE.AUTHORIZATION
+          err.user.title = 'Authorization Error'
           err.user.message = userMessage || 'Access denied.'
           break
         case 404:
           err.type = ERROR_TYPE.CLIENT
-          err.severity = ERROR_SEVERITY.WARNING
+          err.user.message =
+            userMessage || 'Resource not found. Please check the URL.'
           break
         default:
           if (status >= 500) {
@@ -73,9 +83,9 @@ export const useErrorHandler = () => {
 
     let errorObj = getBaseError()
 
-    if (error.response) {
+    if (error.data) {
       errorObj = populateError(errorObj)
-      const status = error.response.status
+      const status = error.data.statusCode
       if (status) errorObj = setExtraErrorData(errorObj, status)
     }
 
@@ -92,8 +102,9 @@ export const useErrorHandler = () => {
   }
 
   const handleError = (err: any, userMessage?: string): TError => {
+    trace('Handling error')
     let error
-    if ('status' in err) error = createApiError(err, userMessage)
+    if ('data' in err) error = createApiError(err, userMessage)
     else
       error = {
         user: {

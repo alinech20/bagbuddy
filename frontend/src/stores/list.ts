@@ -14,6 +14,14 @@ export const useListStore = defineStore(PINIA_STORE_KEYS.LIST, () => {
   const { createList } = useListService()
   const { user } = storeToRefs(useUserStore())
 
+  // current user lists
+  const lists = ref<IList[]>([])
+  const setLists = (newLists: IList[]) => {
+    lists.value.length = 0
+    lists.value.push(...newLists)
+    debug(`Number of lists: ${lists.value.length}`)
+  }
+
   const currentList = ref<TNullableOptional<IList>>()
   const resetCurrentList = () => {
     currentList.value = {} as IList
@@ -48,11 +56,16 @@ export const useListStore = defineStore(PINIA_STORE_KEYS.LIST, () => {
     debug(`Payload: ${JSON.stringify(payload, null, 2)}`)
 
     const response = await createList(payload)
+    if (response && response.id) lists.value.push(response)
+
     debug(`Response: ${JSON.stringify(response, null, 2)}`)
     info('List saved')
   }
 
   return {
+    lists,
+    setLists,
+
     currentList,
     resetCurrentList,
 

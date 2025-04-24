@@ -14,6 +14,8 @@ import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
 import { useErrorHandler } from '@/utils/useErrorHandler.ts'
+import { useListStore } from '@/stores/list.ts'
+import { useListService } from '@/services/list.ts'
 
 export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const { setUser, clearUser } = useUserStore()
@@ -50,6 +52,8 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     token.value = await user.getIdToken()
     const loggedUser = await useUserStore().getAndSetUser(user)
     handleLoginProcessing.value = false
+    const userLists = await useListService().getOwnLists()
+    useListStore().setLists(userLists)
     return loggedUser
   }
 

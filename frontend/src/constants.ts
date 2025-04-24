@@ -18,6 +18,7 @@ export const API = {
   },
   LISTS: {
     SAVE: 'lists',
+    OWN: 'lists/self',
   },
 }
 
