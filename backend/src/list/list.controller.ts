@@ -74,8 +74,6 @@ export class ListController {
     const uid = (req.user as admin.auth.DecodedIdToken).uid;
     if (!uid) throw new UnauthorizedException('No uid found in request');
 
-    console.log('lists', await this.listService.getOwnLists(uid));
-
     return (await this.listService.getOwnLists(uid)).map((list) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { profile_id, owner, template, list_items: items, ...rest } = list;
