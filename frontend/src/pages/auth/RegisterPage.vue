@@ -1,107 +1,129 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
-import router from '@/router'
-import { ref } from 'vue'
+import SharedButton from '@/components/shared/forms/SharedButton.vue'
+import SharedInput from '@/components/shared/forms/SharedInput.vue'
+import AuthMain from '@/components/auth/AuthMain.vue'
 import { useValidationRules } from '@/composables/useValidationRules.ts'
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
-const registerForm = ref()
-const { register } = useAuthStore()
 const rules = useValidationRules()
 
 const email = ref('')
-const emailRules = rules.emailRules()
-
 const password = ref('')
-const passwordRules = rules.passwordRules()
-
 const confirmPassword = ref('')
-const confirmPasswordRules = [
-  (v: string) => !!v || 'Confirm password is required',
-  (v: string) => v === password.value || 'Passwords do not match',
-]
 
-const goToLogin = () => {
-  router.push({ name: 'Login' })
+const emailErrors = ref<string[]>([])
+const passwordErrors = ref<string[]>([])
+const confirmPasswordErrors = ref<string[]>([])
+
+const clearAllErrors = () => {
+  emailErrors.value = []
+  passwordErrors.value = []
+  confirmPasswordErrors.value = []
+}
+
+const clearErrors = (field: 'email' | 'password' | 'confirm') => {
+  if (field === 'email') {
+    emailErrors.value = []
+  } else if (field === 'password') {
+    passwordErrors.value = []
+  } else if (field === 'confirm') {
+    confirmPasswordErrors.value = []
+  }
+}
+
+const validateEmail = () => {
+  rules.emailRules().forEach((rule) => {
+    const result = rule(email.value)
+    if (typeof result === 'string') emailErrors.value.push(result)
+  })
+}
+
+const validatePassword = () => {
+  rules.passwordRules().forEach((rule) => {
+    const result = rule(password.value)
+    if (typeof result === 'string') passwordErrors.value.push(result)
+  })
+}
+
+const validateConfirmPassword = () => {
+  if (confirmPassword.value !== password.value) {
+    confirmPasswordErrors.value.push('Passwords do not match')
+  }
+}
+
+const validate = () => {
+  clearAllErrors()
+  validateEmail()
+  validatePassword()
+  validateConfirmPassword()
+
+  if (emailErrors.value.length || passwordErrors.value.length || confirmPasswordErrors.value.length) {
+    return false
+  }
 }
 
 const registerUser = () => {
-  registerForm.value.validate().then((res: any) => {
-    if (!res.valid) return
-    register(email.value, password.value)
-  })
+  if (!validate()) return
+  useAuthStore().register(email.value, password.value)
 }
 </script>
 
 <template>
-  <v-form
-    ref="registerForm"
-    class="register-form"
-    validate-on="submit lazy"
-    @submit.prevent="registerUser"
-  >
-    <v-card width="360" variant="flat" border>
-      <template #title>Register</template>
-
-      <v-card-text class="bg-background pt-4">
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="Email"
-          type="text"
-        >
-          <template #prepend-inner>
-            <Icon class="input-icon" icon="mdi:alternate-email" />
-          </template>
-        </v-text-field>
-        <v-text-field
-          v-model="password"
-          :rules="passwordRules"
-          class="mt-4"
-          label="Password"
-          type="password"
-        >
-          <template #prepend-inner>
-            <Icon class="input-icon" icon="mdi:lock" />
-          </template>
-        </v-text-field>
-        <v-text-field
-          v-model="confirmPassword"
-          :rules="confirmPasswordRules"
-          class="mt-4"
-          label="Confirm password"
-          type="password"
-        >
-          <template #prepend-inner>
-            <Icon class="input-icon" icon="mdi:lock" />
-          </template>
-        </v-text-field>
-      </v-card-text>
-      <v-card-actions class="bg-background d-flex flex-row-reverse">
-        <v-btn type="submit" class="bg-secondary">Register</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-form>
-  <section class="register-form__secondary-actions d-flex mt-6">
-    <v-btn size="xsmall" variant="flat" @click="goToLogin"
-      >Already have an account? Login
-    </v-btn>
-    <v-spacer />
-    <v-btn size="xsmall" variant="flat">Continue as guest</v-btn>
-  </section>
+  <AuthMain @submit="registerUser">
+    <template #fields>
+      <SharedInput
+        label="Email"
+        type="email"
+        name="email"
+        v-model="email"
+        @blur="validateEmail"
+        @focus="clearErrors('email')"
+        :errors="emailErrors"
+      />
+      <SharedInput
+        label="Password"
+        type="password"
+        name="password"
+        v-model="password"
+        @blur="validatePassword"
+        @focus="clearErrors('password')"
+        :errors="passwordErrors"
+      />
+      <SharedInput
+        label="Confirm Password"
+        type="password"
+        name="confirmPassword"
+        v-model="confirmPassword"
+        @blur="validateConfirmPassword"
+        @focus="clearErrors('confirm')"
+        :errors="confirmPasswordErrors"
+      />
+    </template>
+    <template #actions>
+      <SharedButton type="submit" class="btn-primary btn-register">Register</SharedButton>
+    </template>
+    <template #footer>
+      <p class="login-invitation">Already have an account? <router-link :to="{ name: 'Login' }">Login</router-link></p>
+      <p class="continue-guest">Continue as guest</p>
+    </template>
+  </AuthMain>
 </template>
 
-<style scoped lang="sass">
-.register-form__secondary-actions
-  button
-    color: var(--v-primary-base)
-    font-size: 0.75rem
-    text-transform: none
-    padding: 0
-    margin: 0
-    border: none
-    background: none
+<style lang="sass">
+@import '@/assets/sass/vars/colors'
+@import '@/assets/sass/vars/spacers'
+@import '@/assets/sass/vars/typography'
 
-    &:hover
-      text-decoration: underline
+.auth-section
+  .auth-section__form
+    .btn-register
+      width: 100%
+
+  .login-invitation
+    color: var(--surface)
+
+  .continue-guest
+    margin-top: $spacer-md
+    font-size: $font-size-md
 </style>

@@ -38,8 +38,8 @@ export default defineConfigWithVueTs(
       'max-len': [
         'error',
         {
-          code: 80,
-          comments: 100,
+          code: 120,
+          comments: 120,
           ignoreUrls: true,
           ignorePattern: '^import [^,]+ from ',
         },

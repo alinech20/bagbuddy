@@ -1,92 +1,107 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
-import router from '@/router'
+import AuthMain from '@/components/auth/AuthMain.vue'
 import { ref } from 'vue'
+import SharedInput from '@/components/shared/forms/SharedInput.vue'
+import SharedButton from '@/components/shared/forms/SharedButton.vue'
 import { useValidationRules } from '@/composables/useValidationRules.ts'
 import { useAuthStore } from '@/stores/auth.ts'
 
-const loginForm = ref()
-const { login } = useAuthStore()
 const rules = useValidationRules()
 
 const email = ref('')
-const emailRules = [rules.emailRules()[0]] // use only "required" rule
-
 const password = ref('')
-const passwordRules = [rules.passwordRules()[0]] // use only "required" rule
 
-const goToRegister = () => {
-  router.push({ name: 'Register' })
+const emailErrors = ref<string[]>([])
+const passwordErrors = ref<string[]>([])
+
+const clearAllErrors = () => {
+  emailErrors.value = []
+  passwordErrors.value = []
+}
+
+const clearErrors = (field: 'email' | 'password') => {
+  if (field === 'email') {
+    emailErrors.value = []
+  } else if (field === 'password') {
+    passwordErrors.value = []
+  }
+}
+
+const validateEmail = () => {
+  const emailValid = rules.emailRules()[0](email.value)
+  if (typeof emailValid === 'string') emailErrors.value.push(emailValid)
+}
+
+const validatePassword = () => {
+  const passwordValid = rules.passwordRules()[0](password.value)
+  if (typeof passwordValid === 'string') passwordErrors.value.push(passwordValid)
+}
+
+const validate = () => {
+  clearAllErrors()
+  validateEmail()
+  validatePassword()
+
+  if (emailErrors.value.length || passwordErrors.value.length) {
+    return false
+  }
 }
 
 const loginUser = () => {
-  loginForm.value.validate().then((res: any) => {
-    if (!res.valid) return
-    login(email.value, password.value)
-  })
+  if (!validate()) return
+
+  useAuthStore().login(email.value, password.value)
 }
 </script>
 
 <template>
-  <v-form
-    ref="loginForm"
-    class="login-form"
-    validate-on="submit lazy"
-    @submit.prevent="loginUser"
-  >
-    <v-card max-width="600" width="100%" variant="flat" border>
-      <template #title>Login</template>
-
-      <v-card-text class="bg-background pt-4">
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="Email"
-          type="text"
-        >
-          <template #prepend-inner>
-            <Icon class="input-icon" icon="mdi:alternate-email" />
-          </template>
-        </v-text-field>
-        <v-text-field
-          v-model="password"
-          :rules="passwordRules"
-          class="mt-4"
-          label="Password"
-          type="password"
-        >
-          <template #prepend-inner>
-            <Icon class="input-icon" icon="mdi:lock" />
-          </template>
-        </v-text-field>
-      </v-card-text>
-      <v-card-actions class="bg-background">
-        <v-btn>Forgot password?</v-btn>
-        <v-spacer />
-        <v-btn type="submit" class="bg-secondary">Login</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-form>
-  <section class="login-form__secondary-actions d-flex mt-6">
-    <v-btn size="xsmall" variant="flat" @click="goToRegister"
-      >No account? Sign up!
-    </v-btn>
-    <v-spacer />
-    <v-btn size="xsmall" variant="flat">Continue as guest</v-btn>
-  </section>
+  <AuthMain @submit="loginUser">
+    <template #fields>
+      <SharedInput
+        label="Email"
+        type="email"
+        name="email"
+        v-model="email"
+        @blur="validateEmail"
+        @focus="clearErrors('email')"
+        :errors="emailErrors"
+      />
+      <SharedInput
+        label="Password"
+        type="password"
+        name="password"
+        v-model="password"
+        @blur="validatePassword"
+        @focus="clearErrors('password')"
+        :errors="passwordErrors"
+      />
+    </template>
+    <template #actions>
+      <SharedButton type="submit" class="btn-primary btn-login">Login</SharedButton>
+    </template>
+    <template #footer>
+      <p class="register-invitation">
+        Don't have an account? <router-link :to="{ name: 'Register' }">Sign up</router-link>
+      </p>
+      <p class="forgot-password">Forgot password</p>
+    </template>
+  </AuthMain>
 </template>
 
 <style lang="sass">
-.login-form__secondary-actions
-  button
-    color: var(--v-primary-base)
-    font-size: 0.75rem
-    text-transform: none
-    padding: 0
-    margin: 0
-    border: none
-    background: none
+@import '@/assets/sass/vars/colors'
+@import '@/assets/sass/vars/spacers'
+@import '@/assets/sass/vars/typography'
 
-    &:hover
-      text-decoration: underline
+.auth-section
+  .auth-section__form
+    .btn-login
+      width: 100%
+
+  .register-invitation
+    color: var(--surface)
+
+  .forgot-password
+    margin-top: $spacer-md
+    font-size: $font-size-md
 </style>

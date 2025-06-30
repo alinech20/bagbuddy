@@ -4,20 +4,24 @@ import AuthFooter from '@/layouts/auth/AuthFooter.vue'
 </script>
 
 <template>
-  <v-layout class="h-100 d-flex flex-column align-center justify-space-between">
-    <AuthHeader class="auth-layout__header d-flex align-center" />
-    <v-main class="auth-layout__content">
+  <div class="auth-layout">
+    <AuthHeader class="auth-layout__header" />
+    <main class="auth-layout__content">
       <router-view />
-    </v-main>
+    </main>
     <AuthFooter clas="auth-layout__footer" />
-  </v-layout>
+  </div>
 </template>
 
 <style lang="sass">
-.auth-layout__header,
-.auth-layout__footer
-  flex-grow: 1
+.auth-layout
+  display: flex
+  flex-direction: column
+  align-items: center
+  min-height: 100vh
 
-.auth-layout__content
-  flex-grow: 2
+  .auth-layout__content
+    flex: 1
+    width: 80%
+    max-width: 600px
 </style>

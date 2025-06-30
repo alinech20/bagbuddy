@@ -4,9 +4,7 @@ import SnackBar from '@/components/SnackBar.vue'
 </script>
 
 <template>
-  <v-app>
-    <router-view />
-    <CustomLoader />
-    <SnackBar />
-  </v-app>
+  <router-view />
+  <CustomLoader />
+  <SnackBar />
 </template>
