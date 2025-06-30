@@ -56,6 +56,9 @@ const loginUser = () => {
 
 <template>
   <AuthMain @submit="loginUser">
+    <template #title>
+      <h2 class="login__title">Let's get packing!</h2>
+    </template>
     <template #fields>
       <SharedInput
         label="Email"
@@ -94,6 +97,11 @@ const loginUser = () => {
 @import '@/assets/sass/vars/typography'
 
 .auth-section
+  .login__title
+    font-size: $font-size-2xl
+    margin: $spacer-lg 0
+    text-align: center
+
   .auth-section__form
     .btn-login
       width: 100%

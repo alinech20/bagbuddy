@@ -4,6 +4,7 @@ defineEmits(['submit'])
 
 <template>
   <section class="auth-section">
+    <slot name="title" />
     <form class="auth-section__form" @submit.prevent="$emit('submit')">
       <slot name="fields" />
       <slot name="actions" />
@@ -18,7 +19,7 @@ defineEmits(['submit'])
 @import '@/assets/sass/vars/spacers'
 
 .auth-section
-  margin-top: $spacer-2xl
+  margin-top: $spacer-md
 
   &__footer
     text-align: center

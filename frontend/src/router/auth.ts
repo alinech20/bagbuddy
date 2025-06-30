@@ -16,6 +16,11 @@ export const authRoutes = [
         name: 'Register',
         component: () => import('@/pages/auth/RegisterPage.vue'),
       },
+      {
+        path: '/',
+        name: 'Get Started',
+        component: () => import('@/pages/auth/GetStartedPage.vue'),
+      },
     ],
   },
 ] as RouteRecordRaw[]

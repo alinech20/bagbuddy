@@ -10,12 +10,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    ...authRoutes,
-    ...profileRoutes,
-    ...onboardingRoutes,
-    ...listsRoutes,
-  ],
+  routes: [...authRoutes, ...profileRoutes, ...onboardingRoutes, ...listsRoutes],
 })
 
 const { debug } = useLogger()
@@ -26,7 +21,7 @@ router.beforeEach(async (to, _from, next) => {
 
   if (!auth) {
     debug('Auth object not initialized')
-    return next({ name: 'Login' })
+    return next({ name: 'Get Started' })
   }
 
   await new Promise((resolve) => {
