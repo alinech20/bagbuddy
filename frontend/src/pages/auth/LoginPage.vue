@@ -14,11 +14,6 @@ const password = ref('')
 const emailErrors = ref<string[]>([])
 const passwordErrors = ref<string[]>([])
 
-const clearAllErrors = () => {
-  emailErrors.value = []
-  passwordErrors.value = []
-}
-
 const clearErrors = (field: 'email' | 'password') => {
   if (field === 'email') {
     emailErrors.value = []
@@ -28,17 +23,18 @@ const clearErrors = (field: 'email' | 'password') => {
 }
 
 const validateEmail = () => {
+  clearErrors('email')
   const emailValid = rules.emailRules()[0](email.value)
   if (typeof emailValid === 'string') emailErrors.value.push(emailValid)
 }
 
 const validatePassword = () => {
+  clearErrors('password')
   const passwordValid = rules.passwordRules()[0](password.value)
   if (typeof passwordValid === 'string') passwordErrors.value.push(passwordValid)
 }
 
 const validate = () => {
-  clearAllErrors()
   validateEmail()
   validatePassword()
 
@@ -56,9 +52,7 @@ const loginUser = () => {
 
 <template>
   <AuthMain @submit="loginUser">
-    <template #title>
-      <h2 class="login__title">Let's get packing!</h2>
-    </template>
+    <template #title>Let's get packing!</template>
     <template #fields>
       <SharedInput
         label="Email"
@@ -86,7 +80,9 @@ const loginUser = () => {
       <p class="register-invitation">
         Don't have an account? <router-link :to="{ name: 'Register' }">Sign up</router-link>
       </p>
-      <p class="forgot-password">Forgot password</p>
+      <p class="forgot-password">
+        Forgot password? <router-link :to="{ name: 'Forgot Password' }">Recover it here</router-link>
+      </p>
     </template>
   </AuthMain>
 </template>
@@ -97,11 +93,6 @@ const loginUser = () => {
 @import '@/assets/sass/vars/typography'
 
 .auth-section
-  .login__title
-    font-size: $font-size-2xl
-    margin: $spacer-lg 0
-    text-align: center
-
   .auth-section__form
     .btn-login
       width: 100%
@@ -110,6 +101,7 @@ const loginUser = () => {
     color: var(--surface)
 
   .forgot-password
+    color: var(--surface)
     margin-top: $spacer-md
     font-size: $font-size-md
 </style>

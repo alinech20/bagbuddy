@@ -7,6 +7,11 @@ export const authRoutes = [
     redirect: '/auth/login',
     children: [
       {
+        path: '/',
+        name: 'Get Started',
+        component: () => import('@/pages/auth/GetStartedPage.vue'),
+      },
+      {
         path: 'login',
         name: 'Login',
         component: () => import('@/pages/auth/LoginPage.vue'),
@@ -17,9 +22,9 @@ export const authRoutes = [
         component: () => import('@/pages/auth/RegisterPage.vue'),
       },
       {
-        path: '/',
-        name: 'Get Started',
-        component: () => import('@/pages/auth/GetStartedPage.vue'),
+        path: 'forgot-password',
+        name: 'Forgot Password',
+        component: () => import('@/pages/auth/ForgotPasswordPage.vue'),
       },
     ],
   },

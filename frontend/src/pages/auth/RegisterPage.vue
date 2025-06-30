@@ -16,12 +16,6 @@ const emailErrors = ref<string[]>([])
 const passwordErrors = ref<string[]>([])
 const confirmPasswordErrors = ref<string[]>([])
 
-const clearAllErrors = () => {
-  emailErrors.value = []
-  passwordErrors.value = []
-  confirmPasswordErrors.value = []
-}
-
 const clearErrors = (field: 'email' | 'password' | 'confirm') => {
   if (field === 'email') {
     emailErrors.value = []
@@ -33,6 +27,7 @@ const clearErrors = (field: 'email' | 'password' | 'confirm') => {
 }
 
 const validateEmail = () => {
+  clearErrors('email')
   rules.emailRules().forEach((rule) => {
     const result = rule(email.value)
     if (typeof result === 'string') emailErrors.value.push(result)
@@ -40,6 +35,7 @@ const validateEmail = () => {
 }
 
 const validatePassword = () => {
+  clearErrors('password')
   rules.passwordRules().forEach((rule) => {
     const result = rule(password.value)
     if (typeof result === 'string') passwordErrors.value.push(result)
@@ -47,13 +43,13 @@ const validatePassword = () => {
 }
 
 const validateConfirmPassword = () => {
+  clearErrors('confirm')
   if (confirmPassword.value !== password.value) {
     confirmPasswordErrors.value.push('Passwords do not match')
   }
 }
 
 const validate = () => {
-  clearAllErrors()
   validateEmail()
   validatePassword()
   validateConfirmPassword()
@@ -71,6 +67,7 @@ const registerUser = () => {
 
 <template>
   <AuthMain @submit="registerUser">
+    <template #title>Create your account!</template>
     <template #fields>
       <SharedInput
         label="Email"
