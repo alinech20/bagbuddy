@@ -4,6 +4,8 @@ import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
 import SharedCard from '@/components/shared/SharedCard.vue'
+import SharedButton from '@/components/shared/forms/SharedButton.vue'
+import { ONBOARDING_STEPS } from '@/types/user.ts'
 
 const { step } = storeToRefs(useOnboardingStore())
 const { updateUserProfile } = useUserStore()
@@ -32,15 +34,22 @@ const saveAndSkip = () => {
     </section>
     <section class="onboarding-step__section onboarding-step__section--actions">
       <slot name="actions">
-        <!--        <v-btn @click="saveAndSkip" color="background" variant="flat"> Skip </v-btn>-->
-        <!--        <v-btn class="ml-2" v-if="step !== ONBOARDING_STEPS.WELCOME" @click="$emit('prev')" color="secondary">-->
-        <!--          Back-->
-        <!--        </v-btn>-->
-        <!--        <v-spacer />-->
-        <!--        <v-btn v-if="step !== Object.keys(ONBOARDING_STEPS).length / 2" @click="$emit('next')" color="primary">-->
-        <!--          Next-->
-        <!--        </v-btn>-->
-        <!--        <v-btn v-else @click="$emit('next')" color="primary">Finish</v-btn>-->
+        <div class="left">
+          <SharedButton @click="saveAndSkip">Skip</SharedButton>
+          <SharedButton v-if="step !== ONBOARDING_STEPS.WELCOME" class="btn-secondary" @click="$emit('prev')">
+            Back
+          </SharedButton>
+        </div>
+        <div class="right">
+          <SharedButton
+            v-if="step !== Object.keys(ONBOARDING_STEPS).length / 2"
+            class="btn-primary"
+            @click="$emit('next')"
+          >
+            Next
+          </SharedButton>
+          <SharedButton v-else class="btn-primary" @click="$emit('next')">Finish</SharedButton>
+        </div>
       </slot>
     </section>
   </article>
