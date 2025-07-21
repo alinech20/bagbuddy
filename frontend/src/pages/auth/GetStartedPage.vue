@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import SharedButton from '@/components/shared/forms/SharedButton.vue'
+import router from '@/router'
 </script>
 
 <template>
   <div class="get-started">
     <h2 class="get-started__title"><em>Plan your trip. Pack with joy.</em></h2>
     <h3 class="get-started__subtitle"><em>BagBuddy helps you stay calm, organized, and travel-ready.</em></h3>
-    <SharedButton class="btn-primary btn-start">Get Started</SharedButton>
+    <SharedButton class="btn-primary btn-start" @click="router.push({ name: 'Register' })">Get Started</SharedButton>
     <p class="login">Already have an account? <router-link :to="{ name: 'Login' }">Log in!</router-link></p>
   </div>
 </template>
