@@ -25,9 +25,7 @@ const validateEmail = () => {
 const validate = () => {
   validateEmail()
 
-  if (emailErrors.value.length) {
-    return false
-  }
+  return !emailErrors.value.length
 }
 
 const sendMail = () => {

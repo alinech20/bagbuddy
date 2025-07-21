@@ -3,12 +3,12 @@ import OnboardingHeader from '@/layouts/onboarding/OnboardingHeader.vue'
 </script>
 
 <template>
-  <v-layout>
+  <div class="onboarding-layout">
     <OnboardingHeader />
-    <v-main class="onboarding-layout__content">
+    <main class="onboarding-layout__content">
       <router-view />
-    </v-main>
-  </v-layout>
+    </main>
+  </div>
 </template>
 
 <style lang="sass">

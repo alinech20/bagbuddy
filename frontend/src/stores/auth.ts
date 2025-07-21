@@ -31,10 +31,11 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
 
     if (user) {
       debug(`Logged in as ${user.email}`)
-      await handleLogin(user)
+      handleLogin(user)
     } else {
       info('Logged out')
       token.value = ''
+      router.push({ name: 'Login' })
     }
   })
 
@@ -48,9 +49,18 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     token.value = await user.getIdToken()
     const loggedUser = await useUserStore().getAndSetUser(user)
     handleLoginProcessing.value = false
+
+    debug(`Logged user: ${loggedUser.email}`)
+
+    if (!loggedUser) return
+
     const userLists = await useListService().getOwnLists()
     useListStore().setLists(userLists)
-    return loggedUser
+
+    debug(`Logged user onboarded: ${loggedUser.onboarded}`)
+
+    if (!loggedUser.onboarded) return await router.push({ name: 'Onboarding' })
+    await router.push({ name: 'My Profile' })
   }
 
   const login = async (email: string, password: string, verify = false) => {
@@ -66,12 +76,6 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       // add this for custom login behavior on the backend
       // const data = await loginService(email, password)
       // if (!data) return
-
-      const user = await handleLogin(userCredentials.user)
-      if (!user) return
-
-      if (!user.onboarded) return await router.push({ name: 'Onboarding' })
-      await router.push({ name: 'My Profile' })
     } catch (error: any) {
       handleError(error.message)
     }
@@ -85,9 +89,6 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
       // add this for custom logout behavior on the backend
       // const data = await logoutService()
       // if (!data) return
-
-      token.value = ''
-      await router.push({ name: 'Login' })
     } catch (error: any) {
       handleError(JSON.stringify(error))
     }

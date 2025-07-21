@@ -54,9 +54,7 @@ const validate = () => {
   validatePassword()
   validateConfirmPassword()
 
-  if (emailErrors.value.length || passwordErrors.value.length || confirmPasswordErrors.value.length) {
-    return false
-  }
+  return !(emailErrors.value.length || passwordErrors.value.length || confirmPasswordErrors.value.length)
 }
 
 const registerUser = () => {

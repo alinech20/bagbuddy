@@ -7,6 +7,8 @@ import { auth } from '@/config/firebase.ts'
 import { onAuthStateChanged } from 'firebase/auth'
 import { listsRoutes } from '@/router/lists.ts'
 import { useAuthStore } from '@/stores/auth.ts'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/stores/user.ts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,8 +31,9 @@ router.beforeEach(async (to, _from, next) => {
     const unsub = onAuthStateChanged(auth, async (user) => {
       debug('Auth state changed callback triggered')
       isAuthenticated = !!user
+      const { user: loggedUser } = storeToRefs(useUserStore())
 
-      if (user) await useAuthStore().handleLogin(user)
+      if (user && !loggedUser.value) await useAuthStore().handleLogin(user)
 
       resolve(true)
       unsub()

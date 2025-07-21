@@ -17,4 +17,12 @@
   </article>
 </template>
 
-<style lang="sass"></style>
+<style lang="sass">
+@import '@/assets/sass/vars/borders'
+@import '@/assets/sass/vars/spacers'
+
+.card
+  padding: $spacer-md
+  border-radius: $border-radius-md
+  box-shadow: 0 2px 4px -1px rgba(24, 24, 24, 0.3)
+</style>

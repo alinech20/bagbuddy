@@ -13,6 +13,8 @@ app.use(router)
 
 app.mount('#app')
 
+// TODO: make first and last name required in welcome step onboarding
+// TODO: make skip button work in onboarding steps
 // TODO: quick overview of the whole project for refactoring/optimization
 // TODO: do something after list has been added
 // TODO: make list title required (check on save and go to first step if not filled)

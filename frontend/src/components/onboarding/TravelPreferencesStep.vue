@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import {
-  TRAVEL_DESTINATIONS,
-  TRAVEL_FREQUENCY,
-  TRAVEL_PURPOSES,
-} from '@/types/user.ts'
+import { TRAVEL_DESTINATIONS, TRAVEL_FREQUENCY, TRAVEL_PURPOSES } from '@/types/user.ts'
 import OnboardingStep from '@/components/onboarding/OnboardingStep.vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
+import SharedSelect from '@/components/shared/forms/SharedSelect.vue'
 
 const frequency = ref<TRAVEL_FREQUENCY>()
 const frequencyItems = [...Object.values(TRAVEL_FREQUENCY)]
@@ -32,41 +29,19 @@ const nextStep = () => {
   <OnboardingStep @next="nextStep" @prev="goBack">
     <template #title>Travel Preferences</template>
     <template #description>
-      Great! Now let's talk about your travel preferences. This will help us
-      tailor your packing lists to your needs.
+      Great! Now let's talk about your travel preferences. This will help us tailor your packing lists to your needs.
     </template>
     <template #form>
-      <v-form>
-        <v-select
-          v-model="frequency"
-          :items="frequencyItems"
-          label="How often do you travel?"
-          :list-props="{
-            bgColor: 'white',
-            density: 'compact',
-          }"
-        />
-        <v-select
-          v-model="types"
-          :items="typeItems"
-          :list-props="{
-            bgColor: 'white',
-            density: 'compact',
-          }"
-          label="Preferred travel types"
-          multiple
-        />
-        <v-select
+      <form>
+        <SharedSelect v-model="frequency" :options="frequencyItems" label="How often do you travel?" />
+        <SharedSelect v-model="types" :options="typeItems" label="Preferred travel types" multiple />
+        <SharedSelect
           v-model="destinations"
-          :items="destinationItems"
-          :list-props="{
-            bgColor: 'white',
-            density: 'compact',
-          }"
+          :options="destinationItems"
           label="Favorite travel destinations"
           multiple
         />
-      </v-form>
+      </form>
     </template>
   </OnboardingStep>
 </template>

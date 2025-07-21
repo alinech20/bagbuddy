@@ -38,9 +38,7 @@ const validate = () => {
   validateEmail()
   validatePassword()
 
-  if (emailErrors.value.length || passwordErrors.value.length) {
-    return false
-  }
+  return !(emailErrors.value.length || passwordErrors.value.length)
 }
 
 const loginUser = () => {

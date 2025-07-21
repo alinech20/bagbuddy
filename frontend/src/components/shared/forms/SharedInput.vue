@@ -6,6 +6,7 @@ defineProps<{
   rules?: any[]
   required?: boolean
   errors?: string[]
+  max?: string | number
 }>()
 
 defineEmits(['blur', 'focus'])
@@ -22,6 +23,7 @@ const model = defineModel()
       :name="name"
       v-model="model"
       :required="required"
+      :max="max"
       @blur="$emit('blur')"
       @focus="$emit('focus')"
     />
@@ -40,16 +42,23 @@ const model = defineModel()
 .form-field
   margin-bottom: $spacer-md
 
+  &--select
+    position: relative
+    cursor: pointer
+
   label
     display: block
     margin-bottom: $spacer-sm
 
-  input
+  input, select, .shared-select
     border: 1px solid var(--border-color-primary)
     border-radius: $border-radius-md
     background-color: var(--input-background)
     padding: $spacer-sm
     width: 100%
+
+  input[type='radio']
+    width: auto
 
     &:focus
       border-color: var(--primary)
