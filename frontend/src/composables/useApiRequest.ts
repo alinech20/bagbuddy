@@ -1,24 +1,20 @@
 import { API } from '@/constants'
 import type { IApiPath } from '@/types/api'
-import { useApiRequestUtils } from '@/utils/useApiRequestUtils'
+import { apiRequestUtils } from '@/utils/apiRequestUtils'
 import { type BeforeFetchContext, createFetch } from '@vueuse/core'
 import { useLogger } from './useLogger'
 import { useAuthStore } from '@/stores/auth.ts'
 import { storeToRefs } from 'pinia'
 import { useHttpRequestsStore } from '@/stores/http-requests.ts'
-import { useErrorHandler } from '@/utils/useErrorHandler.ts'
+import { errorHandlerUtils } from '@/utils/errorHandlerUtils.ts'
 
-export const useApiRequest = (
-  path: IApiPath | string,
-  options = {},
-  noHeaders = false,
-) => {
+export const useApiRequest = (path: IApiPath | string, options = {}, noHeaders = false) => {
   const { token } = storeToRefs(useAuthStore())
   const httpRequestsStore = useHttpRequestsStore()
   const { addRequest, removeRequest } = httpRequestsStore
   const { debug, trace } = useLogger()
-  const { handleError } = useErrorHandler()
-  const { replaceEndpointPlaceholders, addQueryParams } = useApiRequestUtils()
+  const { handleError } = errorHandlerUtils()
+  const { replaceEndpointPlaceholders, addQueryParams } = apiRequestUtils()
 
   let endpoint: string
   const baseUrl = (import.meta.env.VITE_API_BASE_URL || '') + API.BASE_URL

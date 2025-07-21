@@ -1,7 +1,7 @@
 import { useLogger } from '@/composables/useLogger'
 import type { IApiPath } from '@/types/api'
 
-export const useApiRequestUtils = () => {
+export const apiRequestUtils = () => {
   const { info, debug, trace } = useLogger()
 
   function replaceEndpointPlaceholders({ url, params }: IApiPath) {
@@ -11,16 +11,14 @@ export const useApiRequestUtils = () => {
 
     if (!params) return url
 
-    if (Object.keys(params).length < 1)
-      throw 'params is empty object at replaceEndpointPlaceholders'
+    if (Object.keys(params).length < 1) throw 'params is empty object at replaceEndpointPlaceholders'
 
     for (const key in params) {
       debug(`Params key value: ${key}`)
       const placeholder = `{${key}}`
       debug(`Placeholder: ${placeholder}`)
 
-      if (url.includes(placeholder))
-        url = url.replace(placeholder, params[key as keyof typeof params])
+      if (url.includes(placeholder)) url = url.replace(placeholder, params[key as keyof typeof params])
       else throw 'Invalid param at replaceEndpointPlaceholders'
     }
 
@@ -36,8 +34,7 @@ export const useApiRequestUtils = () => {
 
     if (!query) return url
 
-    if (Object.keys(query).length < 1)
-      throw 'query is empty object at addQueryParams'
+    if (Object.keys(query).length < 1) throw 'query is empty object at addQueryParams'
 
     let queryString = '?'
 

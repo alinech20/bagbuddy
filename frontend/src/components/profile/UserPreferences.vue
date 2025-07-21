@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IUser } from '@/types/user.ts'
 import { computed, ref } from 'vue'
-import { useTextFormatter } from '@/utils/useTextFormatter.ts'
+import { textFormatterUtils } from '@/utils/textFormatterUtils.ts'
 
 const props = defineProps<{
   user: IUser
@@ -31,7 +31,7 @@ const formatValue = (value: any): string => {
   return value
 }
 
-const { snakeToWords } = useTextFormatter()
+const { snakeToWords } = textFormatterUtils()
 const panel = ref<string>('')
 </script>
 
@@ -40,12 +40,7 @@ const panel = ref<string>('')
     <h3 class="text-h6 mt-4 mb-2 ml-6">Preferences</h3>
 
     <v-expansion-panels v-model="panel" elevation="2">
-      <v-expansion-panel
-        v-for="(value, key) in preferences"
-        :key="key"
-        :title="snakeToWords(key)"
-        color="surface"
-      >
+      <v-expansion-panel v-for="(value, key) in preferences" :key="key" :title="snakeToWords(key)" color="surface">
         <v-expansion-panel-text class="bg-background">
           <v-list bg-color="background">
             <v-list-item v-for="(v, k) in filterItems(value)" :key="k">

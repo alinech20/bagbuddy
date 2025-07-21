@@ -1,8 +1,7 @@
 import type { IApiError, TError } from '@/types/errors'
 
-export const useLogFormatter = () => {
-  const getCurrentTimestamp = () =>
-    new Date().toISOString().replace('T', ' ').replace('Z', '')
+export const logFormatterUtils = () => {
+  const getCurrentTimestamp = () => new Date().toISOString().replace('T', ' ').replace('Z', '')
 
   const formatApiError = (error: IApiError) => ({
     timestamp: error.timestamp,
@@ -23,14 +22,12 @@ export const useLogFormatter = () => {
 
     if ('status' in error) {
       return {
-        // eslint-disable-next-line max-len
         message: `${getCurrentTimestamp()} ❌ ERROR [${error.type.toUpperCase()}]:`,
         data: formatApiError(error),
       }
     }
 
     return {
-      // eslint-disable-next-line max-len
       message: `${getCurrentTimestamp()} ❌ ERROR: [${error.severity.toUpperCase()}]`,
       data: {
         title: error.user.title,

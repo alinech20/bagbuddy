@@ -11,7 +11,7 @@ import type {
 import { useProfileService } from '@/services/profile.ts'
 import { useLogger } from '@/composables/useLogger.ts'
 import type { TNullable } from '@/types/helpers.ts'
-import { useProfileMapper } from '@/utils/useProfileMapper.ts'
+import { profileMapperUtils } from '@/utils/profileMapperUtils.ts'
 import type { User } from 'firebase/auth'
 
 export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
@@ -84,8 +84,7 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
 
   const getAndSetUser = async (u: User) => {
     const data = await useProfileService().getOwn()
-    const mappedResponse =
-      useProfileMapper().mapFetchResponseToUserInterface(data)
+    const mappedResponse = profileMapperUtils().mapFetchResponseToUserInterface(data)
 
     setUser({
       ...mappedResponse,

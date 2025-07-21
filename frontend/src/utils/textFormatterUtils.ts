@@ -1,4 +1,4 @@
-export const useTextFormatter = () => {
+export const textFormatterUtils = () => {
   const snakeToWords = (text: string) => {
     return text
       .split('_')

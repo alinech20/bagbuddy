@@ -6,11 +6,11 @@ import type { TNullableOptional } from '@/types/helpers.ts'
 import { useLogger } from '@/composables/useLogger.ts'
 import { useUserStore } from '@/stores/user.ts'
 import { useListService } from '@/services/list.ts'
-import { useErrorHandler } from '@/utils/useErrorHandler.ts'
+import { errorHandlerUtils } from '@/utils/errorHandlerUtils.ts'
 
 export const useListStore = defineStore(PINIA_STORE_KEYS.LIST, () => {
   const { trace, info, debug } = useLogger()
-  const { handleError } = useErrorHandler()
+  const { handleError } = errorHandlerUtils()
   const { createList } = useListService()
   const { user } = storeToRefs(useUserStore())
 
@@ -34,12 +34,10 @@ export const useListStore = defineStore(PINIA_STORE_KEYS.LIST, () => {
   const saveNewList = async () => {
     trace('Saving new list')
 
-    if (!Object.keys(newList.value).length)
-      return handleError('No list data to save')
+    if (!Object.keys(newList.value).length) return handleError('No list data to save')
 
     if (!newList.value.name) return handleError('List name is required')
-    if (!newList.value.items?.length)
-      return handleError('List items are required')
+    if (!newList.value.items?.length) return handleError('List items are required')
 
     debug(`New list value: ${JSON.stringify(newList.value, null, 2)}`)
 

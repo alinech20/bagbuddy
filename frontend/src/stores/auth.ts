@@ -13,19 +13,15 @@ import { auth } from '@/config/firebase.ts'
 import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
-import { useErrorHandler } from '@/utils/useErrorHandler.ts'
+import { errorHandlerUtils } from '@/utils/errorHandlerUtils.ts'
 import { useListStore } from '@/stores/list.ts'
 import { useListService } from '@/services/list.ts'
 
 export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const { setUser, clearUser } = useUserStore()
-  const {
-    login: loginService,
-    logout: logoutService,
-    register: registerService,
-  } = useAuthService()
+  const { login: loginService, logout: logoutService, register: registerService } = useAuthService()
   const { trace, info, debug } = useLogger()
-  const { handleError } = useErrorHandler()
+  const { handleError } = errorHandlerUtils()
   const token = ref('')
   const isAuthenticated = computed(() => !!token.value)
 
@@ -60,11 +56,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const login = async (email: string, password: string, verify = false) => {
     trace('Logging in...')
     try {
-      const userCredentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      )
+      const userCredentials = await signInWithEmailAndPassword(auth, email, password)
 
       if (verify || !userCredentials.user.emailVerified) {
         trace('Sending verification email...')

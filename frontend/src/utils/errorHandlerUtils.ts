@@ -4,7 +4,7 @@ import type { ISnackBarError } from '@/types/snackbar.ts'
 import { BUS_EVENTS, SNACKBAR_DURATION } from '@/constants.ts'
 import { ERROR_SEVERITY, ERROR_TYPE, type IApiError, type TError } from '@/types/errors.ts'
 
-export const useErrorHandler = () => {
+export const errorHandlerUtils = () => {
   const { trace, debug, error: logError } = useLogger()
   const eventBus = useEventBus<ISnackBarError>(BUS_EVENTS.SNACKBAR)
 

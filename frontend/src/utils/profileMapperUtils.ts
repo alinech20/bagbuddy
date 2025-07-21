@@ -1,12 +1,6 @@
-export const useProfileMapper = () => {
+export const profileMapperUtils = () => {
   const mapFetchResponseToUserInterface = (data: any) => {
-    const {
-      travel_preferences,
-      health_safety,
-      travel_personalization,
-      additional_details,
-      ...rest
-    } = data
+    const { travel_preferences, health_safety, travel_personalization, additional_details, ...rest } = data
 
     return {
       ...rest,

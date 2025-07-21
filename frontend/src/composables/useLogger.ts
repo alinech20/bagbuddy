@@ -1,6 +1,6 @@
 import type { TError } from '@/types/errors'
 import type { TNullable } from '@/types/helpers'
-import { useLogFormatter } from '@/utils/useLogFormatter'
+import { logFormatterUtils } from '@/utils/logFormatterUtils'
 import log, { type Logger, type LogLevelNames } from 'loglevel'
 
 export const useLogger = () => {
@@ -17,12 +17,7 @@ export const useLogger = () => {
     instance.setLevel(level, true)
   }
 
-  const {
-    formatError,
-    formatTraceMessage,
-    formatDebugMessage,
-    formatInfoMessage,
-  } = useLogFormatter()
+  const { formatError, formatTraceMessage, formatDebugMessage, formatInfoMessage } = logFormatterUtils()
 
   const trace = (msg: string) => {
     instance.trace(formatTraceMessage(msg))
@@ -43,8 +38,7 @@ export const useLogger = () => {
   const error = (error: TError | string) => {
     const formattedError = formatError(error)
 
-    if (typeof formattedError === 'string')
-      return instance.error(formattedError)
+    if (typeof formattedError === 'string') return instance.error(formattedError)
 
     instance.error(formattedError.message, formattedError.data)
   }
