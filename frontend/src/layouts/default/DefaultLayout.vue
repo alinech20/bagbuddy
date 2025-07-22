@@ -3,16 +3,13 @@ import DefaultFooter from '@/layouts/default/DefaultFooter.vue'
 import router from '@/router'
 import { computed } from 'vue'
 
-const addPaddingAndMargin = computed(
-  () => router.currentRoute.value.path !== '/lists/create',
-)
+const addPaddingAndMargin = computed(() => router.currentRoute.value.path !== '/lists/create')
 </script>
 
 <template>
-  <v-layout class="overflow-auto">
-    <!--  <DefaultHeader />-->
-    <v-main
-      class="mb-14"
+  <div class="default-layout">
+    <main
+      class="default-layout__content"
       :class="{
         'px-4': addPaddingAndMargin,
         'pb-8': addPaddingAndMargin,
@@ -20,7 +17,12 @@ const addPaddingAndMargin = computed(
       }"
     >
       <router-view />
-    </v-main>
-  </v-layout>
+    </main>
+  </div>
   <DefaultFooter />
 </template>
+
+<style lang="sass">
+.default-layout
+  overflow: auto
+</style>

@@ -21,31 +21,65 @@ errorBus.on((error) => {
 
 <template>
   <article class="snackbar-container" v-if="errorList.length > 0">
-    <v-snackbar
-      class="ma-2"
+    <div
       v-for="error in errorList"
       :key="error.msg"
-      :color="error.style === ERROR_SEVERITY.CRITICAL ? 'error' : error.style"
-      :model-value="!!error"
+      class="snackbar"
+      :class="{
+        error: error.style === ERROR_SEVERITY.CRITICAL || error.style === ERROR_SEVERITY.ERROR,
+        warning: error.style === ERROR_SEVERITY.WARNING,
+        info: error.style === ERROR_SEVERITY.INFO,
+      }"
     >
-      <template #default>
-        <span>
-          <strong>{{ error.title.toUpperCase() }}!</strong>
-        </span>
-        {{ error.msg }}
-      </template>
-    </v-snackbar>
+      <span class="snackbar__title"> {{ error.title.toUpperCase() }}! </span>
+      {{ error.msg }}
+    </div>
   </article>
 </template>
 
 <style lang="sass">
+@import '@/assets/sass/vars/borders'
+@import '@/assets/sass/vars/spacers'
+@import '@/assets/sass/vars/typography'
+
 .snackbar-container
   position: absolute
   bottom: 0
   left: 0
   right: 0
+  padding: $spacer-sm
   z-index: 10000
   display: flex
   flex-direction: column
   align-items: center
+
+  .snackbar
+    width: 100%
+    max-width: 460px
+    padding: $spacer-md $spacer-lg
+    border-radius: $border-radius-sm
+    color: var(--on-primary)
+    box-shadow: 0 2px 5px 1px rgba(24, 24, 24, 0.3)
+    animation: fadein 0.3s
+
+    &.error
+      background: #d32f2f
+
+    &.warning
+      background: #ffa000
+
+    &.info
+      background: #1976d2
+
+    &__title
+      color: var(--on-primary)
+      font-weight: $font-weight-bold
+
+@keyframes fadein
+  from
+    opacity: 0
+    transform: translateY(20px)
+  to
+    opacity: 1
+    transform: translateY(0)
 </style>
