@@ -1,6 +1,6 @@
 export interface ISelectOption {
   label: string
-  value: string | number
+  value: string | number | boolean
 }
 
 export type TSelectOption = ISelectOption | string

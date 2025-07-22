@@ -5,8 +5,8 @@ import { useDateFormat } from '@vueuse/core'
 import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
 import SharedInput from '@/components/shared/forms/SharedInput.vue'
 import type { IRadioOption } from '@/types/forms.ts'
-import SharedRadio from '@/components/shared/forms/SharedRadio.vue'
 import SharedButton from '@/components/shared/forms/SharedButton.vue'
+import SharedSelect from '@/components/shared/forms/SharedSelect.vue'
 
 const twelveYearsAgo = useDateFormat(
   new Date(new Date().setFullYear(new Date().getFullYear() - 12)),
@@ -54,7 +54,7 @@ const nextStep = () => {
         <SharedInput label="Last Name" v-model="lastName" required />
         <SharedInput label="Birth Date" v-model="birthDate" type="date" :max="twelveYearsAgo" />
         <!--        <SharedSelect label="Country" v-model="country" :options="[]" />-->
-        <SharedRadio label="Gender" v-model="gender" :options="genderList" />
+        <SharedSelect v-model="gender" :options="genderList" label="Gender" />
       </form>
     </template>
     <template #actions>

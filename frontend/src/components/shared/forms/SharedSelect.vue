@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
 import type { ISelectOption, TSelectOption } from '@/types/forms.ts'
+import { Icon } from '@iconify/vue'
 
 const props = defineProps<{
   label: string
@@ -83,7 +84,7 @@ onBeforeUnmount(() => {
   <div class="form-field form-field--select" ref="dropdownRef">
     <label :for="name">{{ label }} <span v-if="required">*</span></label>
 
-    <div class="shared-select" @click="toggleDropdown">
+    <div class="shared-select" :class="{ open: dropdownOpen }" @click="toggleDropdown">
       <template v-if="multiple">
         <span v-if="model?.length">{{ model.join(', ') }}</span>
         <span v-else class="placeholder">Select...</span>
@@ -92,9 +93,10 @@ onBeforeUnmount(() => {
         <span v-if="model">{{ parsedOptions.find((opt) => opt.value === model)?.label }}</span>
         <span v-else class="placeholder">-- None --</span>
       </template>
+      <Icon icon="mdi:chevron-down" class="dropdown-icon" />
     </div>
 
-    <div v-if="dropdownOpen" class="dropdown-options">
+    <div class="dropdown-options" :class="{ open: dropdownOpen }">
       <div
         v-for="option in parsedOptions"
         :key="option.value || option.label"
@@ -122,17 +124,35 @@ onBeforeUnmount(() => {
 @import '@/assets/sass/vars/spacers'
 
 .form-field
+  .shared-select
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    .dropdown-icon
+      transition: transform 0.2s ease-in-out
+      font-size: 1.2em
+
+    &.open
+      .dropdown-icon
+        transform: rotate(180deg)
+
   .dropdown-options
     position: absolute
     top: calc(100% + $spacer-xs)
     left: 0
     right: 0
     background-color: white
-    border: 1px solid var(--border-color-primary)
     border-radius: $border-radius-sm
     z-index: 10
-    max-height: 200px
+    height: auto
+    max-height: 0
     overflow-y: auto
+    transition: max-height 0.2s ease-in-out
+
+    &.open
+      border: 1px solid var(--border-color-primary)
+      max-height: 220px
 
   .dropdown-option
     padding: $spacer-sm

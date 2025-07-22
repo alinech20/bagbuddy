@@ -4,15 +4,17 @@ import { ref } from 'vue'
 import { TRANSPORT_TYPES } from '@/types/user.ts'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
+import SharedSelect from '@/components/shared/forms/SharedSelect.vue'
+import type { ISelectOption } from '@/types/forms.ts'
 
 const allergies = ref<boolean>()
-const allergiesItems = [
+const allergiesItems: ISelectOption[] = [
   {
-    title: 'Yes',
+    label: 'Yes',
     value: true,
   },
   {
-    title: 'No',
+    label: 'No',
     value: false,
   },
 ]
@@ -34,30 +36,12 @@ const nextStep = () => {
 <template>
   <OnboardingStep @next="nextStep" @prev="goBack">
     <template #title>Health & Safety</template>
-    <template #description>
-      Let's make sure we cover your health and safety needs:
-    </template>
+    <template #description> Let's make sure we cover your health and safety needs: </template>
     <template #form>
-      <v-form>
-        <v-select
-          v-model="allergies"
-          :items="allergiesItems"
-          label="Do you have any allergies?"
-          :list-props="{
-            bgColor: 'white',
-            density: 'compact',
-          }"
-        />
-        <v-select
-          v-model="transport"
-          :items="transportItems"
-          :list-props="{
-            bgColor: 'white',
-            density: 'compact',
-          }"
-          label="Preferred transportation"
-        />
-      </v-form>
+      <form>
+        <SharedSelect v-model="allergies" :options="allergiesItems" label="Do you have any allergies?" />
+        <SharedSelect v-model="transport" :options="transportItems" label="Preferred transportation" />
+      </form>
     </template>
   </OnboardingStep>
 </template>

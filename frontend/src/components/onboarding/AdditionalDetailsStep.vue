@@ -4,6 +4,7 @@ import { TRAVEL_COMPANIONS } from '@/types/user.ts'
 import { ref } from 'vue'
 import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
+import SharedSelect from '@/components/shared/forms/SharedSelect.vue'
 
 const companions = ref<TRAVEL_COMPANIONS[]>([])
 const companionsItems = [...Object.values(TRAVEL_COMPANIONS)]
@@ -23,18 +24,14 @@ const nextStep = () => {
     <template #title>Additional Details</template>
     <template #description> Almost there! Just a few more things:</template>
     <template #form>
-      <v-form>
-        <v-select
+      <form>
+        <SharedSelect
           v-model="companions"
-          :items="companionsItems"
-          label="Usual companions"
-          :list-props="{
-            bgColor: 'white',
-            density: 'compact',
-          }"
+          :options="companionsItems"
+          label="Who do you usually travel with?"
           multiple
         />
-      </v-form>
+      </form>
     </template>
   </OnboardingStep>
 </template>
