@@ -42,7 +42,8 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
   const handleLoginProcessing = ref(false)
 
   const handleLogin = async (user: User) => {
-    trace('Handling login...')
+    debug('Handling login...')
+
     if (handleLoginProcessing.value) return
 
     handleLoginProcessing.value = true

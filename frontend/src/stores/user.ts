@@ -83,6 +83,7 @@ export const useUserStore = defineStore(PINIA_STORE_KEYS.USER, () => {
   }
 
   const getAndSetUser = async (u: User) => {
+    debug(`Getting user data for UID: ${u.uid}`)
     const data = await useProfileService().getOwn()
     const mappedResponse = profileMapperUtils().mapFetchResponseToUserInterface(data)
 

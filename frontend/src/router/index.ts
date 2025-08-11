@@ -31,16 +31,18 @@ router.beforeEach(async (to, _from, next) => {
     const unsub = onAuthStateChanged(auth, async (user) => {
       debug('Auth state changed callback triggered')
       isAuthenticated = !!user
+
       const { user: loggedUser } = storeToRefs(useUserStore())
+      if ((isAuthenticated && !loggedUser.value) || !Object.keys(loggedUser.value).length)
+        await useAuthStore().handleLogin(user!)
 
-      if (user && !loggedUser.value) await useAuthStore().handleLogin(user)
-
-      resolve(true)
       unsub()
+      resolve(true)
     })
 
     setTimeout(() => {
       debug('Timeout triggered')
+      unsub()
       resolve(false)
     }, 5000)
   })

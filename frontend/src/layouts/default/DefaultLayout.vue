@@ -3,7 +3,7 @@ import DefaultFooter from '@/layouts/default/DefaultFooter.vue'
 import router from '@/router'
 import { computed } from 'vue'
 
-const addPaddingAndMargin = computed(() => router.currentRoute.value.path !== '/lists/create')
+const addSpacing = computed(() => router.currentRoute.value.path !== '/lists/create')
 </script>
 
 <template>
@@ -11,9 +11,7 @@ const addPaddingAndMargin = computed(() => router.currentRoute.value.path !== '/
     <main
       class="default-layout__content"
       :class="{
-        'px-4': addPaddingAndMargin,
-        'pb-8': addPaddingAndMargin,
-        'mt-8': addPaddingAndMargin,
+        'content-spacing': addSpacing,
       }"
     >
       <router-view />
@@ -23,6 +21,12 @@ const addPaddingAndMargin = computed(() => router.currentRoute.value.path !== '/
 </template>
 
 <style lang="sass">
+@import '@/assets/sass/vars/spacers'
+
 .default-layout
   overflow: auto
+
+  .default-layout__content
+    &.content-spacing
+      padding: $spacer-md
 </style>
