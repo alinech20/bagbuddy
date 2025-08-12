@@ -21,7 +21,12 @@ const fullName = computed(() => {
       <Icon icon="mdi:account" class="basic-info__avatar" />
     </div>
     <h2 class="basic-info__name">{{ fullName }}</h2>
-    <SharedPill class="basic-info__email primary">{{ props.user.email }}</SharedPill>
+    <SharedPill class="basic-info__email primary">
+      <template #icon-before>
+        <Icon icon="mdi:email" />
+      </template>
+      {{ props.user.email }}
+    </SharedPill>
     <UserDetails class="basic-info__details" :user="user" />
   </article>
 </template>
