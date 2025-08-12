@@ -12,7 +12,6 @@ import {
 import { auth } from '@/config/firebase.ts'
 import { PINIA_STORE_KEYS } from '@/constants.ts'
 import { useUserStore } from '@/stores/user.ts'
-import router from '@/router'
 import { errorHandlerUtils } from '@/utils/errorHandlerUtils.ts'
 import { useListStore } from '@/stores/list.ts'
 import { useListService } from '@/services/list.ts'
@@ -35,7 +34,7 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
     } else {
       info('Logged out')
       token.value = ''
-      router.push({ name: 'Login' })
+      // router.push({ name: 'Login' })
     }
   })
 
@@ -60,8 +59,8 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
 
     debug(`Logged user onboarded: ${loggedUser.onboarded}`)
 
-    if (!loggedUser.onboarded) return await router.push({ name: 'Onboarding' })
-    await router.push({ name: 'My Profile' })
+    // if (!loggedUser.onboarded) return await router.push({ name: 'Onboarding' })
+    // await router.push({ name: 'My Profile' })
   }
 
   const login = async (email: string, password: string, verify = false) => {

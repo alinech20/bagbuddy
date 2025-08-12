@@ -70,5 +70,5 @@ const fullName = computed(() => {
     margin-top: $spacer-md
 
   &__details
-    margin-top: $spacer-md
+    margin-top: $spacer-lg
 </style>

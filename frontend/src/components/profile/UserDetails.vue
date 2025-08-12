@@ -61,11 +61,14 @@ const panel = ref<string>('')
     font-weight: $font-weight-medium
 
   &__list
-    margin-top: $spacer-sm
+    margin-top: $spacer-md
 
   &__item
-    padding: $spacer-xs 0
+    padding: $spacer-sm 0
     border-bottom: 1px solid var(--dirty-background)
+
+    &:last-of-type
+      border-bottom: none
 
   &__label
     font-weight: $font-weight-medium

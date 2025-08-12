@@ -26,13 +26,14 @@ router.beforeEach(async (to, _from, next) => {
     return next({ name: 'Get Started' })
   }
 
+  const { user: loggedUser } = storeToRefs(useUserStore())
+
   await new Promise((resolve) => {
     debug('Setting up auth state listener in router guard')
     const unsub = onAuthStateChanged(auth, async (user) => {
       debug('Auth state changed callback triggered')
       isAuthenticated = !!user
 
-      const { user: loggedUser } = storeToRefs(useUserStore())
       if ((isAuthenticated && !loggedUser.value) || !Object.keys(loggedUser.value).length)
         await useAuthStore().handleLogin(user!)
 
@@ -44,7 +45,7 @@ router.beforeEach(async (to, _from, next) => {
       debug('Timeout triggered')
       unsub()
       resolve(false)
-    }, 5000)
+    }, 2000)
   })
 
   if (!to.name) next({ name: 'Login' })
@@ -56,9 +57,15 @@ router.beforeEach(async (to, _from, next) => {
     return next({ name: 'Login' })
   }
 
+  if (isAuthenticated && !loggedUser.value.onboarded && to.name !== 'Onboarding') {
+    debug('User not onboarded, redirecting to onboarding')
+    return next({ name: 'Onboarding' })
+  }
+
   // if authenticated and trying to access login or register, redirect to default
   const authPages = ['Get Started', 'Login', 'Register', 'Forgot Password']
   debug(`Route name: ${to.name!.toString()}`)
+
   if (authPages.includes(to.name!.toString()) && isAuthenticated) {
     return next({ name: 'My Profile' })
   }
