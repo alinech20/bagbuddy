@@ -56,6 +56,7 @@ const navigateTo = (name: string, idx: number) => {
     height: 100%
     border-radius: 0
     display: flex
+    flex: 1
     flex-direction: column
     align-items: center
     cursor: pointer

@@ -48,35 +48,71 @@ const prev = () => {
 </script>
 
 <template>
-  <v-stepper
-    class="w-100"
-    elevation="0"
-    bg-color="background"
-    v-model="currentStepNo"
-    prev-text="back"
-    :next-text="currentStepNo < steps.length ? 'next' : 'save'"
-  >
-    <v-stepper-header>
-      <v-stepper-item
-        v-for="(step, index) in steps"
-        :key="index"
-        :value="index + 1"
-        :title="step.title"
-      />
-    </v-stepper-header>
-    <v-stepper-window :value="currentStepNo">
-      <component
-        v-if="steps[currentStepNo - 1].component"
-        :is="steps[currentStepNo - 1].component"
-        :from="lastAction"
-        @prev="prev"
-        @next="next"
-      />
-    </v-stepper-window>
-    <v-stepper-actions
-      :disabled="false"
-      @click:next="next"
-      @click:prev="prev"
-    />
-  </v-stepper>
+  <section class="create-list">
+    <div class="create-list-current-step">
+      <div class="create-list-current-step__number">
+        {{ currentStepNo }}
+      </div>
+      <span class="create-list-current-step__title">
+        {{ steps[currentStepNo - 1].title }}
+      </span>
+    </div>
+    <component v-if="steps[currentStepNo - 1].component" :is="steps[currentStepNo - 1].component" />
+  </section>
+  <!--  <v-stepper-->
+  <!--    class="w-100"-->
+  <!--    elevation="0"-->
+  <!--    bg-color="background"-->
+  <!--    v-model="currentStepNo"-->
+  <!--    prev-text="back"-->
+  <!--    :next-text="currentStepNo < steps.length ? 'next' : 'save'"-->
+  <!--  >-->
+  <!--    <v-stepper-header>-->
+  <!--      <v-stepper-item-->
+  <!--        v-for="(step, index) in steps"-->
+  <!--        :key="index"-->
+  <!--        :value="index + 1"-->
+  <!--        :title="step.title"-->
+  <!--      />-->
+  <!--    </v-stepper-header>-->
+  <!--    <v-stepper-window :value="currentStepNo">-->
+  <!--      <component-->
+  <!--        v-if="steps[currentStepNo - 1].component"-->
+  <!--        :is="steps[currentStepNo - 1].component"-->
+  <!--        :from="lastAction"-->
+  <!--        @prev="prev"-->
+  <!--        @next="next"-->
+  <!--      />-->
+  <!--    </v-stepper-window>-->
+  <!--    <v-stepper-actions-->
+  <!--      :disabled="false"-->
+  <!--      @click:next="next"-->
+  <!--      @click:prev="prev"-->
+  <!--    />-->
+  <!--  </v-stepper>-->
 </template>
+
+<style lang="sass">
+@import '@/assets/sass/vars/borders'
+@import '@/assets/sass/vars/colors'
+@import '@/assets/sass/vars/spacers'
+@import '@/assets/sass/vars/typography'
+
+.create-list
+  padding: $spacer-md
+
+  .create-list-current-step
+    margin-bottom: $spacer-sm
+    font-size: $font-size-sm
+    text-align: center
+
+    &__number
+      display: inline-block
+      border-radius: $border-radius-circle
+      background: var(--dirty-background)
+      width: 24px
+      height: 24px
+      text-align: center
+      line-height: 24px
+      margin-right: $spacer-sm
+</style>

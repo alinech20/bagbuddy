@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import SharedCard from '@/components/shared/SharedCard.vue'
+
 defineProps<{
   title?: string
   subtitle?: string
@@ -6,14 +8,33 @@ defineProps<{
 </script>
 
 <template>
-  <v-sheet class="text-center" max-width="600" color="background">
-    <h2 v-if="title" class="text-h4">{{ title }}</h2>
-
-    <section class="d-flex d-flex flex-column justify-space-between mt-4">
-      <h3 v-if="subtitle" class="text-h5">{{ subtitle }}</h3>
-      <section class="mt-8">
-        <slot></slot>
-      </section>
-    </section>
-  </v-sheet>
+  <SharedCard class="create-list-step">
+    <div class="create-list-step__title">
+      <h2 v-if="title" class="header-4">{{ title }}</h2>
+      <h3 v-if="subtitle" class="header-5">{{ subtitle }}</h3>
+    </div>
+    <div class="create-list-step__fields">
+      <slot></slot>
+    </div>
+  </SharedCard>
 </template>
+
+<style lang="sass">
+@import '@/assets/sass/vars/spacers'
+
+.create-list-step
+  max-width: 600px
+
+  &__title
+    text-align: center
+
+    h2
+      margin-bottom: $spacer-sm
+
+    h3
+      margin-bottom: $spacer-xl
+
+  &__fields
+    max-width: 400px
+    margin: 0 auto
+</style>

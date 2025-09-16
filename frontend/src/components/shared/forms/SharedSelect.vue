@@ -124,10 +124,19 @@ onBeforeUnmount(() => {
 @import '@/assets/sass/vars/spacers'
 
 .form-field
+  &--select
+    position: relative
+    cursor: pointer
+
   .shared-select
     display: flex
     justify-content: space-between
     align-items: center
+    border: 1px solid var(--border-color-primary)
+    border-radius: $border-radius-md
+    background-color: var(--input-background)
+    padding: $spacer-sm
+    width: 100%
 
     .dropdown-icon
       transition: transform 0.2s ease-in-out

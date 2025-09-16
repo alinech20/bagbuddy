@@ -40,6 +40,12 @@ const model = defineModel<string>()
         margin-right: 0.5rem
         cursor: pointer
 
+        width: auto
+
+        &:focus
+          border-color: var(--primary)
+          outline: none
+
       label
         margin-bottom: 0
         cursor: pointer

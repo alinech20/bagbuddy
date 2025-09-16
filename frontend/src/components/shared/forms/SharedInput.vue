@@ -7,23 +7,36 @@ defineProps<{
   required?: boolean
   errors?: string[]
   max?: string | number
+  textarea?: boolean
+  lines?: number
 }>()
 
 defineEmits(['blur', 'focus'])
 
-const model = defineModel()
+const model = defineModel<any>()
 </script>
 
 <template>
   <div class="form-field">
     <label :for="name">{{ label }}</label>
     <input
+      v-if="!textarea"
       :id="name"
       :type="type || 'text'"
       :name="name"
       v-model="model"
       :required="required"
       :max="max"
+      @blur="$emit('blur')"
+      @focus="$emit('focus')"
+    />
+    <textarea
+      v-else
+      :id="name"
+      :name="name"
+      v-model="model"
+      :required="required"
+      :rows="lines || 3"
       @blur="$emit('blur')"
       @focus="$emit('focus')"
     />
@@ -42,30 +55,23 @@ const model = defineModel()
 .form-field
   margin-bottom: $spacer-md
 
-  &--select
-    position: relative
-    cursor: pointer
-
   label
     display: block
     margin-bottom: $spacer-sm
 
-  input, select, .shared-select
+  input, textarea
     border: 1px solid var(--border-color-primary)
     border-radius: $border-radius-md
     background-color: var(--input-background)
     padding: $spacer-sm
     width: 100%
 
-  input[type='radio']
-    width: auto
-
-    &:focus
-      border-color: var(--primary)
-      outline: none
+  textarea
+    resize: none
 
   .error-list
     margin-top: $spacer-sm
+
     .error
       list-style-type: none
       color: var(--error)

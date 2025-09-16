@@ -34,7 +34,7 @@ router.beforeEach(async (to, _from, next) => {
       debug('Auth state changed callback triggered')
       isAuthenticated = !!user
 
-      if ((isAuthenticated && !loggedUser.value) || !Object.keys(loggedUser.value).length)
+      if (isAuthenticated && (!loggedUser.value || !Object.keys(loggedUser.value).length))
         await useAuthStore().handleLogin(user!)
 
       unsub()
@@ -48,7 +48,7 @@ router.beforeEach(async (to, _from, next) => {
     }, 2000)
   })
 
-  if (!to.name) next({ name: 'Login' })
+  if (!to.name) return next({ name: 'Login' })
 
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
 
@@ -57,13 +57,13 @@ router.beforeEach(async (to, _from, next) => {
     return next({ name: 'Login' })
   }
 
-  if (isAuthenticated && !loggedUser.value.onboarded && to.name !== 'Onboarding') {
+  if (isAuthenticated && !loggedUser.value.onboarded && !to.name.toString().startsWith('Onboarding')) {
     debug('User not onboarded, redirecting to onboarding')
-    return next({ name: 'Onboarding' })
+    return next({ name: 'Onboarding Step', params: { step: 1 } })
   }
 
   // if authenticated and trying to access login or register, redirect to default
-  const authPages = ['Get Started', 'Login', 'Register', 'Forgot Password']
+  const authPages = ['Get Started', 'Login', 'Register', 'Forgot Password', 'Onboarding Step']
   debug(`Route name: ${to.name!.toString()}`)
 
   if (authPages.includes(to.name!.toString()) && isAuthenticated) {
