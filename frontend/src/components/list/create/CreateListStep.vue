@@ -11,7 +11,9 @@ defineProps<{
   <SharedCard class="create-list-step">
     <div class="create-list-step__title">
       <h2 v-if="title" class="header-4">{{ title }}</h2>
-      <h3 v-if="subtitle" class="header-5">{{ subtitle }}</h3>
+      <h3 v-if="subtitle" class="header-6">
+        <em>{{ subtitle }}</em>
+      </h3>
     </div>
     <div class="create-list-step__fields">
       <slot></slot>
@@ -20,6 +22,7 @@ defineProps<{
 </template>
 
 <style lang="sass">
+@import '@/assets/sass/vars/colors'
 @import '@/assets/sass/vars/spacers'
 
 .create-list-step

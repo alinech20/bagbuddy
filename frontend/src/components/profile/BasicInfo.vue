@@ -33,6 +33,7 @@ const fullName = computed(() => {
 
 <style lang="sass">
 @import '@/assets/sass/vars/borders'
+@import '@/assets/sass/vars/shadows'
 @import '@/assets/sass/vars/spacers'
 @import '@/assets/sass/vars/typography'
 
@@ -44,6 +45,7 @@ const fullName = computed(() => {
   width: 100%
   margin-top: 68px
   padding: 76px $spacer-md $spacer-md
+  box-shadow: $main-shadow
 
   &__avatar-wrapper
     background-color: var(--dirty-background)
@@ -56,7 +58,7 @@ const fullName = computed(() => {
     padding: $spacer-md
     width: 120px
     height: 120px
-    box-shadow: 0 2px 4px 0 rgba(24, 24, 24, 0.3)
+    box-shadow: $darker-tighter-shadow
 
   &__avatar
     width: 100%
@@ -67,7 +69,7 @@ const fullName = computed(() => {
     font-weight: $font-weight-medium
 
   &__email
-    margin-top: $spacer-md
+    margin: $spacer-md auto 0
 
   &__details
     margin-top: $spacer-lg

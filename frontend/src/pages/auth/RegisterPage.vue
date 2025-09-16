@@ -116,9 +116,11 @@ const registerUser = () => {
       width: 100%
 
   .login-invitation
-    color: var(--surface)
+    a
+      color: var(--surface)
 
   .continue-guest
     margin-top: $spacer-md
     font-size: $font-size-md
+    color: var(--surface)
 </style>

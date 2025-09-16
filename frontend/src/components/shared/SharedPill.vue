@@ -1,8 +1,24 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const props = defineProps<{
+  selectable?: boolean
+}>()
+
+const emit = defineEmits(['selected'])
+
+const selected = ref(false)
+const select = () => {
+  if (!props.selectable) return
+
+  selected.value = !selected.value
+  emit('selected')
+}
+</script>
 
 <template>
-  <div class="pill">
-    <span class="pill__icon" v-if="$slots['icon-before']()">
+  <div class="pill" :class="{ selected: selected }" @click="select">
+    <span class="pill__icon" v-if="$slots['icon-before']">
       <slot name="icon-before" />
     </span>
     <slot />
@@ -18,7 +34,6 @@
   padding: $spacer-xs $spacer-md
   border-radius: $border-radius-pill
   font-size: $font-size-md
-  margin: 0 auto
   display: flex
   align-items: center
   justify-content: space-between

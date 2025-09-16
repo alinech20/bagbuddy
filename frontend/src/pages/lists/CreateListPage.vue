@@ -5,6 +5,7 @@ import AddCategories from '@/components/list/create/AddCategories.vue'
 import AddSubcategories from '@/components/list/create/AddSubcategories.vue'
 import AddItems from '@/components/list/create/AddItems.vue'
 import { useListStore } from '@/stores/list.ts'
+import ProgressionButtons from '@/components/shared/complex/ProgressionButtons.vue'
 
 const { saveNewList } = useListStore()
 
@@ -58,38 +59,8 @@ const prev = () => {
       </span>
     </div>
     <component v-if="steps[currentStepNo - 1].component" :is="steps[currentStepNo - 1].component" />
+    <ProgressionButtons :steps="steps.length" :current-step="currentStepNo" @prev="prev" @next="next" />
   </section>
-  <!--  <v-stepper-->
-  <!--    class="w-100"-->
-  <!--    elevation="0"-->
-  <!--    bg-color="background"-->
-  <!--    v-model="currentStepNo"-->
-  <!--    prev-text="back"-->
-  <!--    :next-text="currentStepNo < steps.length ? 'next' : 'save'"-->
-  <!--  >-->
-  <!--    <v-stepper-header>-->
-  <!--      <v-stepper-item-->
-  <!--        v-for="(step, index) in steps"-->
-  <!--        :key="index"-->
-  <!--        :value="index + 1"-->
-  <!--        :title="step.title"-->
-  <!--      />-->
-  <!--    </v-stepper-header>-->
-  <!--    <v-stepper-window :value="currentStepNo">-->
-  <!--      <component-->
-  <!--        v-if="steps[currentStepNo - 1].component"-->
-  <!--        :is="steps[currentStepNo - 1].component"-->
-  <!--        :from="lastAction"-->
-  <!--        @prev="prev"-->
-  <!--        @next="next"-->
-  <!--      />-->
-  <!--    </v-stepper-window>-->
-  <!--    <v-stepper-actions-->
-  <!--      :disabled="false"-->
-  <!--      @click:next="next"-->
-  <!--      @click:prev="prev"-->
-  <!--    />-->
-  <!--  </v-stepper>-->
 </template>
 
 <style lang="sass">
@@ -102,7 +73,7 @@ const prev = () => {
   padding: $spacer-md
 
   .create-list-current-step
-    margin-bottom: $spacer-sm
+    margin-bottom: $spacer-md
     font-size: $font-size-sm
     text-align: center
 

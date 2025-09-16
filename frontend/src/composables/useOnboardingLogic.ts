@@ -26,7 +26,7 @@ export const useOnboardingLogic = () => {
   const continueOnboarding = (args: object) => {
     switch (step.value) {
       case ONBOARDING_STEPS.WELCOME:
-        saveBasicDetails(args)
+        saveBasicDetails(args as any)
         setStep(ONBOARDING_STEPS.TRAVEL_PREFERENCES)
         break
       case ONBOARDING_STEPS.TRAVEL_PREFERENCES:

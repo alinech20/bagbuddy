@@ -37,5 +37,7 @@ import router from '@/router'
 
   p.login
     margin-top: $spacer-xl
-    color: var(--surface)
+
+    a
+      color: var(--surface)
 </style>

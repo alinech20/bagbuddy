@@ -39,6 +39,7 @@ errorBus.on((error) => {
 
 <style lang="sass">
 @import '@/assets/sass/vars/borders'
+@import '@/assets/sass/vars/shadows'
 @import '@/assets/sass/vars/spacers'
 @import '@/assets/sass/vars/typography'
 
@@ -59,7 +60,7 @@ errorBus.on((error) => {
     padding: $spacer-md $spacer-lg
     border-radius: $border-radius-sm
     color: var(--on-primary)
-    box-shadow: 0 2px 5px 1px rgba(24, 24, 24, 0.3)
+    box-shadow: $main-shadow
     animation: fadein 0.3s
 
     &.error

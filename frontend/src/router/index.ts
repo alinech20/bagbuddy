@@ -16,10 +16,10 @@ const router = createRouter({
 })
 
 const { debug } = useLogger()
+let isAuthenticated = false
 
 router.beforeEach(async (to, _from, next) => {
   debug('Before navigation')
-  let isAuthenticated = false
 
   if (!auth) {
     debug('Auth object not initialized')

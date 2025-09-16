@@ -32,4 +32,8 @@
 
     &:hover
       background-color: var(--primary-hover)
+
+  &.btn-secondary
+    background-color: var(--secondary)
+    color: white
 </style>

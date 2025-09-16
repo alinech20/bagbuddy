@@ -19,10 +19,13 @@
 
 <style lang="sass">
 @import '@/assets/sass/vars/borders'
+@import '@/assets/sass/vars/colors'
+@import '@/assets/sass/vars/shadows'
 @import '@/assets/sass/vars/spacers'
 
 .card
   padding: $spacer-md
+  border: 1px solid var(--border-primary-light)
   border-radius: $border-radius-md
-  box-shadow: 0 2px 4px -1px rgba(24, 24, 24, 0.3)
+  box-shadow: $main-shadow
 </style>

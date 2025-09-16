@@ -9,7 +9,7 @@ const { newList } = storeToRefs(listStore)
 </script>
 
 <template>
-  <CreateListStep title="Let's get started!" subtitle="What is this list about?">
+  <CreateListStep title="Let's get started!" subtitle="What's this list about?">
     <SharedInput label="Name" v-model="newList.name" />
     <SharedInput label="Description" v-model="newList.description" textarea />
   </CreateListStep>

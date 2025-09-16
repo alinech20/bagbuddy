@@ -4,8 +4,8 @@ import { useOnboardingStore } from '@/stores/onboarding.ts'
 import { useUserStore } from '@/stores/user.ts'
 import router from '@/router'
 import SharedCard from '@/components/shared/SharedCard.vue'
-import SharedButton from '@/components/shared/forms/SharedButton.vue'
 import { ONBOARDING_STEPS } from '@/types/user.ts'
+import ProgressionButtons from '@/components/shared/complex/ProgressionButtons.vue'
 
 const { step } = storeToRefs(useOnboardingStore())
 const { updateUserProfile } = useUserStore()
@@ -32,26 +32,17 @@ const saveAndSkip = () => {
         <slot name="form"></slot>
       </SharedCard>
     </section>
-    <section class="onboarding-step__section onboarding-step__section--actions">
-      <slot name="actions">
-        <div class="left">
-          <SharedButton @click="saveAndSkip">Skip</SharedButton>
-          <SharedButton v-if="step !== ONBOARDING_STEPS.WELCOME" class="btn-secondary" @click="$emit('prev')">
-            Back
-          </SharedButton>
-        </div>
-        <div class="right">
-          <SharedButton
-            v-if="step !== Object.keys(ONBOARDING_STEPS).length / 2"
-            class="btn-primary"
-            @click="$emit('next')"
-          >
-            Next
-          </SharedButton>
-          <SharedButton v-else class="btn-primary" @click="$emit('next')">Finish</SharedButton>
-        </div>
-      </slot>
-    </section>
+    <ProgressionButtons
+      class="onboarding-step__section onboarding-step__section--actions"
+      :steps="Object.keys(ONBOARDING_STEPS).length / 2"
+      :current-step="step"
+      allow-skip
+      separate-finish
+      @skip="saveAndSkip"
+      @prev="$emit('prev')"
+      @next="$emit('next')"
+      @done="$emit('next')"
+    />
   </article>
 </template>
 
@@ -65,11 +56,6 @@ const saveAndSkip = () => {
   .onboarding-step__section
     margin-top: $spacer-xl
     text-align: center
-
-    &--actions
-      text-align: initial
-      display: flex
-      justify-content: space-between
 
     .step-card
       box-shadow: none

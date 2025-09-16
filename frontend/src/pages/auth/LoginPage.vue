@@ -96,10 +96,13 @@ const loginUser = () => {
       width: 100%
 
   .register-invitation
-    color: var(--surface)
+    a
+      color: var(--surface)
 
   .forgot-password
-    color: var(--surface)
     margin-top: $spacer-md
     font-size: $font-size-md
+
+    a
+      color: var(--surface)
 </style>

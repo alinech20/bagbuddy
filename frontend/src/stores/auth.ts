@@ -15,12 +15,14 @@ import { useUserStore } from '@/stores/user.ts'
 import { errorHandlerUtils } from '@/utils/errorHandlerUtils.ts'
 import { useListStore } from '@/stores/list.ts'
 import { useListService } from '@/services/list.ts'
+import router from '@/router'
 
 export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
-  const { setUser, clearUser } = useUserStore()
-  const { login: loginService, logout: logoutService, register: registerService } = useAuthService()
   const { trace, info, debug } = useLogger()
   const { handleError } = errorHandlerUtils()
+  const { setUser, clearUser } = useUserStore()
+  const { login: loginService, logout: logoutService, register: registerService } = useAuthService()
+
   const token = ref('')
   const isAuthenticated = computed(() => !!token.value)
 
@@ -59,14 +61,21 @@ export const useAuthStore = defineStore(PINIA_STORE_KEYS.AUTH, () => {
 
     debug(`Logged user onboarded: ${loggedUser.onboarded}`)
 
-    // if (!loggedUser.onboarded) return await router.push({ name: 'Onboarding' })
-    // await router.push({ name: 'My Profile' })
+    const loginRedirect = localStorage.getItem('login-redirect')
+    if (loginRedirect) {
+      router.push({ name: 'My Profile' })
+      localStorage.removeItem('login-redirect')
+    }
   }
 
   const login = async (email: string, password: string, verify = false) => {
     trace('Logging in...')
     try {
       const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+
+      if (userCredentials) {
+        localStorage.setItem('login-redirect', 'true')
+      }
 
       if (verify || !userCredentials.user.emailVerified) {
         trace('Sending verification email...')

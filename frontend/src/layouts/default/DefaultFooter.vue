@@ -36,6 +36,7 @@ const navigateTo = (name: string, idx: number) => {
 
 <style lang="sass">
 @import '@/assets/sass/vars/colors'
+@import '@/assets/sass/vars/shadows'
 @import '@/assets/sass/vars/typography'
 
 .bottom-navigation
@@ -47,7 +48,7 @@ const navigateTo = (name: string, idx: number) => {
   background: var(--primary)
   z-index: 1000
   height: 60px
-  box-shadow: 0 -2px 4px -1px rgba(24, 24, 24, 0.3)
+  box-shadow: $upper-darker-tighter-shadow
 
   .nav-btn
     background: transparent
