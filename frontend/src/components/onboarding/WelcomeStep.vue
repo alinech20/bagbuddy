@@ -5,7 +5,6 @@ import { useDateFormat } from '@vueuse/core'
 import { useOnboardingLogic } from '@/composables/useOnboardingLogic.ts'
 import SharedInput from '@/components/shared/forms/SharedInput.vue'
 import type { IRadioOption } from '@/types/forms.ts'
-import SharedButton from '@/components/shared/forms/SharedButton.vue'
 import SharedSelect from '@/components/shared/forms/SharedSelect.vue'
 
 const twelveYearsAgo = useDateFormat(
@@ -43,10 +42,10 @@ const nextStep = () => {
 </script>
 
 <template>
-  <OnboardingStep>
+  <OnboardingStep @next="nextStep">
     <template #title> Welcome to BagBuddy!</template>
     <template #description>
-      We're excited to have you on board! Let's get started by filling in some basic information:
+      We're excited to have you on board! Let's get started by filling in some basic information
     </template>
     <template #form>
       <form>
@@ -56,10 +55,6 @@ const nextStep = () => {
         <!--        <SharedSelect label="Country" v-model="country" :options="[]" />-->
         <SharedSelect v-model="gender" :options="genderList" label="Gender" />
       </form>
-    </template>
-    <template #actions>
-      <SharedButton>Skip</SharedButton>
-      <SharedButton @click="nextStep" class="btn-primary">Next</SharedButton>
     </template>
   </OnboardingStep>
 </template>

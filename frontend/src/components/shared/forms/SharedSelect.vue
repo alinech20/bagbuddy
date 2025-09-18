@@ -121,6 +121,7 @@ onBeforeUnmount(() => {
 
 <style lang="sass">
 @import '@/assets/sass/vars/borders'
+@import '@/assets/sass/vars/shadows'
 @import '@/assets/sass/vars/spacers'
 
 .form-field
@@ -133,9 +134,9 @@ onBeforeUnmount(() => {
     justify-content: space-between
     align-items: center
     border: 1px solid var(--border-color-primary)
-    border-radius: $border-radius-md
+    border-radius: $border-radius-lg
     background-color: var(--input-background)
-    padding: $spacer-sm
+    padding: $spacer-md
     width: 100%
 
     .dropdown-icon
@@ -143,6 +144,8 @@ onBeforeUnmount(() => {
       font-size: 1.2em
 
     &.open
+      outline: 1px solid var(--primary)
+
       .dropdown-icon
         transform: rotate(180deg)
 
@@ -152,19 +155,20 @@ onBeforeUnmount(() => {
     left: 0
     right: 0
     background-color: white
-    border-radius: $border-radius-sm
+    border-radius: $border-radius-lg
     z-index: 10
     height: auto
     max-height: 0
     overflow-y: auto
     transition: max-height 0.2s ease-in-out
+    box-shadow: $darker-tighter-shadow
 
     &.open
       border: 1px solid var(--border-color-primary)
       max-height: 220px
 
   .dropdown-option
-    padding: $spacer-sm
+    padding: $spacer-md
     cursor: pointer
     display: flex
     align-items: center
@@ -180,5 +184,5 @@ onBeforeUnmount(() => {
       cursor: pointer
 
     &:hover
-      background-color: var(--dirty-background)
+      background-color: var(--input-gray-background)
 </style>

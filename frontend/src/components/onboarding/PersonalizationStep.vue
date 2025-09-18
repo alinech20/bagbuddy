@@ -27,7 +27,7 @@ const nextStep = () => {
   <OnboardingStep @next="nextStep" @prev="goBack">
     <template #title>Personalization</template>
     <template #description>
-      Let's make your BagBuddy experience even better by adding a personal touch to your packing lists:
+      Let's make your BagBuddy experience even better by adding a personal touch to your packing lists
     </template>
     <template #form>
       <form>

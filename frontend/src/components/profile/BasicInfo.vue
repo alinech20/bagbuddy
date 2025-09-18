@@ -21,7 +21,7 @@ const fullName = computed(() => {
       <Icon icon="mdi:account" class="basic-info__avatar" />
     </div>
     <h2 class="basic-info__name">{{ fullName }}</h2>
-    <SharedPill class="basic-info__email primary">
+    <SharedPill class="basic-info__email secondary">
       <template #icon-before>
         <Icon icon="mdi:email" />
       </template>
@@ -38,14 +38,14 @@ const fullName = computed(() => {
 @import '@/assets/sass/vars/typography'
 
 .basic-info
-  background-color: var(--background)
   text-align: center
-  border-radius: $border-radius-md
+  border-radius: $border-radius-lg
   position: relative
   width: 100%
   margin-top: 68px
   padding: 76px $spacer-md $spacer-md
   box-shadow: $main-shadow
+  background-color: white
 
   &__avatar-wrapper
     background-color: var(--dirty-background)
@@ -63,6 +63,9 @@ const fullName = computed(() => {
   &__avatar
     width: 100%
     height: 100%
+
+    path
+      fill: var(--text-primary-lightest)
 
   &__name
     font-size: $font-size-h4

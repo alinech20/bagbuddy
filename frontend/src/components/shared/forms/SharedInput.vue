@@ -48,7 +48,6 @@ const model = defineModel<any>()
 
 <style lang="sass">
 @import '@/assets/sass/vars/spacers'
-@import '@/assets/sass/vars/colors'
 @import '@/assets/sass/vars/borders'
 @import '@/assets/sass/vars/typography'
 
@@ -58,13 +57,18 @@ const model = defineModel<any>()
   label
     display: block
     margin-bottom: $spacer-sm
+    color: var(--text-primary-lighter)
 
   input, textarea
-    border: 1px solid var(--border-color-primary)
-    border-radius: $border-radius-md
+    border: none
+    outline: none
+    border-radius: $border-radius-lg
     background-color: var(--input-background)
-    padding: $spacer-sm
+    padding: $spacer-md
     width: 100%
+
+    &:focus
+      outline: 1px solid var(--primary)
 
   textarea
     resize: none

@@ -5,7 +5,7 @@ import SharedButton from '@/components/shared/forms/SharedButton.vue'
 import { Icon } from '@iconify/vue'
 
 const navItems = [
-  { title: 'List', icon: 'mdi:playlist-plus', to: 'Create Packing List' },
+  { title: 'Pack', icon: 'mdi:luggage', to: 'Create Packing List' },
   { title: 'Profile', icon: 'mdi:account', to: 'My Profile' },
 ]
 
@@ -35,8 +35,8 @@ const navigateTo = (name: string, idx: number) => {
 </template>
 
 <style lang="sass">
-@import '@/assets/sass/vars/colors'
 @import '@/assets/sass/vars/shadows'
+@import '@/assets/sass/vars/spacers'
 @import '@/assets/sass/vars/typography'
 
 .bottom-navigation
@@ -45,15 +45,15 @@ const navigateTo = (name: string, idx: number) => {
   left: 0
   right: 0
   display: flex
-  background: var(--primary)
   z-index: 1000
-  height: 60px
-  box-shadow: $upper-darker-tighter-shadow
+  background: white
+  height: 80px
+  border-top: 1px solid var(--border-light-gray)
 
   .nav-btn
     background: transparent
-    color: var(--on-primary)
-    font-size: $font-size-xs
+    color: var(--text-primary-lightest)
+    font-size: $font-size-sm
     height: 100%
     border-radius: 0
     display: flex
@@ -63,16 +63,22 @@ const navigateTo = (name: string, idx: number) => {
     cursor: pointer
     transition: background 0.2s
 
-    &:hover
-      background: var(--primary-hover)
-
     &.active
-      background: var(--secondary)
+      color: var(--primary)
+      *
+        color: var(--primary)
+
+    &:hover
+      background: var(--surface-primary)
+      color: var(--primary-hover)
+
+      *
+        color: var(--primary-hover)
 
     &__icon
-      color: var(--on-primary)
       font-size: $font-size-3xl
+      margin-bottom: $spacer-xs
 
       > *
-        color: var(--on-primary)
+        color: var(--text-primary-lightest)
 </style>

@@ -50,7 +50,7 @@ const loginUser = () => {
 
 <template>
   <AuthMain @submit="loginUser">
-    <template #title>Let's get packing!</template>
+    <template #title>Welcome back!</template>
     <template #fields>
       <SharedInput
         label="Email"
@@ -70,23 +70,22 @@ const loginUser = () => {
         @focus="clearErrors('password')"
         :errors="passwordErrors"
       />
+      <p class="forgot-password">
+        <router-link :to="{ name: 'Forgot Password' }">Forgot password?</router-link>
+      </p>
     </template>
     <template #actions>
-      <SharedButton type="submit" class="btn-primary btn-login">Login</SharedButton>
+      <SharedButton type="submit" class="btn-primary btn-login">Sign In</SharedButton>
     </template>
     <template #footer>
       <p class="register-invitation">
         Don't have an account? <router-link :to="{ name: 'Register' }">Sign up</router-link>
-      </p>
-      <p class="forgot-password">
-        Forgot password? <router-link :to="{ name: 'Forgot Password' }">Recover it here</router-link>
       </p>
     </template>
   </AuthMain>
 </template>
 
 <style lang="sass">
-@import '@/assets/sass/vars/colors'
 @import '@/assets/sass/vars/spacers'
 @import '@/assets/sass/vars/typography'
 
@@ -95,14 +94,15 @@ const loginUser = () => {
     .btn-login
       width: 100%
 
-  .register-invitation
-    a
-      color: var(--surface)
-
   .forgot-password
-    margin-top: $spacer-md
+    margin: $spacer-md 0
     font-size: $font-size-md
 
+  .register-invitation
+    font-size: $font-size-md
+    color: var(--text-primary-light)
+
     a
-      color: var(--surface)
+      font-size: $font-size-lg
+      font-weight: $font-weight-medium
 </style>

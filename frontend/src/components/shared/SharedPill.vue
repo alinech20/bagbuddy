@@ -40,8 +40,12 @@ const select = () => {
   width: fit-content
 
   &.primary
-    background-color: var(--dirty-background)
-    color: var(--primary)
+    background-color: var(--surface-primary)
+    color: var(--primary-hover)
+
+  &.secondary
+    background-color: var(--surface-secondary)
+    color: var(--secondary-hover)
 
   &__icon
     display: flex

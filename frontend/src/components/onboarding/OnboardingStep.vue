@@ -25,7 +25,7 @@ const saveAndSkip = () => {
       </h1>
     </section>
     <section class="onboarding-step__section">
-      <p class="paragraph-1">
+      <p class="description">
         <slot name="description"></slot>
       </p>
       <SharedCard class="step-card">
@@ -47,7 +47,6 @@ const saveAndSkip = () => {
 </template>
 
 <style lang="sass">
-@import '@/assets/sass/vars/colors'
 @import '@/assets/sass/vars/spacers'
 
 .onboarding-step
@@ -56,6 +55,12 @@ const saveAndSkip = () => {
   .onboarding-step__section
     margin-top: $spacer-xl
     text-align: center
+
+    .description
+      color: var(--text-primary-light)
+
+    &--actions
+      margin-top: 0
 
     .step-card
       box-shadow: none

@@ -22,7 +22,7 @@ const nextStep = () => {
 <template>
   <OnboardingStep @next="nextStep" @prev="goBack">
     <template #title>Additional Details</template>
-    <template #description> Almost there! Just a few more things:</template>
+    <template #description> Almost there! Just a few more things</template>
     <template #form>
       <form>
         <SharedSelect

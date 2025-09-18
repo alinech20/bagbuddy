@@ -29,7 +29,7 @@ const nextStep = () => {
   <OnboardingStep @next="nextStep" @prev="goBack">
     <template #title>Travel Preferences</template>
     <template #description>
-      Great! Now let's talk about your travel preferences. This will help us tailor your packing lists to your needs.
+      Great! Now let's talk about your travel preferences. This will help us tailor your packing lists to your needs
     </template>
     <template #form>
       <form>

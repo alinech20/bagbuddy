@@ -22,7 +22,6 @@ defineProps<{
 </template>
 
 <style lang="sass">
-@import '@/assets/sass/vars/colors'
 @import '@/assets/sass/vars/spacers'
 
 .create-list-step

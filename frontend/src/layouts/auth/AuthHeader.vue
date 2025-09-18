@@ -5,8 +5,9 @@ import AppLogo from '@/components/shared/AppLogo.vue'
 <template>
   <header class="auth-header">
     <div class="auth-header__wrapper">
-      <AppLogo class="auth-header__logo" :width="160" />
+      <AppLogo class="auth-header__logo" :width="100" />
       <h1 class="auth-header__title">BagBuddy</h1>
+      <h2 class="auth-header__subtitle paragraph-1">Your travel packing companion</h2>
     </div>
   </header>
 </template>
@@ -18,9 +19,14 @@ import AppLogo from '@/components/shared/AppLogo.vue'
 .auth-header
   &__wrapper
     margin-top: $spacer-2xl
+    text-align: center
 
   &__title
     font-size: $font-size-4xl
     font-weight: $font-weight-medium
     margin-top: $spacer-lg
+
+  &__subtitle
+    color: var(--text-primary-lighter)
+    margin-top: $spacer-sm
 </style>

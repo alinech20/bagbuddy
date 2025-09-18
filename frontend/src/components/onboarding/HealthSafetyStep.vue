@@ -36,7 +36,7 @@ const nextStep = () => {
 <template>
   <OnboardingStep @next="nextStep" @prev="goBack">
     <template #title>Health & Safety</template>
-    <template #description> Let's make sure we cover your health and safety needs: </template>
+    <template #description>Let's make sure we cover your health and safety needs</template>
     <template #form>
       <form>
         <SharedSelect v-model="allergies" :options="allergiesItems" label="Do you have any allergies?" />

@@ -9,19 +9,17 @@
 
 <style lang="sass">
 @import '@/assets/sass/vars/borders'
-@import '@/assets/sass/vars/colors'
 @import '@/assets/sass/vars/sizes'
 @import '@/assets/sass/vars/spacers'
 @import '@/assets/sass/vars/typography'
 
 .btn
-  height: $button-height-md
   font-weight: $font-weight-medium
   cursor: pointer
-  border-radius: $border-radius-md
-  padding: $spacer-sm $spacer-lg
+  border-radius: $border-radius-lg
+  padding: $spacer-md
   transition: background-color 0.3s ease
-  text-transform: uppercase
+  color: var(--text-primary-lighter)
 
   &:hover
     background-color: var(--dirty-background)
@@ -36,4 +34,7 @@
   &.btn-secondary
     background-color: var(--secondary)
     color: white
+
+    &:hover
+      background-color: var(--secondary-hover)
 </style>

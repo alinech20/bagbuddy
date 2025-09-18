@@ -100,13 +100,12 @@ const registerUser = () => {
     </template>
     <template #footer>
       <p class="login-invitation">Already have an account? <router-link :to="{ name: 'Login' }">Login</router-link></p>
-      <p class="continue-guest">Continue as guest</p>
+      <!--      <p class="continue-guest">Continue as guest</p>-->
     </template>
   </AuthMain>
 </template>
 
 <style lang="sass">
-@import '@/assets/sass/vars/colors'
 @import '@/assets/sass/vars/spacers'
 @import '@/assets/sass/vars/typography'
 
@@ -116,11 +115,14 @@ const registerUser = () => {
       width: 100%
 
   .login-invitation
+    font-size: $font-size-md
+    color: var(--text-primary-light)
+
     a
-      color: var(--surface)
+      font-size: $font-size-lg
+      font-weight: $font-weight-medium
 
   .continue-guest
     margin-top: $spacer-md
     font-size: $font-size-md
-    color: var(--surface)
 </style>

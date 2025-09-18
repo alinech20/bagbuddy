@@ -24,11 +24,16 @@ defineEmits(['skip', 'prev', 'next', 'done'])
 </template>
 
 <style lang="sass">
+@import '@/assets/sass/vars/borders'
 @import '@/assets/sass/vars/spacers'
 
 .progression-buttons
   text-align: initial
   display: flex
   justify-content: space-between
-  margin: $spacer-lg 0
+  margin: $spacer-md 0
+
+  button
+    padding: $spacer-sm $spacer-lg
+    border-radius: $border-radius-md
 </style>

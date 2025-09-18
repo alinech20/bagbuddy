@@ -59,9 +59,13 @@ const panel = ref<string>('')
   &__title
     font-size: $font-size-xl
     font-weight: $font-weight-medium
+    color: var(--text-primary-light)
 
   &__list
     margin-top: $spacer-md
+
+    *
+      color: var(--text-primary-lighter)
 
   &__item
     padding: $spacer-sm 0

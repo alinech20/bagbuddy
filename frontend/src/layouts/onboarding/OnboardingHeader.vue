@@ -31,6 +31,6 @@ header
 
 .progress-bar__fill
   height: 100%
-  background: var(--success)
+  background: var(--secondary)
   transition: width 0.3s
 </style>

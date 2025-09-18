@@ -14,6 +14,8 @@ import AuthFooter from '@/layouts/auth/AuthFooter.vue'
 </template>
 
 <style lang="sass">
+@import '@/assets/sass/vars/spacers'
+
 .auth-layout
   display: flex
   flex-direction: column
@@ -21,7 +23,8 @@ import AuthFooter from '@/layouts/auth/AuthFooter.vue'
   min-height: 100vh
 
   .auth-layout__content
-    flex: 1
-    width: 80%
+    margin: $spacer-lg 0
+    padding: 0 $spacer-lg
+    width: 100%
     max-width: 600px
 </style>

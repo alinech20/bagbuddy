@@ -63,10 +63,11 @@ router.beforeEach(async (to, _from, next) => {
   }
 
   // if authenticated and trying to access login or register, redirect to default
-  const authPages = ['Get Started', 'Login', 'Register', 'Forgot Password', 'Onboarding Step']
+  const authPages = ['Get Started', 'Login', 'Register', 'Forgot Password']
   debug(`Route name: ${to.name!.toString()}`)
+  const skipOnboarding = to.name!.toString().startsWith('Onboarding') && loggedUser.value.onboarded
 
-  if (authPages.includes(to.name!.toString()) && isAuthenticated) {
+  if (isAuthenticated && (authPages.includes(to.name!.toString()) || skipOnboarding)) {
     return next({ name: 'My Profile' })
   }
 
