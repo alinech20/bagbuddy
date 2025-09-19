@@ -58,6 +58,7 @@ const model = defineModel<any>()
     display: block
     margin-bottom: $spacer-sm
     color: var(--text-primary-lighter)
+    font-size: $font-size-md
 
   input, textarea
     border: none

@@ -60,8 +60,10 @@ const navigateTo = (name: string, idx: number) => {
     flex: 1
     flex-direction: column
     align-items: center
+    justify-content: center
     cursor: pointer
     transition: background 0.2s
+    padding: $spacer-sm
 
     &.active
       color: var(--primary)

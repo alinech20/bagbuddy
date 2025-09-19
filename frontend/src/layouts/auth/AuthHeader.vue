@@ -18,7 +18,7 @@ import AppLogo from '@/components/shared/AppLogo.vue'
 
 .auth-header
   &__wrapper
-    margin-top: $spacer-2xl
+    margin-top: $spacer-xl
     text-align: center
 
   &__title

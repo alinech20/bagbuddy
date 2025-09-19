@@ -1,19 +1,16 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import vuetify from '@/plugins/vuetify.ts'
 import '@/assets/sass/main.sass'
 import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
 
-app.use(vuetify)
 app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
 
-// TODO: finish up add categories step and the selectable shared pill
 // TODO: remove vuetify for good
 // TODO: make first and last name required in welcome step onboarding
 // TODO: make skip button work in onboarding steps

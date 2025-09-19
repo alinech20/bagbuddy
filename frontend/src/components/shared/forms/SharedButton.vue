@@ -14,12 +14,16 @@
 @import '@/assets/sass/vars/typography'
 
 .btn
+  border: none
+  outline: none
   font-weight: $font-weight-medium
   cursor: pointer
   border-radius: $border-radius-lg
   padding: $spacer-md
   transition: background-color 0.3s ease
   color: var(--text-primary-lighter)
+  font-size: $font-size-lg
+  background-color: transparent
 
   &:hover
     background-color: var(--dirty-background)

@@ -27,38 +27,34 @@ export const useListStore = defineStore(PINIA_STORE_KEYS.LIST, () => {
     currentList.value = {} as IList
   }
 
-  const newList = ref<IList>({
-    owner: user.value,
-  } as IList)
-
-  const saveNewList = async () => {
-    trace('Saving new list')
-
-    if (!Object.keys(newList.value).length) return handleError('No list data to save')
-
-    if (!newList.value.name) return handleError('List name is required')
-    if (!newList.value.items?.length) return handleError('List items are required')
-
-    debug(`New list value: ${JSON.stringify(newList.value, null, 2)}`)
-
-    const { categories, owner, items, ...rest } = newList.value
-
-    const payload = {
-      ...rest,
-      items: items.map((item) => ({
-        item_id: item.id,
-      })),
-      profile_id: user.value.id,
-    }
-
-    debug(`Payload: ${JSON.stringify(payload, null, 2)}`)
-
-    const response = await createList(payload)
-    if (response && response.id) lists.value.push(response)
-
-    debug(`Response: ${JSON.stringify(response, null, 2)}`)
-    info('List saved')
-  }
+  // const saveNewList = async (newList: IList) => {
+  //   trace('Saving new list')
+  //
+  //   if (!Object.keys(newList).length) return handleError('No list data to save')
+  //
+  //   if (!newList.name) return handleError('List name is required')
+  //   if (!newList.items?.length) return handleError('List items are required')
+  //
+  //   debug(`New list value: ${JSON.stringify(newList, null, 2)}`)
+  //
+  //   const { categories, owner, items, ...rest } = newList
+  //
+  //   const payload = {
+  //     ...rest,
+  //     items: items.map((item) => ({
+  //       item_id: item.id,
+  //     })),
+  //     profile_id: user.value.id,
+  //   }
+  //
+  //   debug(`Payload: ${JSON.stringify(payload, null, 2)}`)
+  //
+  //   const response = await createList(payload)
+  //   if (response && response.id) lists.value.push(response)
+  //
+  //   debug(`Response: ${JSON.stringify(response, null, 2)}`)
+  //   info('List saved')
+  // }
 
   return {
     lists,
@@ -66,8 +62,5 @@ export const useListStore = defineStore(PINIA_STORE_KEYS.LIST, () => {
 
     currentList,
     resetCurrentList,
-
-    newList,
-    saveNewList,
   }
 })

@@ -17,14 +17,13 @@ import AuthFooter from '@/layouts/auth/AuthFooter.vue'
 @import '@/assets/sass/vars/spacers'
 
 .auth-layout
-  display: flex
-  flex-direction: column
-  align-items: center
+  display: grid
+  grid-template-rows: auto 1fr auto
   min-height: 100vh
+  padding: $spacer-sm $spacer-lg
 
   .auth-layout__content
     margin: $spacer-lg 0
-    padding: 0 $spacer-lg
     width: 100%
     max-width: 600px
 </style>

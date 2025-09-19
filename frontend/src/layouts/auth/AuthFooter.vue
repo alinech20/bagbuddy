@@ -5,9 +5,6 @@
 </template>
 
 <style lang="sass">
-@import '@/assets/sass/vars/spacers'
-
 .auth-footer
-  margin-top: auto
-  padding: $spacer-md 0
+  text-align: center
 </style>
