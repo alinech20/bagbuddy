@@ -7,6 +7,8 @@ import SharedButton from '@/components/shared/forms/SharedButton.vue'
 import { Icon } from '@iconify/vue'
 import SharedCard from '@/components/shared/SharedCard.vue'
 
+defineEmits(['add-category'])
+
 const categoryStore = useCategoryStore()
 const { categories } = storeToRefs(categoryStore)
 const { setCategories } = categoryStore
@@ -22,7 +24,7 @@ onMounted(async () => {
   <section class="add-items">
     <div class="add-items__title">
       <h3 class="header-6">Categories</h3>
-      <SharedButton class="add-category-btn btn-secondary">
+      <SharedButton class="add-category-btn btn-secondary" @click="$emit('add-category')">
         <template #icon-before>
           <Icon :icon="'mdi:plus'" class="add-category__icon" />
         </template>

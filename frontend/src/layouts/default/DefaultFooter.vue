@@ -43,7 +43,7 @@ const navigateTo = (name: string, idx: number) => {
 @import '@/assets/sass/vars/typography'
 
 .bottom-navigation
-  position: fixed
+  position: absolute
   bottom: 0
   left: 0
   right: 0

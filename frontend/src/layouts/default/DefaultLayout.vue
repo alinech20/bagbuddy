@@ -11,13 +11,13 @@ const background = computed(() => {
 </script>
 
 <template>
-  <DefaultHeader />
   <div class="default-layout" :style="''">
+    <DefaultHeader />
     <main class="default-layout__content">
       <router-view />
     </main>
+    <DefaultFooter />
   </div>
-  <DefaultFooter />
 </template>
 
 <style lang="sass">
@@ -28,8 +28,11 @@ const background = computed(() => {
   overflow: auto
   background-color: v-bind(background)
   min-height: calc(100dvh - $footer-height)
+  height: 100%
   padding-bottom: $footer-height
 
   .default-layout__content
     padding: $spacer-lg
+    height: calc(100dvh - $footer-height - $header-height)
+    overflow: auto
 </style>
