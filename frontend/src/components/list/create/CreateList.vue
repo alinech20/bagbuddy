@@ -11,7 +11,6 @@ defineProps<{
 
 <template>
   <section class="create-list">
-    <h2 class="create-list__title header-5">New Packing List</h2>
     <SharedCard class="create-list__basic-details create-list-section">
       <CreateListBasicInfo />
     </SharedCard>
@@ -34,7 +33,7 @@ defineProps<{
     background-color: white
     padding: $spacer-md
 
-  &-section
+  &-section:not(:first-child)
     margin-top: $spacer-lg
 
   &__title

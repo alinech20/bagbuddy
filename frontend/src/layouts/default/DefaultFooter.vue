@@ -5,7 +5,8 @@ import SharedButton from '@/components/shared/forms/SharedButton.vue'
 import { Icon } from '@iconify/vue'
 
 const navItems = [
-  { title: 'Pack', icon: 'mdi:luggage', to: 'Create Packing List' },
+  { title: 'Pack', icon: 'mdi:luggage', to: '/' },
+  { icon: 'mdi:plus', to: 'Create Packing List' },
   { title: 'Profile', icon: 'mdi:account', to: 'My Profile' },
 ]
 
@@ -23,7 +24,7 @@ const navigateTo = (name: string, idx: number) => {
       v-for="({ title, icon, to }, idx) in navItems"
       :key="to"
       class="nav-btn"
-      :class="{ active: active === idx }"
+      :class="{ active: active === idx, 'add-btn': !title }"
       @click="navigateTo(to, idx)"
     >
       <template #icon-before>
@@ -35,6 +36,7 @@ const navigateTo = (name: string, idx: number) => {
 </template>
 
 <style lang="sass">
+@import '@/assets/sass/vars/borders'
 @import '@/assets/sass/vars/shadows'
 @import '@/assets/sass/vars/sizes'
 @import '@/assets/sass/vars/spacers'
@@ -65,6 +67,18 @@ const navigateTo = (name: string, idx: number) => {
     cursor: pointer
     transition: background 0.2s
     padding: $spacer-sm
+
+    &.add-btn
+      color: var(--primary-hover)
+
+      *
+        color: var(--primary-hover)
+
+      &.active
+        background: var(--surface-primary)
+
+        *
+          color: var(--primary-hover)
 
     &.active
       color: var(--primary)

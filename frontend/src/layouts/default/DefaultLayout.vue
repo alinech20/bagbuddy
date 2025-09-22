@@ -4,8 +4,9 @@ import DefaultFooter from '@/layouts/default/DefaultFooter.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const background = computed(() => {
-  return useRoute().meta.background || 'var(--background)'
+  return route?.meta?.background || 'var(--background)'
 })
 </script>
 
