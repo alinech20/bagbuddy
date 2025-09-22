@@ -31,7 +31,7 @@ defineEmits(['submit'])
   .auth__title
     margin: 0 0 $spacer-md
     text-align: center
-    font-weight: $font-weight-medium
+    font-weight: $font-weight-bold
 
   .auth__subtitle
     font-size: $font-size-lg

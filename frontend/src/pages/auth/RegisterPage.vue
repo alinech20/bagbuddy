@@ -120,7 +120,7 @@ const registerUser = () => {
 
     a
       font-size: $font-size-lg
-      font-weight: $font-weight-medium
+      font-weight: $font-weight-semibold
 
   .continue-guest
     margin-top: $spacer-md

@@ -36,6 +36,7 @@ const navigateTo = (name: string, idx: number) => {
 
 <style lang="sass">
 @import '@/assets/sass/vars/shadows'
+@import '@/assets/sass/vars/sizes'
 @import '@/assets/sass/vars/spacers'
 @import '@/assets/sass/vars/typography'
 
@@ -47,7 +48,7 @@ const navigateTo = (name: string, idx: number) => {
   display: flex
   z-index: 1000
   background: white
-  height: 80px
+  height: $footer-height
   border-top: 1px solid var(--border-light-gray)
 
   .nav-btn

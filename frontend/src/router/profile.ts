@@ -4,6 +4,9 @@ export const profileRoutes = [
   {
     path: '/profile',
     component: () => import('@/layouts/default/DefaultLayout.vue'),
+    meta: {
+      background: 'white',
+    },
     children: [
       {
         path: '',

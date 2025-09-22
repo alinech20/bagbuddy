@@ -31,13 +31,15 @@ const select = () => {
 @import '@/assets/sass/vars/typography'
 
 .pill
-  padding: $spacer-xs $spacer-md
+  padding: $spacer-2xs $spacer-md
   border-radius: $border-radius-pill
   font-size: $font-size-md
   display: flex
   align-items: center
   justify-content: space-between
   width: fit-content
+  background-color: white
+  color: var(--on-background)
 
   &.primary
     background-color: var(--surface-primary)

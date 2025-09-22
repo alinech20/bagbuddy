@@ -104,5 +104,5 @@ const loginUser = () => {
 
     a
       font-size: $font-size-lg
-      font-weight: $font-weight-medium
+      font-weight: $font-weight-semibold
 </style>

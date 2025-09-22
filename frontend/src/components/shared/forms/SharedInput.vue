@@ -80,5 +80,5 @@ const model = defineModel<any>()
     .error
       list-style-type: none
       color: var(--error)
-      font-weight: $font-weight-medium
+      font-weight: $font-weight-semibold
 </style>

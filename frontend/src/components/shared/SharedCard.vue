@@ -2,6 +2,7 @@
 defineProps<{
   icon?: string
   title?: string
+  tag?: string | HTMLElement
 }>()
 </script>
 
@@ -10,11 +11,13 @@ defineProps<{
     <header v-if="$slots.title || title" class="card__title">
       <div class="left">
         <slot name="icon" v-if="icon">{{ icon }}</slot>
-        <h2 class="card__title-text paragraph-1">
-          <slot name="title" v-if="title">{{ title }}</slot>
-        </h2>
+        <div class="card__title-text">
+          <slot name="title">
+            <component :is="tag || 'h2'" class="paragraph-1">{{ title }}</component>
+          </slot>
+        </div>
       </div>
-      <div class="right">
+      <div class="right" v-if="$slots['title-button']">
         <slot name="title-button" />
       </div>
     </header>
@@ -31,11 +34,12 @@ defineProps<{
 @import '@/assets/sass/vars/borders'
 @import '@/assets/sass/vars/shadows'
 @import '@/assets/sass/vars/spacers'
+@import '@/assets/sass/vars/typography'
 
 .card
   padding: $spacer-xl $spacer-md
   border: 1px solid var(--border-primary-light)
-  border-radius: $border-radius-xl
+  border-radius: $border-radius-lg
   box-shadow: $main-shadow
 
   .card__title
@@ -49,4 +53,9 @@ defineProps<{
 
       .card__title-text
         color: var(--text-primary-light)
+        font-weight: $font-weight-bold
+
+        h2
+          color: var(--text-primary-light)
+          font-weight: $font-weight-bold
 </style>

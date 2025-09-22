@@ -23,7 +23,7 @@ import AppLogo from '@/components/shared/AppLogo.vue'
 
   &__title
     font-size: $font-size-4xl
-    font-weight: $font-weight-medium
+    font-weight: $font-weight-bold
     margin-top: $spacer-lg
 
   &__subtitle

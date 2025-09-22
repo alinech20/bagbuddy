@@ -16,7 +16,7 @@
 .btn
   border: none
   outline: none
-  font-weight: $font-weight-medium
+  font-weight: $font-weight-semibold
   cursor: pointer
   border-radius: $border-radius-lg
   padding: $spacer-md
