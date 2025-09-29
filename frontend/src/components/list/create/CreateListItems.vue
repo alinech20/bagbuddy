@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { useCategoryStore } from '@/stores/category.ts'
-import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
-import { useCategoryService } from '@/services/category.ts'
+import { computed } from 'vue'
 import SharedButton from '@/components/shared/forms/SharedButton.vue'
 import { Icon } from '@iconify/vue'
 import SharedCard from '@/components/shared/SharedCard.vue'
+import type { IList } from '@/types/list'
 
-defineEmits(['add-category'])
+const props = defineProps<{
+  list: IList
+}>()
 
-const categoryStore = useCategoryStore()
-const { categories } = storeToRefs(categoryStore)
-const { setCategories } = categoryStore
+defineEmits(['add-category', 'add-subcategory'])
 
-onMounted(async () => {
-  if (!categories.value.length) {
-    setCategories(await useCategoryService().getCategories())
-  }
-})
+const categories = computed(() => props.list.categories.filter((cat) => !cat.parent_id) || [])
+const removeCategory = (id: number) => {
+  props.list.categories = props.list.categories?.filter((cat) => cat.id !== id && cat.parent_id !== id)
+}
+
+const subcategories = (catId: number) =>
+  computed(() => props.list.categories.filter((cat) => cat.parent_id === catId) || [])
 </script>
 
 <template>
@@ -33,19 +33,21 @@ onMounted(async () => {
     </div>
     <SharedCard class="category-card" v-for="cat in categories" :key="cat.id" :icon="cat.icon" :title="cat.name">
       <template #title-button>
-        <SharedButton class="category-card__delete-btn">
+        <SharedButton class="category-card__delete-btn" @click="removeCategory(cat.id)">
           <template #icon>
             <Icon class="delete-btn__icon" icon="mdi:trash" />
           </template>
         </SharedButton>
       </template>
-      <!--      <div class="d-flex justify-content-between align-items-center">-->
-      <!--        <div class="d-flex align-items-center gap-3">-->
-      <!--          <Icon :icon="category.icon || 'mdi:folder-outline'" class="font-size-xl" />-->
-      <!--          <span class="body-1">{{ category.name }}</span>-->
-      <!--        </div>-->
-      <!--        <Icon :icon="'mdi:pencil-outline'" class="font-size-lg text-muted" />-->
-      <!--      </div>-->
+      {{ subcategories(cat.id).value.map((sub) => sub.name) }}
+      <template #actions v-if="cat.subcategories && cat.subcategories.length">
+        <SharedButton class="category-card__add-subcategory-btn" @click="$emit('add-subcategory', cat.id)">
+          <template #icon-before>
+            <Icon :icon="'mdi:plus'" class="add-subcategory__icon" />
+          </template>
+          Add Subcategory
+        </SharedButton>
+      </template>
     </SharedCard>
   </section>
 </template>
@@ -66,9 +68,6 @@ onMounted(async () => {
       padding: $spacer-sm $spacer-md
       border-radius: $border-radius-pill
       font-size: $font-size-sm
-      display: flex
-      align-items: center
-      gap: $spacer-sm
 
       .add-category__icon
         font-size: $font-size-lg
@@ -84,11 +83,23 @@ onMounted(async () => {
       padding: $spacer-xs
       height: 32px
       width: 32px
-      display: flex
-      align-items: center
-      justify-content: center
 
       .delete-btn__icon
         path
           fill: var(--on-background)
+
+    &__add-subcategory-btn
+      padding: $spacer-xs
+      border-radius: $border-radius-pill
+      font-size: $font-size-sm
+      font-weight: $font-weight-regular
+
+      *
+        color: var(--secondary)
+
+      &:hover
+        background-color: transparent
+
+        *
+          color: var(--secondary-hover)
 </style>

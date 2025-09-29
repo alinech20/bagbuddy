@@ -21,7 +21,7 @@ defineProps<{
         <slot name="title-button" />
       </div>
     </header>
-    <div class="card__content">
+    <div class="card__content" v-if="$slots.default">
       <slot></slot>
     </div>
     <footer v-if="$slots.actions" class="card__actions">

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   label: string
+  placeholder?: boolean
   type?: string
   name?: string
   rules?: any[]
@@ -11,14 +12,14 @@ defineProps<{
   lines?: number
 }>()
 
-defineEmits(['blur', 'focus'])
+defineEmits(['blur', 'focus', 'input'])
 
 const model = defineModel<any>()
 </script>
 
 <template>
   <div class="form-field">
-    <label :for="name">{{ label }}</label>
+    <label :for="name" v-if="!placeholder">{{ label }}</label>
     <input
       v-if="!textarea"
       :id="name"
@@ -29,6 +30,8 @@ const model = defineModel<any>()
       :max="max"
       @blur="$emit('blur')"
       @focus="$emit('focus')"
+      @input="$emit('input', $event)"
+      :placeholder="`${label}...`"
     />
     <textarea
       v-else
